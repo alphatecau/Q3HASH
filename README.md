@@ -4,7 +4,7 @@
 
 [![Python tests](https://github.com/alphatecau/Q3HASH/actions/workflows/tests.yml/badge.svg)](https://github.com/alphatecau/Q3HASH/actions/workflows/tests.yml)
 
-The implemented v0.2 prototype is a small experimental notation, a validated dimension-aware intermediate representation (IR), and a pure-Python statevector interpreter. It is a foundation for compiler research, not a production compiler. Q3# is independent of AiTec Australia.
+The implemented v0.2.1 prototype is a small experimental notation, a validated dimension-aware intermediate representation (IR), and a pure-Python statevector interpreter. It is a foundation for compiler research, not a production compiler. Q3# is independent of AiTec Australia.
 
 ## Implemented
 
@@ -70,17 +70,20 @@ Simulation runs on a classical computer, uses floating-point complex amplitudes,
 - [Language specification](docs/language-spec.md)
 - [Gate semantics and basis ordering](docs/semantics.md)
 - [Validation method and reproduction](docs/validation.md)
+- [Distribution builds and independent numerical audit](docs/build-and-audit.md)
 - [Architecture](docs/architecture.md) and [six-month roadmap](docs/roadmap.md)
 - `benchmarks/`: methodology; no performance results yet
 - `.github/workflows/tests.yml`: Python 3.10–3.13 CI
 
 ## Scientific commitments
 
-Design claims are hypotheses until independently tested. Comparisons must disclose equivalent workloads, dimensions, hardware, compiler choices, reproducibility instructions and uncertainty. Ternary encoding is not automatically more efficient than binary encoding. The test oracle is a separate matrix construction within this repository, not an external audit or formal proof.
+Design claims are hypotheses until independently tested. Comparisons must disclose equivalent workloads, dimensions, hardware, compiler choices, reproducibility instructions and uncertainty. Ternary encoding is not automatically more efficient than binary encoding. The test oracle is a separate matrix construction within this repository, supplemented by an optional NumPy/SciPy comparison. These checks are not an external audit or formal proof.
 
 ## Website
 
 https://q3hash-lab.leafypony13.chatgpt.site
+
+The hosted preview currently uses a separate web v0.1 runtime and its own `q3 0.1; register ...; F ...;` grammar. This Python package uses the line-based v0.2 grammar documented above. The two implementations are not yet source-compatible; a web compiler result is not evidence that this Python package compiled the same source.
 
 ## Contributions and licensing
 

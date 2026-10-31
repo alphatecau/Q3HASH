@@ -19,12 +19,23 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - run: python -m pip install -e .
-      - run: python -m unittest discover -s tests -v
-      - name: Run all examples
-        run: |
-          python -m q3hash.cli examples/qutrit.q3
-          python -m q3hash.cli examples/mixed.q3
-          python -m q3hash.cli examples/bell.q3 --amplitudes
-          python -m q3hash.cli examples/qutrit-entangled.q3 --amplitudes
-          python -m q3hash.cli examples/mixed-entangled.q3 --amplitudes
+      - name: Install build tools
+        run: python -m pip install build "setuptools>=77.0.3" wheel
+      - name: Compile Python sources
+        run: python -m compileall -q src tests tools
+      - name: Build wheel and source archive
+        run: python -m build
+      - name: Test built distributions in clean environments
+        run: python tools/check_distribution.py dist
+
+  numerics:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install package with optional validation tools
+        run: python -m pip install ".[validation]"
+      - name: Compare against NumPy and SciPy
+        run: python -I tools/check_numerics.py

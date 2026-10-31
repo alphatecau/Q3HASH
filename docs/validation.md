@@ -14,7 +14,7 @@ python -m q3hash.cli examples/qutrit-entangled.q3 --amplitudes
 python -m q3hash.cli examples/mixed-entangled.q3 --amplitudes
 ```
 
-GitHub Actions runs the complete suite and every example on Python 3.10, 3.11, 3.12 and 3.13. Use the run associated with the exact source commit as the evidence for a published change; workflow configuration alone is not a passing result.
+GitHub Actions builds wheel and source distributions on Python 3.10, 3.11, 3.12 and 3.13. Each job tests the full suite and every example against isolated installations of the wheel and a wheel rebuilt from the source archive. A separate job runs the optional NumPy/SciPy comparison. See [build-and-audit.md](build-and-audit.md). Use the run associated with the exact source commit as the evidence for a published change; workflow configuration alone is not a passing result.
 
 ## Independent numerical construction
 
@@ -45,6 +45,6 @@ Equal probabilities alone do not establish equal states or entanglement. The fir
 
 ## Limits of the evidence
 
-The dense oracle is independently implemented within the same repository. It is not an external review, a comparison with another quantum SDK, or formal verification. Finite examples do not prove correctness for every circuit or dimension. These checks establish a reproducible numerical baseline for this milestone.
+The dense oracle is independently implemented within the same repository. An optional numerical audit additionally compares against NumPy tensor operations and SciPy DFT matrices across the supported dimensions. Neither is an external review, a comparison with another quantum SDK, or formal verification. Finite examples do not prove correctness for every circuit. These checks establish a reproducible numerical baseline for this milestone.
 
 No performance benchmark, quantum advantage, hardware execution, automatic dimension selection or compiler optimisation is demonstrated.

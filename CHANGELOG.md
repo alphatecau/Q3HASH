@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.1 — 31 October 2026
+
+- Include examples, documentation, benchmark guidance and audit tools in source distributions.
+- Replace deprecated licence metadata with an SPDX expression while retaining the Apache 2.0 licence text.
+- Validate wheel integrity and run the full suite and both CLI entry points against isolated wheel/source installations.
+- Add optional NumPy/SciPy comparisons across all supported dimensions and both SUM axis orders.
+- Extend CI to compile sources, build actual distributions on Python 3.10–3.13 and run the independent numerical audit.
+
+The interpreter and IR algorithms are unchanged from 0.2.0.
+
 ## 0.2.0 — 31 October 2026
 
 - Define basis order, Fourier phase and controlled-SUM semantics.
