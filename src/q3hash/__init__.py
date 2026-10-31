@@ -1,4 +1,8 @@
 """Q3# experimental quantum language prototype."""
-from .core import Circuit, Gate, Register, parse, simulate, probabilities
+from .core import parse, probabilities, simulate
+from .ir import Circuit, CircuitIR, Gate, GateKind, Operation, Register, lower
 
-__all__ = ['Circuit', 'Gate', 'Register', 'parse', 'simulate', 'probabilities']
+__all__ = [
+    'Circuit', 'CircuitIR', 'Gate', 'GateKind', 'Operation', 'Register',
+    'lower', 'parse', 'simulate', 'probabilities',
+]

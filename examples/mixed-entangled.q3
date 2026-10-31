@@ -1,0 +1,5 @@
+# A 2 x 3 state: (|0,0> + |1,1>) / sqrt(2)
+qubit control
+qutrit target
+fourier control
+sum control target

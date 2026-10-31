@@ -9,4 +9,4 @@ are not evidence of quantum advantage or hardware speedup.
 
 Before reporting performance gains, establish an equivalent workload and
 a reproducible external baseline. The current interpreter is unoptimised,
-runs locally on classical hardware and supports only one-register gates.
+runs locally on classical hardware and supports shift, Fourier and controlled-SUM gates.

@@ -4,10 +4,14 @@ on:
   push:
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         python-version: ['3.10', '3.11', '3.12', '3.13']
     steps:
@@ -17,4 +21,10 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - run: python -m pip install -e .
       - run: python -m unittest discover -s tests -v
-      - run: python -m q3hash.cli examples/qutrit.q3
+      - name: Run all examples
+        run: |
+          python -m q3hash.cli examples/qutrit.q3
+          python -m q3hash.cli examples/mixed.q3
+          python -m q3hash.cli examples/bell.q3 --amplitudes
+          python -m q3hash.cli examples/qutrit-entangled.q3 --amplitudes
+          python -m q3hash.cli examples/mixed-entangled.q3 --amplitudes
