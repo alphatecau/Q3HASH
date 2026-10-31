@@ -43,3 +43,5 @@ jobs:
         run: python -I tools/check_encoding.py
       - name: Check v0.4 contract acceptance vectors
         run: python -I tools/check_search_contract.py
+      - name: Audit bounded encoding generation independently
+        run: python -I tools/check_search_generation.py

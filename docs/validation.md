@@ -60,11 +60,30 @@ fixed cases audit tiny-domain candidate ordering and budget accounting, register
 block maps, supplied complete-operator comparisons, structural dependency depth,
 strict dominance and retained ties. The [search contract](contracts/encoding-search-v1.md)
 defines further implementation acceptance cases, including schema validation and
-orchestration budgets. These production APIs are still pending.
+orchestration budgets. Production encoding generation is implemented in the
+development build; circuit evaluation orchestration and comparison remain pending.
 
 CI runs the vector audit, and clean wheel/source installation checks require the
-fixture and run it using the installed v0.3 package. This is an executable design
-baseline, not evidence that a production search engine or CLI exists.
+fixture and run it using the installed package. It remains a design/reference
+baseline; it is not evidence of a completed circuit-search pipeline or CLI.
+
+## Bounded generation — 0.4.0.dev1
+
+`tests/test_search_models.py` and `tests/test_search_generation.py` add 24 tests
+for strict fields, provenance/IDs, canonical decoding with full generation replay,
+immutable snapshots, independent budgets, capacity-before-allocation, lazy domain
+traversal, seed ordering/deduplication, digest collisions and wire-size failures.
+The original 72 tests remain intact.
+
+`python tools/check_search_generation.py` checks 504 cases with an independent
+oracle that enumerates actual tensor basis labels and interprets a separately
+materialised tiny event trace. Production code uses flat-index strides and a lazy
+stream. The audit compares complete candidate maps, first provenance, ordering,
+IDs, completion and every counter, then checks canonical report replay. It imports
+only public generation APIs. CI and clean distribution installations run it.
+
+This establishes bounded map generation, not physical circuit synthesis,
+equivalence of any generated implementation or a Pareto ranking.
 
 ## Limits of the evidence
 

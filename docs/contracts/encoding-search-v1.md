@@ -1,6 +1,6 @@
 # v0.4 contract — bounded encoding search and comparison
 
-**Status:** Specification for the next implementation series; production APIs below are not implemented.
+**Status:** Generation models, canonical generation reports and `generate_encodings` are implemented in 0.4.0.dev1. Circuit-evaluation orchestration and Pareto APIs below remain proposed.
 **Date:** 1 November 2026, Australia/Brisbane.
 **Baseline:** Q3HASH v0.3.0; [ADR 0001](../adr/0001-verified-encoding-first.md), [basis encoding](logical-ir-and-encoding-v1.md), [operator verification](operator-verification-v1.md).
 
@@ -21,9 +21,10 @@ isometries, exhaustive search of all injections, hardware synthesis, hardware
 costs, noise, measurement or universal optimisation. Logical dimensions remain
 explicit. Hardware-conditioned comparisons remain a v0.5 target.
 
-## 2. Proposed interfaces and dependencies
+## 2. Interfaces and dependencies
 
 ```python
+# Implemented generation API.
 @dataclass(frozen=True)
 class SearchConstraints:
     allowed_dimensions: tuple[int, ...] = (2, 3)
@@ -41,6 +42,7 @@ class SearchConstraints:
         "gate_count", "two_register_gate_count", "dependency_depth",
     )
 
+# Proposed evaluation input; not yet exported.
 @dataclass(frozen=True)
 class CircuitImplementation:
     encoding: BasisEncoding
@@ -51,6 +53,7 @@ def generate_encodings(
     seed_encodings: tuple[BasisEncoding, ...] = (),
 ) -> GenerationReport: ...
 
+# Evaluation/comparison APIs remain proposed; they are not public imports yet.
 def evaluate_candidates(
     logical: LogicalProgram, generation: GenerationReport,
     implementations: tuple[CircuitImplementation, ...] = (), *,
@@ -67,7 +70,30 @@ verifier. `resources.py` owns integer circuit counts and imports only the IR.
 `comparison.py` owns strict integer dominance and consumes validated evaluations.
 `search_verification.py` orchestrates the existing verifier, generation and
 resource counts. `search_cli.py` is the final adapter. None is imported by existing
-models or the existing simulator. These are proposed paths, not current modules.
+models or the existing simulator. `search.py` is implemented; the other paths are
+proposed. Numerical-work/objective fields in SearchConstraints are validated and
+preserved now, but the generator does not evaluate circuits or use those limits.
+
+The implemented generation imports are `SearchConstraints`, `EncodingCandidate`,
+`DimensionRejections`, `GenerationReport` and `generate_encodings` from `q3hash`.
+`EncodingCandidate(encoding, origin, seed_index=None, block_cuts=None)` computes its
+read-only `candidate_id`; it cannot accept a caller-supplied ID at construction.
+Its origin and map must agree. Seed indices are 0–4095; cuts are an exact tuple
+only for register-prefix candidates. Embedded wire IDs are checked against content.
+
+`DimensionRejections(insufficient_capacity=0, physical_size_limit=0)` is an
+immutable pair of exact nonnegative integer counts. GenerationReport's
+`dimension_rejections` field uses that model in Python and the named object from
+section 5 on the wire. All other counters are exact nonnegative integers.
+`candidates` and `seed_encodings` are exact tuples. Constraints and generation
+reports expose `to_dict`, `to_json`, `from_dict` and `from_json`; candidate and
+rejection models expose the embedded-object `to_dict`/`from_dict` adapters.
+
+Public GenerationReport construction and decoding replay bounded generation and
+check the full result, including first provenance, order and conserved counters.
+The producer uses a private trusted factory to avoid doing the same search twice.
+Invalid direct candidate/report field types raise TypeError with Q3-SEARCH-005;
+wire nested type failures remain ValueError with Q3-SER-003.
 
 ## 3. Validation before work
 
@@ -188,8 +214,9 @@ not enough to stop: further duplicates may exist, and an exhausted result is val
 if the domain ends without another unique map or another exhausted budget.
 
 If natural exhaustion coincides with a limit, report exhausted. A single lazy
-lookahead may establish whether an additional raw item exists; do not assess,
-allocate or count it as work. Do not silently skip an item to fit a budget. Prefix
+lookahead may establish whether an additional raw item exists; retain only its
+small tuple/cut metadata, without assessing it, allocating a map or counting it as
+work. Do not silently skip an item to fit a budget. Prefix
 reports must be identical across repeat runs with identical inputs and budgets.
 
 The first search version never creates maps longer than 64, because capacity is
@@ -365,7 +392,11 @@ messages may add English detail after a stable prefix. No failures are swallowed
 The [golden vectors](../../benchmarks/encoding-search-v1.json) and
 [`check_search_contract.py`](../../tools/check_search_contract.py) exercise a tiny,
 independently enumerated domain, map formulas, actual existing circuit verification
-and integer dominance. They do not implement the production APIs above.
+and integer dominance. They remain independent reference definitions. The
+implemented generator is additionally checked by
+[`check_search_generation.py`](../../tools/check_search_generation.py), which
+enumerates physical tensor labels and interprets a separate event trace for 504
+alphabet/family/budget/seed cases without importing production generation helpers.
 
 | ID | Required implementation behaviour |
 | --- | --- |

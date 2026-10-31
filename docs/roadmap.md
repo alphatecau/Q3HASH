@@ -20,6 +20,9 @@ Version/month labels are research milestones, not elapsed-time claims or deadlin
    interfaces, finite domain, budgets, failure semantics and acceptance vectors.
    Follow the [implementation sequence](plans/v0.4-implementation.md); a contract
    or a passing reference vector does not establish a delivered search engine.
+   The 0.4.0.dev1 development build now implements bounded map generation and
+   canonical generation reports; physical-circuit evaluation orchestration,
+   structural resource/Pareto APIs and the search CLI remain pending.
 4. **v0.5 / Month 5 — Defensible hardware-conditioned costs:** gate requirements,
    connectivity, depth, durations, error models, synthesis overhead, external
    framework references and equivalent benchmark workloads with uncertainty.
