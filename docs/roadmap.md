@@ -1,14 +1,30 @@
 # Six-month Q3# research roadmap
 
-The six-month sequence remains the project direction. A code milestone is not evidence that the elapsed month or every broader research question is complete.
+The six-month direction is retained. [ADR 0001](adr/0001-verified-encoding-first.md)
+locks verified logical-to-physical encoding before automated search or optimisation.
+Version/month labels are research milestones, not elapsed-time claims or deadlines.
 
-1. **Month 1 — Foundations:** public repository, reproducible examples, parser, statevector baseline and regression tests. Implemented in the v0.1 baseline.
-2. **Month 2 — Formalise semantics:** typed IR, richer gate set and multi-register operations; independent correctness tests. The v0.2 milestone implements documented gate/basis semantics, validated named and resolved IR, controlled SUM, entanglement examples and independent small dense-matrix tests. A complete compiler type system, universal gate set and external audit are not delivered.
-3. **Month 3 — Inference:** candidate dimension/encoding generation, constraints and exhaustive small-case validation. Not implemented.
-4. **Month 4 — Resource models:** benchmark design and hardware-conditioned depth/gate/fidelity tradeoffs with uncertainty reporting. Methodology only; no results.
-5. **Month 5 — Verification:** equivalence tooling, external reference implementations and benchmark reproducibility. Formal verification remains unimplemented; current numerical regression tests are groundwork.
-6. **Month 6 — Demonstration:** end-to-end benchmark suite, technical report and peer-reviewable public examples. Remains a target.
+1. **Months 1–2 — Preserve the foundation:** explicit-dimension notation, parser,
+   typed resolved IR, statevector baseline, examples, regression tests and real
+   distribution checks. v0.2.1 is the preserved regression baseline.
+2. **v0.3 / Month 3 — Explicit encoding correctness:** LogicalProgram,
+   BasisEncoding, canonical data contracts, additive arbitrary-state application
+   and complete small-subspace numerical checks. The supplied qutrit-shift workload
+   has an explicit two-qubit gate implementation. Reference-only matrices remain
+   distinct from physical Q3# gate sequences. Formal proof and gate synthesis are
+   not delivered by these numerical checks.
+3. **v0.4 / Month 4 — Bounded candidates and comparisons:** dimension/encoding
+   generation, constraint rejection, declared search bounds and deterministic
+   Pareto comparisons. Not implemented in the v0.3 release.
+4. **v0.5 / Month 5 — Defensible hardware-conditioned costs:** gate requirements,
+   connectivity, depth, durations, error models, synthesis overhead, external
+   framework references and equivalent benchmark workloads with uncertainty.
+   Remains a research target.
+5. **v0.6 / Month 6 — Reproducible research demonstration:** reconcile the separate
+   web/core runtimes, publish comparisons against a tagged core and deliver a
+   technical report with peer-reviewable examples. Remains a target.
 
-The next planned capability is dimension/encoding inference under explicit constraints. Keep current interpreter semantics and regressions as its reference baseline.
-
-Every delivered milestone requires executable tests, a passing CI run for its commit and documented limitations. Future capabilities must remain labelled as targets until demonstrated.
+The next capability after v0.3 correctness is bounded encoding search under
+explicit semantic and resource constraints. Existing interpreter semantics and
+regressions remain the reference baseline. Every delivered milestone requires
+executable tests, passing CI for its exact commit and documented limitations.
