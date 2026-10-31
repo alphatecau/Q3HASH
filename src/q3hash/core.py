@@ -7,6 +7,7 @@ import re
 from typing import Tuple, Union
 
 from .ir import Circuit, CircuitIR, Gate, GateKind, Register, lower
+from ._state import checked_vector
 
 
 MAX_AMPLITUDES = 65_536
@@ -69,13 +70,35 @@ def simulate(circuit: Union[Circuit, CircuitIR]) -> Tuple[complex, ...]:
         circuit = lower(circuit)
     if not isinstance(circuit, CircuitIR):
         raise TypeError("simulate expects a Circuit or CircuitIR")
-    dimensions = circuit.dimensions
     size = circuit.state_size
     if size > MAX_AMPLITUDES:
         raise ValueError("statevector too large for experimental simulator (limit 65536 amplitudes)")
-    strides = circuit.strides
     state = [0j] * size
     state[0] = 1 + 0j
+    return _apply_operations(circuit, state)
+
+
+def apply_state(circuit: Union[Circuit, CircuitIR], initial_state: Tuple[complex, ...]) -> Tuple[complex, ...]:
+    """Apply the same gates linearly to a finite tuple; never normalise its state."""
+    if isinstance(circuit, Circuit):
+        circuit = lower(circuit)
+    if not isinstance(circuit, CircuitIR):
+        raise TypeError("apply_state expects a Circuit or CircuitIR")
+    if type(initial_state) is not tuple:
+        raise TypeError("Q3-STATE-001: state must be an exact tuple")
+    if circuit.state_size > MAX_AMPLITUDES:
+        raise ValueError("Q3-STATE-003: statevector exceeds 65536 amplitudes")
+    state = checked_vector(initial_state, circuit.state_size)
+    result = _apply_operations(circuit, state)
+    if any(not math.isfinite(value.real) or not math.isfinite(value.imag) for value in result):
+        raise ValueError("Q3-STATE-002: gate application produced unrepresentable amplitudes")
+    return result
+
+
+def _apply_operations(circuit, state):
+    dimensions = circuit.dimensions
+    size = circuit.state_size
+    strides = circuit.strides
     for operation in circuit.operations:
         dimension = dimensions[operation.target]
         stride = strides[operation.target]
