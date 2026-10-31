@@ -43,6 +43,16 @@ The fixed pseudorandom seed is 20261031. The oracle is intentionally limited to 
 
 Equal probabilities alone do not establish equal states or entanglement. The first example has nontrivial complex phases. The entanglement tests use pure joint states and trace out one register to test reduced-state purity.
 
+## Explicit encoding verification — v0.3
+
+`tests/test_contracts.py` implements the data-contract vectors: tuple-only fields, exact integer rules, injective maps, independent logical/physical ordering, canonical round-trips, duplicate/unknown-field rejection, malformed Unicode, wire budgets and separate physical allocation limits. It also checks zero and unnormalised states and additive arbitrary-state application.
+
+`tests/test_equivalence.py` checks complete encoded subspaces. Positive cases include logical qutrit shift implemented by three existing two-qubit Q3# gates, permuted mixed-dimensional maps, a global phase and a reference qutrit Fourier block. Negative cases detect leakage and relative-phase false positives that agree on the zero input, and nonunitarity outside the encoded subspace. Invalid inputs raise errors; valid oversized requests return unsupported before operator allocation.
+
+`tools/check_encoding.py` independently constructs dense tensor matrices with NumPy/SciPy, compares every small operator column and arbitrary unnormalised vectors, checks basis injections, and audits reference-only full-subspace comparisons. Cases outside the declared dense limit are explicitly counted as unsupported rather than passing. This complements the unchanged 2,573-comparison v0.2.1 numerical oracle.
+
+The new verifier uses absolute Frobenius norms with a default tolerance of 1e-10, a single phase for the entire operator, and full logical and physical unitarity checks. See the [operator contract](contracts/operator-verification-v1.md) for exact definitions. Reports are numerical evidence, not a formal proof or hardware demonstration.
+
 ## Limits of the evidence
 
 The dense oracle is independently implemented within the same repository. An optional numerical audit additionally compares against NumPy tensor operations and SciPy DFT matrices across the supported dimensions. Neither is an external review, a comparison with another quantum SDK, or formal verification. Finite examples do not prove correctness for every circuit. These checks establish a reproducible numerical baseline for this milestone.
