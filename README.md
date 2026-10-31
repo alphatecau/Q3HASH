@@ -6,13 +6,13 @@
 
 An experimental, ternary-first language, simulator and compiler research project.
 
-[![Python tests](https://github.com/alphatecau/Q3HASH/actions/workflows/tests.yml/badge.svg?branch=feature%2Flogical-encoding-foundation-v0.3.0)](https://github.com/alphatecau/Q3HASH/actions/workflows/tests.yml?query=branch%3Afeature%2Flogical-encoding-foundation-v0.3.0)
+[![Python tests](https://github.com/alphatecau/Q3HASH/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/alphatecau/Q3HASH/actions/workflows/tests.yml?query=branch%3Amain)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-64748B)](LICENSE)
 
 [Quick start](#quick-start) · [First program](#your-first-program) · [Encoding example](#one-qutrit-two-qubits) · [Technical details](#technical-details) · [Documentation](#documentation)
 
-<sub>Q3HASH · v0.3.0 development · Pure Python · No third-party runtime dependencies</sub>
+<sub>Q3HASH · v0.3.0 · Pure Python · No third-party runtime dependencies</sub>
 
 </div>
 
@@ -31,7 +31,7 @@ Q3# lets you write quantum programs with **qubits, qutrits and larger qudits in 
 
 ## Quick start
 
-Use **Python 3.10 or later**. From a checkout of this revision, run:
+Use **Python 3.10 or later**. For a fixed baseline, check out [v0.3.0](https://github.com/alphatecau/Q3HASH/releases/tag/v0.3.0). From the repository checkout, run:
 
 ```bash
 python -m pip install -e .
@@ -252,12 +252,14 @@ The [validation guide](docs/validation.md) explains the independent construction
 | Milestone | Focus | Status |
 | :--- | :--- | :--- |
 | v0.2.1 | Parser, explicit dimensions, IR, simulator and distribution checks | Preserved regression baseline |
-| v0.3 | Explicit encodings and complete small-operator checks | Implemented on this development branch |
-| v0.4 | Bounded candidate generation and Pareto comparisons | Planned |
+| v0.3 | Explicit encodings and complete small-operator checks | Implemented and merged into `main` |
+| v0.4 | Bounded candidate generation and Pareto comparisons | [Contract and acceptance vectors](docs/contracts/encoding-search-v1.md); production implementation pending |
 | v0.5 | Hardware-conditioned costs and equivalent benchmark workloads | Research target |
 | v0.6 | Web/core integration and a reproducible research demonstration | Research target |
 
 The [six-month roadmap](docs/roadmap.md) describes the milestones and acceptance criteria.
+
+**Next development step:** implement the [v0.4 work packages](docs/plans/v0.4-implementation.md) against the search contract. The contract defines finite candidate families, deterministic limits, supplied physical circuits, explicit rejection reasons and reproducible Pareto comparisons. Its executable acceptance vectors check the proposed mathematics using the existing v0.3 verifier; they do not add a production search command.
 
 **Current scope.** Q3# runs on a classical computer using floating-point amplitudes. Automatic dimension selection, encoding search, hardware-aware optimisation, measurement, noise, hybrid control flow and hardware execution remain research targets. The gate set is not claimed to be universal. The numerical checks provide bounded evidence; formal proof, hardware performance and quantum advantage have not been demonstrated. Ternary encoding is not assumed to outperform binary encoding.
 

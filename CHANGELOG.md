@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased — v0.4 design baseline
+
+- Define bounded search interfaces, map families, deterministic generation and numerical-work budgets, evidence states, exact resource/Pareto rules and strict report contracts before production implementation.
+- Add 21 executable reference-vector cases and require them in CI and clean distribution checks.
+- Define the dependency-ordered v0.4 implementation and benchmark sequence.
+- Point README CI references at `main` and identify the fixed v0.3.0 release baseline.
+
+The Python package remains 0.3.0. Production candidate generation, search orchestration and comparison APIs are not implemented by this design change.
+
 ## 0.3.0 — 1 November 2026
 
 - Adopt ADR 0001: verify explicit logical-to-physical encoding before candidate search or optimisation.

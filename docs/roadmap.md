@@ -16,6 +16,10 @@ Version/month labels are research milestones, not elapsed-time claims or deadlin
 3. **v0.4 / Month 4 — Bounded candidates and comparisons:** dimension/encoding
    generation, constraint rejection, declared search bounds and deterministic
    Pareto comparisons. Not implemented in the v0.3 release.
+   The [v1 search contract](contracts/encoding-search-v1.md) defines the proposed
+   interfaces, finite domain, budgets, failure semantics and acceptance vectors.
+   Follow the [implementation sequence](plans/v0.4-implementation.md); a contract
+   or a passing reference vector does not establish a delivered search engine.
 4. **v0.5 / Month 5 — Defensible hardware-conditioned costs:** gate requirements,
    connectivity, depth, durations, error models, synthesis overhead, external
    framework references and equivalent benchmark workloads with uncertainty.
