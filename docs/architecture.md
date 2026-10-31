@@ -1,6 +1,6 @@
 # Architecture and scientific constraints
 
-## Implemented v0.2 pipeline
+## Preserved logical interpreter pipeline
 
 1. `core.parse` reads the small line-based notation, checks declarations before use and reports source-line errors.
 2. `ir.Circuit`, `Register` and `Gate` provide immutable, runtime-validated named models.
@@ -12,6 +12,24 @@ The named Python constructors remain available. Both Circuit and IR inputs are v
 
 The statevector size is the product of register dimensions. Simulation caps this at 65,536 amplitudes before allocation. Small Fourier matrices are cached; this is an implementation detail, not a benchmark result.
 
+The v0.3 `apply_state` API shares the gate application loop with `simulate`. It accepts finite built-in numeric tuples linearly, including unnormalised and zero vectors. The existing `simulate` API still starts at the all-zero basis state.
+
+## Explicit encoding and verification — v0.3
+
+| Module | Responsibility | Dependencies |
+| --- | --- | --- |
+| `_state.py` | Exact finite linear-state inputs | Standard library |
+| `_serialization.py` | Fail-closed canonical JSON mechanics | Standard library |
+| `logical_ir.py` | LogicalProgram wrapper and semantic JSON | Existing parser/IR, serialization |
+| `encoding.py` | Independent BasisEncoding model and matrix-free vector encoding | IR limits, state validator, serialization |
+| `equivalence.py` | Reference matrices, complete operators and subspace mathematics | Existing IR, shared arbitrary-state interpreter |
+| `verification.py` | Typed preflight, budgets and pass/fail/unsupported reports | Logical program, encoding, equivalence |
+| `verify_cli.py` | Explicit logical/physical files and human-readable evidence | Logical program, encoding, verification |
+
+The encoding model imports no logical-program or verification layer. A physical program is explicitly supplied as a physically dimensioned CircuitIR, or as a separately validated ReferenceOperator. It is never automatically generated from the logical program by verification. A reference matrix pass is labelled reference-only.
+
+Encoding construction caps explicit logical mapping entries but does not allocate or cap the physical Hilbert space. Vector allocation, explicit reference matrices, the JSON wire format and dense verification each have distinct documented budgets. See [ADR 0001](adr/0001-verified-encoding-first.md), the [data contract](contracts/logical-ir-and-encoding-v1.md) and [operator criteria](contracts/operator-verification-v1.md).
+
 ## Verification implemented for this milestone
 
 A separate test-only dense-matrix oracle enumerates explicit tensor basis labels. It does not call production stride, lowering or gate-matrix helpers. Tests compare full complex amplitudes, complete small gate matrices, SUM unitarity, reversed and non-adjacent axes, unequal dimensions, norm preservation and reduced-state purity for known pure entangled states.
@@ -21,7 +39,7 @@ These tests provide bounded numerical evidence. They are not formal verification
 ## Proposed architecture beyond this milestone
 
 - Richer front-end types, functions and hybrid classical/quantum control flow.
-- Automatic dimension inference and multiple candidate embeddings.
+- Automatic dimension inference, bounded candidate search and deterministic comparisons (v0.4 direction).
 - Hardware-conditioned cost models with topology, fidelity and gate availability.
 - Semantics-preserving optimisation, equivalence tooling and independent external baselines.
 - Hardware adapters and a hybrid runtime.

@@ -1,34 +1,50 @@
-# Q3# / Q3HASH
+<div align="center">
 
-**Early-stage, ternary-first, dimension-adaptive quantum language and compiler research.**
+# Q3#
 
-[![Python tests](https://github.com/alphatecau/Q3HASH/actions/workflows/tests.yml/badge.svg)](https://github.com/alphatecau/Q3HASH/actions/workflows/tests.yml)
+### Quantum programs. Explicit dimensions.
 
-The implemented v0.2.1 prototype is a small experimental notation, a validated dimension-aware intermediate representation (IR), and a pure-Python statevector interpreter. It is a foundation for compiler research, not a production compiler. Q3# is independent of AiTec Australia.
+An experimental, ternary-first language, simulator and compiler research project.
 
-## Implemented
+[![Python tests](https://github.com/alphatecau/Q3HASH/actions/workflows/tests.yml/badge.svg?branch=feature%2Flogical-encoding-foundation-v0.3.0)](https://github.com/alphatecau/Q3HASH/actions/workflows/tests.yml?query=branch%3Afeature%2Flogical-encoding-foundation-v0.3.0)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-64748B)](LICENSE)
 
-- Explicit qubit, qutrit and qudit declarations; dimensions 2–32
-- Mixed-dimensional tensor-product statevectors
-- Cyclic `shift`, positive-exponent discrete `fourier`, and controlled `sum` gates
-- Two-register entanglement, including qubit and qutrit examples
-- Immutable, validated circuit models; lowering of register names to typed operations over resolved axes
-- Source-line diagnostics, CLI probabilities and optional complex amplitudes
-- Independent small dense-matrix checks, entanglement checks and regression tests
+[Quick start](#quick-start) · [First program](#your-first-program) · [Encoding example](#one-qutrit-two-qubits) · [Technical details](#technical-details) · [Documentation](#documentation)
 
-## Run locally
+<sub>Q3HASH · v0.3.0 development · Pure Python · No third-party runtime dependencies</sub>
 
-Requires Python 3.10+; no third-party runtime dependencies.
+</div>
+
+---
+
+Q3# lets you write quantum programs with **qubits, qutrits and larger qudits in the same circuit**. You declare each register's dimension, simulate its amplitudes, and check whether a supplied physical implementation preserves the logical operation under an explicit encoding.
+
+**Ternary-first** means three-state systems are a starting point for exploration. The research question is when different dimensions and encodings help, under stated assumptions and reproducible comparisons.
+
+| You want to… | Q3# provides |
+| :--- | :--- |
+| Express a mixed-dimensional program | Small, line-based syntax and a validated intermediate representation (IR) |
+| Inspect its behaviour | Complex amplitudes, probabilities and entanglement examples |
+| Map a logical system into a physical space | Explicit, injective basis encodings with strict data contracts |
+| Check a supplied implementation | Complete small-operator comparisons, including relative phase, leakage and unitarity |
+
+## Quick start
+
+Use **Python 3.10 or later**. From a checkout of this revision, run:
 
 ```bash
 python -m pip install -e .
-python -m unittest discover -s tests -v
 python -m q3hash.cli examples/bell.q3 --amplitudes
-python -m q3hash.cli examples/qutrit-entangled.q3 --amplitudes
-python -m q3hash.cli examples/mixed-entangled.q3
 ```
 
-A qubit Bell-state program:
+You will see two nonzero basis states, `|0,0>` and `|1,1>`, each with probability **0.5**.
+
+Explore a [qutrit pair](examples/qutrit-entangled.q3), a [mixed qubit–qutrit pair](examples/mixed-entangled.q3), or the complete [examples directory](examples).
+
+## Your first program
+
+Four lines prepare a qubit Bell state:
 
 ```text
 qubit control
@@ -37,11 +53,97 @@ fourier control
 sum control target
 ```
 
-The resulting state is `(|0,0> + |1,1>) / sqrt(2)`. The CLI reports probabilities 0.5 for each of `|0,0>` and `|1,1>`. Multi-register labels follow declaration order; the last register varies fastest in the underlying statevector.
+The declarations create two two-state registers. `fourier` puts the control into an equal superposition; `sum` correlates the target with it. The resulting joint state is:
 
-`sum control target` adds the control's basis label to the target, modulo the **target dimension**, without changing the control. For two qubits it is CNOT. Different control and target dimensions are explicitly supported; see the [semantics](docs/semantics.md).
+<p align="center"><strong>(|0,0⟩ + |1,1⟩) / √2</strong></p>
 
-## Python API
+The same notation supports more than two states:
+
+| Register | Basis labels | Declaration |
+| :--- | :--- | :--- |
+| Qubit | `0, 1` | `qubit q` |
+| Qutrit | `0, 1, 2` | `qutrit q` |
+| Qudit of dimension *d* | `0` through `d − 1` | `qudit 5 q`, for example |
+
+## One qutrit, two qubits
+
+A logical qutrit has three basis states. Two physical qubits have four. An **encoding** declares how the three logical states fit into that physical space:
+
+| Logical basis label | Physical basis labels |
+| :---: | :---: |
+| `0` | `(0, 0)` |
+| `1` | `(0, 1)` |
+| `2` | `(1, 0)` |
+| — | `(1, 1)` is unused |
+
+The included example implements the logical cycle **0 → 1 → 2 → 0** with three existing Q3# gates on two qubits. It also fixes the unused fourth basis state.
+
+```bash
+q3hash-verify \
+  examples/logical-qutrit-shift.q3 \
+  examples/physical-qutrit-shift-binary.q3 \
+  --encoding examples/qutrit-binary.encoding.json
+```
+
+The supplied example returns **`pass`**. The verifier checks the operation on the **entire encoded subspace**, so errors affecting other inputs or superpositions can be detected.
+
+<details>
+<summary><strong>Open the logical program, physical circuit and encoding</strong></summary>
+
+**Logical program** — [logical-qutrit-shift.q3](examples/logical-qutrit-shift.q3)
+
+```text
+qutrit q
+shift q
+```
+
+**Physical circuit** — [physical-qutrit-shift-binary.q3](examples/physical-qutrit-shift-binary.q3)
+
+```text
+qubit a
+qubit b
+sum a b
+sum b a
+shift b
+```
+
+**Basis injection** — [qutrit-binary.encoding.json](examples/qutrit-binary.encoding.json)
+
+```json
+{"kind":"basis-injection","logical_dimensions":[3],"physical_basis_indices":[0,1,2],"physical_dimensions":[2,2],"schema":"q3hash.basis-encoding","schema_version":1}
+```
+
+Flat physical indices `0, 1, 2` correspond to `|0,0>`, `|0,1>`, `|1,0>`. The caller supplies both the map and the physical circuit; automatic encoding search is planned for v0.4.
+
+</details>
+
+## Technical details
+
+Start with the examples above; expand a section when you need its exact rules.
+
+<details>
+<summary><strong>Language, gates and basis ordering</strong></summary>
+
+Each line contains a declaration or instruction. Register dimensions are explicit integers from **2 to 32**; declarations are checked before lowering names to resolved IR axes.
+
+| Instruction | Meaning |
+| :--- | :--- |
+| `shift q` | Cyclically increment the target basis label modulo its dimension |
+| `fourier q` | Apply the normalised discrete Fourier transform with a positive exponent |
+| `sum control target` | Add the control label to the target, modulo the **target dimension**, leaving the control unchanged |
+
+For two qubits, `sum` is CNOT. Unequal control and target dimensions are supported.
+
+Multi-register labels follow declaration order, with the **last register varying fastest** in the statevector. Thus `(2, 3)` has flat basis order `(0,0), (0,1), (0,2), (1,0), (1,1), (1,2)`.
+
+See the [language specification](docs/language-spec.md) and [gate semantics](docs/semantics.md) for the full conventions.
+
+</details>
+
+<details>
+<summary><strong>Python API and canonical data</strong></summary>
+
+Parse, lower and simulate a program directly:
 
 ```python
 from q3hash import lower, parse, simulate
@@ -49,42 +151,151 @@ from q3hash import lower, parse, simulate
 circuit = parse("qutrit c\nqutrit t\nfourier c\nsum c t")
 ir = lower(circuit)
 assert ir.dimensions == (3, 3)
-state = simulate(ir)  # nine complex amplitudes, not sampled measurements
+state = simulate(ir)  # Nine complex amplitudes.
 ```
 
-The original `Circuit`, `Register`, `Gate`, `parse`, `simulate` and `probabilities` imports remain available. For programmatic SUM gates, use `Gate("sum", target="t", control="c")`; the source syntax puts the control first, while the Python constructor preserves the original target argument.
+Declare an encoding and preserve amplitudes without normalising them:
 
-## Scope and limitations
+```python
+from q3hash import BasisEncoding, logical_from_source
 
-Automatic dimension inference, alternative encoding selection, hardware-aware optimisation, formal equivalence verification, measurement, noise, hardware execution and hybrid control flow remain research targets. The IR resolves explicitly declared dimensions; it does not choose dimensions or generate hardware code. The current gate set is not claimed to be universal.
+logical = logical_from_source("qutrit q\nshift q")
+encoding = BasisEncoding((3,), (2, 2), (0, 1, 2))
+assert encoding.encode_vector((2, 1j, -3)) == (2, 1j, -3, 0j)
+assert BasisEncoding.from_json(encoding.to_json()) == encoding
+```
 
-Simulation runs on a classical computer, uses floating-point complex amplitudes, and is limited to 65,536 amplitudes. It demonstrates mathematical states within this model, not quantum hardware performance or quantum advantage.
+`LogicalProgram` wraps the validated circuit IR. `BasisEncoding` requires an injective map: every logical basis state has a distinct, in-range physical index. Both models are immutable and support versioned canonical JSON with sorted keys and no insignificant whitespace.
 
-## Repository contents
+The decoder rejects duplicate keys, unknown fields, unsupported schema versions, malformed Unicode, nonfinite numbers and incorrect field types. Integer fields reject booleans and floats. See the [logical IR and encoding contracts](docs/contracts/logical-ir-and-encoding-v1.md).
 
-- `src/q3hash/ir.py`: validated circuit models, resolved operations and lowering
-- `src/q3hash/core.py`: parser and statevector interpreter
-- `src/q3hash/cli.py`: example runner
-- `examples/`: original examples plus qubit, qutrit and mixed-dimensional entanglement
-- `tests/`: regression, IR, CLI and independent matrix tests
-- [Language specification](docs/language-spec.md)
-- [Gate semantics and basis ordering](docs/semantics.md)
-- [Validation method and reproduction](docs/validation.md)
-- [Distribution builds and independent numerical audit](docs/build-and-audit.md)
-- [Architecture](docs/architecture.md) and [six-month roadmap](docs/roadmap.md)
-- `benchmarks/`: methodology; no performance results yet
-- `.github/workflows/tests.yml`: Python 3.10–3.13 CI
+`apply_state(circuit, initial_state)` applies the same gates to an exact tuple of finite built-in numeric amplitudes. Zero and unnormalised vectors are accepted, and their scale is preserved. `simulate(circuit)` starts in the all-zero **basis state**, with amplitude 1.
 
-## Scientific commitments
+The original `Circuit`, `Register`, `Gate`, `parse`, `simulate` and `probabilities` imports remain available. In Python, construct SUM as `Gate("sum", target="t", control="c")`; source notation puts the control first.
 
-Design claims are hypotheses until independently tested. Comparisons must disclose equivalent workloads, dimensions, hardware, compiler choices, reproducibility instructions and uncertainty. Ternary encoding is not automatically more efficient than binary encoding. The test oracle is a separate matrix construction within this repository, supplemented by an optional NumPy/SciPy comparison. These checks are not an external audit or formal proof.
+</details>
 
-## Website
+<details>
+<summary><strong>Equivalence mathematics, evidence and CLI results</strong></summary>
 
-https://q3hash-lab.leafypony13.chatgpt.site
+Let `U_L` be the complete logical operator, `U_P` the complete physical operator, and `V` the basis injection. The verifier asks whether a **single global phase** aligns both operations:
 
-The hosted preview currently uses a separate web v0.1 runtime and its own `q3 0.1; register ...; F ...;` grammar. This Python package uses the line-based v0.2 grammar documented above. The two implementations are not yet source-compatible; a web compiler result is not evidence that this Python package compiled the same source.
+<p align="center"><code>U_P V ≈ exp(iφ) V U_L</code></p>
 
-## Contributions and licensing
+The phase is chosen from the Hilbert–Schmidt inner product for the whole encoded operator. Relative phases are preserved; columns are never aligned independently. Every criterion below must be finite and within the declared absolute tolerance:
 
-See [CONTRIBUTING.md](CONTRIBUTING.md), [CHANGELOG.md](CHANGELOG.md) and the Apache 2.0 [LICENSE](LICENSE).
+| Criterion | What it checks |
+| :--- | :--- |
+| Encoded-subspace Frobenius residual | Agreement on every encoded input, including superpositions |
+| Leakage Frobenius norm | Amplitude escaping into unused physical states |
+| Logical unitarity error | The complete logical operator preserves inner products |
+| Physical unitarity error | The complete physical operator does so, including outside the encoded subspace |
+
+Default tolerance: **`1e-10`**. See the [operator contract and test vectors](docs/contracts/operator-verification-v1.md) for exact formulas and boundary rules.
+
+`verify_equivalence(logical, physical, encoding)` accepts a physical `CircuitIR` or an explicit `ReferenceOperator`. Reports label their evidence **`q3hash-circuit`** or **`reference-only`**. A matrix supplied for comparison does not demonstrate that a physical gate sequence has been synthesised.
+
+| Result | Meaning | CLI exit code |
+| :--- | :--- | :---: |
+| `pass` | All numerical criteria meet the tolerance | `0` |
+| `fail` | A criterion exceeds tolerance or its calculation is nonfinite | `1` |
+| Invalid input | Types, dimensions, data or arguments are invalid | `2` |
+| `unsupported` | A valid request exceeds the declared dense verification budget | `3` |
+
+Use `python -m q3hash.verify_cli` as the module equivalent of `q3hash-verify`. Options include `--tolerance` and `--max-dimension`. Output includes the metrics and canonical semantic SHA-256 identifiers for the logical program, physical program and encoding. Numerical reports are in-memory objects and human-readable output; their public JSON format is deferred.
+
+</details>
+
+<details>
+<summary><strong>Resource limits and validation evidence</strong></summary>
+
+| Boundary | Limit |
+| :--- | :--- |
+| Dimension of each register | `2–32` |
+| Simulator and allocated encoded vectors | `65,536` amplitudes |
+| Explicit logical basis map | `65,536` entries |
+| Physical space described by an encoding | No capacity cap at model construction |
+| Dense verification and default diagnostic isometry | `64` physical basis states; verification can be limited further |
+| Explicit reference matrix | `65,536` entries |
+| Canonical JSON input and output | `1 MiB` of UTF-8 data |
+
+Model construction, vector allocation and dense verification have separate budgets. An encoding can describe a large physical space without allocating its statevector; requests beyond a verifier's budget return `unsupported` before dense operators are allocated.
+
+The v0.3 validation baseline contains **72 unit tests** and **seven executable source examples**. CI builds and tests both wheel and source distributions in clean environments across **Python 3.10–3.13**, and runs the independent numerical audits.
+
+| Numerical audit | Recorded coverage |
+| :--- | :--- |
+| Original statevector audit | `2,573` comparisons across dimensions `2–32` |
+| Operator and arbitrary-state audit | `194` comparisons |
+| Independent basis embeddings | `248` checks |
+| Full-subspace positive cases | `253` passes |
+| Expected resource-boundary cases | `20` unsupported |
+| Adversarial reference cases | `3` correctly rejected |
+
+Reproduce the tests and optional NumPy/SciPy audits:
+
+```bash
+python -m unittest discover -s tests -v
+python -m pip install -e ".[validation]"
+python tools/check_numerics.py
+python tools/check_encoding.py
+```
+
+The [validation guide](docs/validation.md) explains the independent constructions; the [build and audit guide](docs/build-and-audit.md) covers isolated distribution checks. Consult CI for the exact commit you are using.
+
+</details>
+
+## Research direction
+
+[ADR 0001](docs/adr/0001-verified-encoding-first.md) sets the order: **establish encoding correctness before searching for better encodings**.
+
+| Milestone | Focus | Status |
+| :--- | :--- | :--- |
+| v0.2.1 | Parser, explicit dimensions, IR, simulator and distribution checks | Preserved regression baseline |
+| v0.3 | Explicit encodings and complete small-operator checks | Implemented on this development branch |
+| v0.4 | Bounded candidate generation and Pareto comparisons | Planned |
+| v0.5 | Hardware-conditioned costs and equivalent benchmark workloads | Research target |
+| v0.6 | Web/core integration and a reproducible research demonstration | Research target |
+
+The [six-month roadmap](docs/roadmap.md) describes the milestones and acceptance criteria.
+
+**Current scope.** Q3# runs on a classical computer using floating-point amplitudes. Automatic dimension selection, encoding search, hardware-aware optimisation, measurement, noise, hybrid control flow and hardware execution remain research targets. The gate set is not claimed to be universal. The numerical checks provide bounded evidence; formal proof, hardware performance and quantum advantage have not been demonstrated. Ternary encoding is not assumed to outperform binary encoding.
+
+## Documentation
+
+| Start here | Go deeper |
+| :--- | :--- |
+| [Language specification](docs/language-spec.md) | [Logical IR and encoding contracts](docs/contracts/logical-ir-and-encoding-v1.md) |
+| [Gate semantics and basis order](docs/semantics.md) | [Operator verification contract](docs/contracts/operator-verification-v1.md) |
+| [Examples](examples) | [Architecture](docs/architecture.md) |
+| [Validation and reproduction](docs/validation.md) | [Distribution builds and audit](docs/build-and-audit.md) |
+| [Changelog](CHANGELOG.md) | [Research roadmap](docs/roadmap.md) |
+
+<details>
+<summary><strong>Source map</strong></summary>
+
+| Path | Responsibility |
+| :--- | :--- |
+| [ir.py](src/q3hash/ir.py) | Validated circuit models, resolved operations and lowering |
+| [core.py](src/q3hash/core.py) · [cli.py](src/q3hash/cli.py) | Parsing, simulation and the example runner |
+| [logical_ir.py](src/q3hash/logical_ir.py) | Logical programs and canonical semantic serialization |
+| [encoding.py](src/q3hash/encoding.py) | Basis injections and vector embedding |
+| [equivalence.py](src/q3hash/equivalence.py) · [verification.py](src/q3hash/verification.py) | Complete small operators, comparison metrics and verification policy |
+| [verify_cli.py](src/q3hash/verify_cli.py) | Logical/physical verification command |
+| [tests](tests) · [tools](tools) | Regression suites and reproducible audit tools |
+| [benchmarks](benchmarks) | Comparison methodology; performance results remain future work |
+| [CI workflow](.github/workflows/tests.yml) | Distribution tests and independent numerical audits |
+
+</details>
+
+## Web preview
+
+Visit the [Q3# research site](https://q3hash-lab.leafypony13.chatgpt.site).
+
+The site currently uses a separate **web v0.1 runtime**, with `q3 0.1; register ...; F ...;` syntax. This Python project uses the line-based **v0.2 grammar** shown above. The implementations are not yet source-compatible, and results from one runtime do not validate the other.
+
+---
+
+Contributions, reproducible tests and scientifically grounded criticism are welcome. Comparisons should disclose equivalent workloads, dimensions, hardware assumptions, compiler choices and uncertainty. The independent numerical implementations live within this project; they are not an external audit.
+
+[Contributing](CONTRIBUTING.md) · [Apache 2.0 license](LICENSE) · Q3# is independent of AiTec Australia.

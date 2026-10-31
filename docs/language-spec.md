@@ -2,6 +2,8 @@
 
 This specification describes the executable interpreter subset. It is not a specification for a complete compiler.
 
+Package v0.3 adds a separate logical wrapper, explicit basis encodings and complete small-operator verification without changing this v0.2 source grammar. Logical and physical programs each use the existing notation with their own explicit dimensions; neither is inferred from the other.
+
 ## Syntax
 
 | Instruction | Meaning |
@@ -37,6 +39,8 @@ This yields `(|0,0> + |1,1> + |2,2>) / sqrt(3)`.
 `simulate` accepts either representation and returns a tuple of complex amplitudes. `probabilities` computes their squared magnitudes. `Gate("shift", "q")` remains valid; construct a controlled gate as `Gate("sum", target="t", control="c")`.
 
 The IR exposes `dimensions`, `strides` and `state_size`. Lowering resolves explicit declarations; it performs no automatic dimension inference, encoding search, optimisation or hardware code generation.
+
+The additive `apply_state(circuit, initial_state)` uses the same gate application code on an exact finite tuple, without normalising it. Zero and unnormalised states are valid. `LogicalProgram(lower(parse(source)))` wraps this IR and provides canonical semantic JSON; it does not preserve source comments or source-line locations. See the [data contracts](contracts/logical-ir-and-encoding-v1.md).
 
 ## Diagnostics and resource limits
 

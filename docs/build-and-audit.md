@@ -1,5 +1,7 @@
 # Build and audit procedure
 
+The current v0.3 audit additionally requires the logical/encoding contracts, full-operator modules and examples. Both clean installations exercise the `q3hash-verify` module and console command, and CI runs `tools/check_encoding.py` after the unchanged original NumPy/SciPy audit. The 0.2.1 findings and recorded results below are historical.
+
 The repository is an experimental Python interpreter and IR project. Compiling its Python files, building distributions and running numerical tests does not establish that a complete hardware compiler exists.
 
 ## Reproduce the complete checks

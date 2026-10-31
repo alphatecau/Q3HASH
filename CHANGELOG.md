@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.3.0 — 1 November 2026
+
+- Adopt ADR 0001: verify explicit logical-to-physical encoding before candidate search or optimisation.
+- Add `LogicalProgram` and `BasisEncoding`, strict canonical JSON v1, stable diagnostics and distinct model/wire/allocation budgets.
+- Add linear arbitrary-state application while retaining the original zero-input simulator and shared gate application code.
+- Verify complete small operators under one global phase with Frobenius subspace, leakage and unitarity criteria; distinguish pass, fail and unsupported requests.
+- Add validated reference matrices labelled reference-only, a `q3hash-verify` CLI and a three-gate two-qubit implementation of logical qutrit shift.
+- Add normative and adversarial tests, independent NumPy/SciPy operator checks, and installed-distribution verification of both CLI entry points.
+
+The original source grammar and logical gate semantics are preserved. Candidate search, optimisation, hardware synthesis and report wire serialization are deferred. Numerical evidence is not formal proof or hardware execution.
+
 ## 0.2.1 — 31 October 2026
 
 - Include examples, documentation, benchmark guidance and audit tools in source distributions.
