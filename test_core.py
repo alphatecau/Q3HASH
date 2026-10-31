@@ -1,4 +1,3 @@
-import math
 import unittest
 from q3hash import parse, simulate, probabilities
 
@@ -38,6 +37,22 @@ class Q3Tests(unittest.TestCase):
     def test_invalid_instruction(self):
         with self.assertRaisesRegex(ValueError, 'invalid instruction'):
             parse('qubit q\nmeasure q')
+
+    def test_multiple_shifts_return_initial(self):
+        p = probabilities(simulate(parse('qutrit q\nshift q\nshift q\nshift q')))
+        self.assertEqual(p, (1, 0, 0))
+
+    def test_dimension_upper_bound(self):
+        with self.assertRaisesRegex(ValueError, 'dimension'):
+            parse('qudit 33 q')
+
+    def test_statevector_limit(self):
+        with self.assertRaisesRegex(ValueError, 'statevector too large'):
+            simulate(parse('qudit 32 a\nqudit 32 b\nqudit 32 c\nqudit 3 d'))
+
+    def test_empty_program(self):
+        with self.assertRaisesRegex(ValueError, 'at least one register'):
+            parse('# no circuit')
 
 if __name__ == '__main__':
     unittest.main()
