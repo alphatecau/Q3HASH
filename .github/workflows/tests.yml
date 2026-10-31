@@ -41,3 +41,5 @@ jobs:
         run: python -I tools/check_numerics.py
       - name: Audit explicit encoding and complete operators
         run: python -I tools/check_encoding.py
+      - name: Check v0.4 contract acceptance vectors
+        run: python -I tools/check_search_contract.py

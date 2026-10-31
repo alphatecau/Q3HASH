@@ -5,6 +5,7 @@ recursive-include examples *.json
 recursive-include tests *.py
 recursive-include tools *.py
 recursive-include benchmarks *.md
+recursive-include benchmarks *.json
 recursive-include .github/workflows *.yml
 prune build
 prune dist

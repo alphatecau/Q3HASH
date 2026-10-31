@@ -86,6 +86,8 @@ def extract_source(archive_path, destination):
         "examples/qutrit-entangled.q3", "examples/mixed-entangled.q3",
         "examples/logical-qutrit-shift.q3", "examples/physical-qutrit-shift-binary.q3",
         "examples/qutrit-binary.encoding.json", "tools/check_encoding.py",
+        "docs/contracts/encoding-search-v1.md", "docs/plans/v0.4-implementation.md",
+        "benchmarks/encoding-search-v1.json", "tools/check_search_contract.py",
     ]
     missing = [name for name in required if not (source / name).is_file()]
     if missing:
@@ -126,6 +128,7 @@ def installed_checks(wheel, source, destination, version, environment):
     run([str(python), "-m", "pip", "check"], source, environment)
     print(f"All {len(examples)} examples passed through both simulator CLI entry points; dependencies are consistent.")
     print("Complete operator verification passed through module and console entry points.")
+    print(run([str(python), "-I", "tools/check_search_contract.py"], source, environment).strip())
 
 
 def main():

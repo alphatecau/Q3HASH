@@ -53,6 +53,19 @@ Equal probabilities alone do not establish equal states or entanglement. The fir
 
 The new verifier uses absolute Frobenius norms with a default tolerance of 1e-10, a single phase for the entire operator, and full logical and physical unitarity checks. See the [operator contract](contracts/operator-verification-v1.md) for exact definitions. Reports are numerical evidence, not a formal proof or hardware demonstration.
 
+## v0.4 contract reference vectors
+
+Run `python tools/check_search_contract.py` from an installed checkout. Its 21
+fixed cases audit tiny-domain candidate ordering and budget accounting, register
+block maps, supplied complete-operator comparisons, structural dependency depth,
+strict dominance and retained ties. The [search contract](contracts/encoding-search-v1.md)
+defines further implementation acceptance cases, including schema validation and
+orchestration budgets. These production APIs are still pending.
+
+CI runs the vector audit, and clean wheel/source installation checks require the
+fixture and run it using the installed v0.3 package. This is an executable design
+baseline, not evidence that a production search engine or CLI exists.
+
 ## Limits of the evidence
 
 The dense oracle is independently implemented within the same repository. An optional numerical audit additionally compares against NumPy tensor operations and SciPy DFT matrices across the supported dimensions. Neither is an external review, a comparison with another quantum SDK, or formal verification. Finite examples do not prove correctness for every circuit. These checks establish a reproducible numerical baseline for this milestone.

@@ -1,0 +1,53 @@
+{
+  "schema": "q3hash.search-contract-vectors",
+  "schema_version": 1,
+  "objectives": ["physical_registers", "max_register_dimension", "unused_basis_states", "gate_count", "two_register_gate_count", "dependency_depth"],
+  "generation_cases": [
+    {
+      "id": "GEN-01",
+      "logical_dimensions": [3],
+      "allowed_dimensions": [2, 3],
+      "max_registers": 2,
+      "max_physical_size": 9,
+      "mapping_families": ["flat-prefix", "register-prefix"],
+      "expected_candidates": [
+        {"physical_dimensions": [3], "mapping": [0, 1, 2]},
+        {"physical_dimensions": [2, 2], "mapping": [0, 1, 2]},
+        {"physical_dimensions": [2, 3], "mapping": [0, 1, 2]},
+        {"physical_dimensions": [3, 2], "mapping": [0, 1, 2]},
+        {"physical_dimensions": [3, 3], "mapping": [0, 1, 2]}
+      ],
+      "expected_counts": {"dimension_tuples_seen": 6, "mapping_attempts": 10, "duplicate_mappings": 5, "insufficient_capacity": 1, "physical_size_limit": 0, "block_capacity": 0, "family_unavailable": 0},
+      "budget_cases": [
+        {"limits": {"max_dimension_tuples": 3}, "completion": "truncated", "stop_reason": "dimension-budget", "candidate_count": 2, "dimension_tuples_seen": 3, "mapping_attempts": 4},
+        {"limits": {"max_mapping_attempts": 3}, "completion": "truncated", "stop_reason": "mapping-budget", "candidate_count": 2, "dimension_tuples_seen": 3, "mapping_attempts": 3},
+        {"limits": {"max_candidates": 2}, "completion": "truncated", "stop_reason": "candidate-budget", "candidate_count": 2, "dimension_tuples_seen": 4, "mapping_attempts": 5},
+        {"limits": {"max_dimension_tuples": 6, "max_mapping_attempts": 10, "max_candidates": 5}, "completion": "exhausted", "stop_reason": null, "candidate_count": 5, "dimension_tuples_seen": 6, "mapping_attempts": 10}
+      ]
+    }
+  ],
+  "mapping_cases": [
+    {"id": "GEN-03-A", "logical_dimensions": [2, 3], "physical_dimensions": [2, 2, 2], "cuts": [1], "mapping": [0, 1, 2, 4, 5, 6]},
+    {"id": "GEN-03-B", "logical_dimensions": [2, 3], "physical_dimensions": [2, 2, 2], "cuts": [2], "rejection": "block-capacity"}
+  ],
+  "operator_cases": [
+    {"id": "EVAL-01-NATIVE", "logical": "qutrit q\nshift q\n", "physical": "qutrit p\nshift p\n", "mapping": [0, 1, 2], "expected": "pass", "resources": [1, 3, 0, 1, 0, 1]},
+    {"id": "EVAL-01-TIED-SEED", "logical": "qutrit q\nshift q\n", "physical": "qutrit p\nshift p\n", "mapping": [1, 2, 0], "expected": "pass", "resources": [1, 3, 0, 1, 0, 1]},
+    {"id": "EVAL-01-BINARY", "logical": "qutrit q\nshift q\n", "physical": "qubit a\nqubit b\nsum a b\nsum b a\nshift b\n", "mapping": [0, 1, 2], "expected": "pass", "resources": [2, 2, 1, 3, 2, 3]},
+    {"id": "EVAL-02-LEAKAGE", "logical": "qutrit q\nshift q\n", "physical": "qudit 4 p\nshift p\n", "mapping": [0, 1, 2], "expected": "fail"},
+    {"id": "EVAL-02-PHASE", "logical": "qubit q\n", "physical": "qubit p\nfourier p\nshift p\nfourier p\n", "mapping": [0, 1], "expected": "fail"},
+    {"id": "EVAL-04-MIXED", "logical": "qubit c\nqutrit t\nfourier c\nsum c t\n", "physical": "qutrit t\nqubit c\nfourier c\nsum c t\n", "mapping": [0, 2, 4, 1, 3, 5], "expected": "pass", "resources": [2, 3, 0, 2, 1, 2]},
+    {"id": "EVAL-04-QUTRIT", "logical": "qutrit c\nqutrit t\nfourier c\nsum c t\n", "physical": "qutrit c\nqutrit t\nfourier c\nsum c t\n", "mapping": [0, 1, 2, 3, 4, 5, 6, 7, 8], "expected": "pass", "resources": [2, 3, 0, 2, 1, 2]},
+    {"id": "EVAL-05", "logical": "qutrit q\nshift q\n", "physical": "qutrit p\nshift p\n", "mapping": [0, 1, 2], "max_dimension": 2, "expected": "unsupported"}
+  ],
+  "resource_cases": [
+    {"id": "COST-EMPTY", "source": "qubit q\n", "logical_size": 2, "resources": [1, 2, 0, 0, 0, 0]},
+    {"id": "COST-DISJOINT", "source": "qubit a\nqubit b\nshift a\nshift b\n", "logical_size": 4, "resources": [2, 2, 0, 2, 0, 1]},
+    {"id": "COST-DEPENDENT", "source": "qubit a\nqubit b\nqubit c\nshift a\nshift b\nsum a c\nshift b\n", "logical_size": 8, "resources": [3, 2, 0, 4, 1, 2]}
+  ],
+  "pareto_cases": [
+    {"id": "PAR-DEFAULT", "objective_indices": [0, 1, 2, 3, 4, 5], "rows": [[1, 3, 0, 1, 0, 1], [1, 3, 0, 1, 0, 1], [2, 2, 1, 3, 2, 3], [2, 3, 1, 4, 3, 4]], "front_indices": [0, 1, 2]},
+    {"id": "PAR-SUBSET", "objective_indices": [0, 2, 3, 4, 5], "rows": [[1, 3, 0, 1, 0, 1], [1, 3, 0, 1, 0, 1], [2, 2, 1, 3, 2, 3]], "front_indices": [0, 1]},
+    {"id": "PAR-EMPTY", "objective_indices": [0, 1, 2, 3, 4, 5], "rows": [], "front_indices": []}
+  ]
+}
