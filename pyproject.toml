@@ -1,14 +1,15 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77.0.3"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "q3hash"
-version = "0.2.0"
+version = "0.2.1"
 description = "Experimental mixed-dimensional quantum notation and Python statevector simulator"
 readme = "README.md"
 requires-python = ">=3.10"
-license = { file = "LICENSE" }
+license = "Apache-2.0"
+license-files = ["LICENSE"]
 authors = [{ name = "Q3# Project Contributors" }]
 classifiers = [
   "Development Status :: 2 - Pre-Alpha",
@@ -19,6 +20,9 @@ classifiers = [
 
 [project.scripts]
 q3hash = "q3hash.cli:main"
+
+[project.optional-dependencies]
+validation = ["numpy>=1.26", "scipy>=1.11"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
