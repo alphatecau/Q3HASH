@@ -1,0 +1,3 @@
+# Logical three-state cyclic shift.
+qutrit q
+shift q
