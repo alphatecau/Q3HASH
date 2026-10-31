@@ -154,7 +154,7 @@ def main():
         require(front(case["rows"], case["objective_indices"]) == case["front_indices"], case["id"])
         checks += 1
     print(f"v0.4 contract vectors: {checks} cases passed")
-    print("Tiny-domain reference audit only; production encoding search remains unimplemented.")
+    print("Reference-vector audit; production circuit evaluation and Pareto orchestration remain pending.")
 
 
 if __name__ == "__main__":

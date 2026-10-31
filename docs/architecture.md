@@ -30,6 +30,22 @@ The encoding model imports no logical-program or verification layer. A physical 
 
 Encoding construction caps explicit logical mapping entries but does not allocate or cap the physical Hilbert space. Vector allocation, explicit reference matrices, the JSON wire format and dense verification each have distinct documented budgets. See [ADR 0001](adr/0001-verified-encoding-first.md), the [data contract](contracts/logical-ir-and-encoding-v1.md) and [operator criteria](contracts/operator-verification-v1.md).
 
+## Bounded generation — v0.4 development
+
+`search.py` implements immutable search constraints, encoding candidates, rejection
+counts and generation reports. It lazily enumerates ordered physical tuples and
+flat/register-prefix maps, accepts explicit seed encodings and retains first
+provenance under deduplication. Tuple, mapping-attempt and unique-candidate budgets
+are separate, with explicit exhausted/truncated outcomes.
+
+The module depends only on the existing encoding model, dimension constant and
+shared strict serialization. It imports no verifier or simulator. Public report
+construction/decoding replay the bounded domain; the internal producer avoids
+duplicating work. No physical circuit is synthesised or verified during generation.
+See the [search contract](contracts/encoding-search-v1.md) for exact rules and the
+[work packages](plans/v0.4-implementation.md) for remaining resource/comparison,
+verification orchestration and CLI stages.
+
 ## Verification implemented for this milestone
 
 A separate test-only dense-matrix oracle enumerates explicit tensor basis labels. It does not call production stride, lowering or gate-matrix helpers. Tests compare full complex amplitudes, complete small gate matrices, SUM unitarity, reversed and non-adjacent axes, unequal dimensions, norm preservation and reduced-state purity for known pure entangled states.
@@ -39,7 +55,7 @@ These tests provide bounded numerical evidence. They are not formal verification
 ## Proposed architecture beyond this milestone
 
 - Richer front-end types, functions and hybrid classical/quantum control flow.
-- Automatic dimension inference, bounded candidate search and deterministic comparisons (v0.4 direction).
+- Automatic logical-dimension inference, physical-circuit search and deterministic resource comparisons beyond the implemented map generator.
 - Hardware-conditioned cost models with topology, fidelity and gate availability.
 - Semantics-preserving optimisation, equivalence tooling and independent external baselines.
 - Hardware adapters and a hybrid runtime.

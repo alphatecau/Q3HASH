@@ -12,7 +12,7 @@ An experimental, ternary-first language, simulator and compiler research project
 
 [Quick start](#quick-start) · [First program](#your-first-program) · [Encoding example](#one-qutrit-two-qubits) · [Technical details](#technical-details) · [Documentation](#documentation)
 
-<sub>Q3HASH · v0.3.0 · Pure Python · No third-party runtime dependencies</sub>
+<sub>Q3HASH · v0.4.0.dev1 · Pure Python · No third-party runtime dependencies</sub>
 
 </div>
 
@@ -176,6 +176,37 @@ The original `Circuit`, `Register`, `Gate`, `parse`, `simulate` and `probabiliti
 </details>
 
 <details>
+<summary><strong>Bounded encoding generation — v0.4 development</strong></summary>
+
+Generate a finite, explicitly constrained set of maps for a logical qutrit:
+
+```python
+from q3hash import GenerationReport, SearchConstraints, generate_encodings
+
+constraints = SearchConstraints(max_registers=2, max_physical_size=9)
+report = generate_encodings((3,), constraints)
+assert report.completion == "exhausted"
+assert report.emitted_candidates == 5
+assert [c.encoding.physical_dimensions for c in report.candidates] == [
+    (3,), (2, 2), (2, 3), (3, 2), (3, 3)
+]
+assert GenerationReport.from_json(report.to_json()) == report
+```
+
+The generator visits tuples and map families in a fixed order, accepts optional
+explicit seed encodings, retains the first occurrence of a map and reports every
+capacity rejection, duplicate and budget stop. `exhausted` covers only the declared
+families; `truncated` identifies a budget-limited prefix.
+
+These results are encoding maps. A physical gate implementation must still be
+supplied and checked with the existing verifier. Automated evaluation, resource
+comparisons and a search CLI are later v0.4 work packages. See the [search
+contract](docs/contracts/encoding-search-v1.md) and [implementation
+sequence](docs/plans/v0.4-implementation.md).
+
+</details>
+
+<details>
 <summary><strong>Equivalence mathematics, evidence and CLI results</strong></summary>
 
 Let `U_L` be the complete logical operator, `U_P` the complete physical operator, and `V` the basis injection. The verifier asks whether a **single global phase** aligns both operations:
@@ -221,7 +252,7 @@ Use `python -m q3hash.verify_cli` as the module equivalent of `q3hash-verify`. O
 
 Model construction, vector allocation and dense verification have separate budgets. An encoding can describe a large physical space without allocating its statevector; requests beyond a verifier's budget return `unsupported` before dense operators are allocated.
 
-The v0.3 validation baseline contains **72 unit tests** and **seven executable source examples**. CI builds and tests both wheel and source distributions in clean environments across **Python 3.10–3.13**, and runs the independent numerical audits.
+The preserved v0.3 baseline contains **72 unit tests** and **seven executable source examples**. The development tree adds **24 model/generation tests** and an independent **504-case generation audit**. CI builds and tests both wheel and source distributions in clean environments across **Python 3.10–3.13**, and runs the independent numerical audits.
 
 | Numerical audit | Recorded coverage |
 | :--- | :--- |
@@ -239,6 +270,7 @@ python -m unittest discover -s tests -v
 python -m pip install -e ".[validation]"
 python tools/check_numerics.py
 python tools/check_encoding.py
+python tools/check_search_generation.py
 ```
 
 The [validation guide](docs/validation.md) explains the independent constructions; the [build and audit guide](docs/build-and-audit.md) covers isolated distribution checks. Consult CI for the exact commit you are using.
@@ -253,15 +285,15 @@ The [validation guide](docs/validation.md) explains the independent construction
 | :--- | :--- | :--- |
 | v0.2.1 | Parser, explicit dimensions, IR, simulator and distribution checks | Preserved regression baseline |
 | v0.3 | Explicit encodings and complete small-operator checks | Implemented and merged into `main` |
-| v0.4 | Bounded candidate generation and Pareto comparisons | [Contract and acceptance vectors](docs/contracts/encoding-search-v1.md); production implementation pending |
+| v0.4 | Bounded candidate generation and Pareto comparisons | Candidate generator implemented; evaluation/comparison orchestration and search CLI pending |
 | v0.5 | Hardware-conditioned costs and equivalent benchmark workloads | Research target |
 | v0.6 | Web/core integration and a reproducible research demonstration | Research target |
 
 The [six-month roadmap](docs/roadmap.md) describes the milestones and acceptance criteria.
 
-**Next development step:** implement the [v0.4 work packages](docs/plans/v0.4-implementation.md) against the search contract. The contract defines finite candidate families, deterministic limits, supplied physical circuits, explicit rejection reasons and reproducible Pareto comparisons. Its executable acceptance vectors check the proposed mathematics using the existing v0.3 verifier; they do not add a production search command.
+**Next development step:** implement exact resource counts and Pareto comparison, then orchestration of supplied circuits, following the [v0.4 work packages](docs/plans/v0.4-implementation.md). The generator implements the contract's finite families and deterministic limits. Its maps are not synthesised circuits, and no production search command is available yet.
 
-**Current scope.** Q3# runs on a classical computer using floating-point amplitudes. Automatic dimension selection, encoding search, hardware-aware optimisation, measurement, noise, hybrid control flow and hardware execution remain research targets. The gate set is not claimed to be universal. The numerical checks provide bounded evidence; formal proof, hardware performance and quantum advantage have not been demonstrated. Ternary encoding is not assumed to outperform binary encoding.
+**Current scope.** Q3# runs on a classical computer using floating-point amplitudes. Automatic logical-dimension inference, physical-circuit search/synthesis, hardware-aware optimisation, measurement, noise, hybrid control flow and hardware execution remain research targets. The gate set is not claimed to be universal. The numerical checks provide bounded evidence; formal proof, hardware performance and quantum advantage have not been demonstrated. Ternary encoding is not assumed to outperform binary encoding.
 
 ## Documentation
 
@@ -282,6 +314,7 @@ The [six-month roadmap](docs/roadmap.md) describes the milestones and acceptance
 | [core.py](src/q3hash/core.py) · [cli.py](src/q3hash/cli.py) | Parsing, simulation and the example runner |
 | [logical_ir.py](src/q3hash/logical_ir.py) | Logical programs and canonical semantic serialization |
 | [encoding.py](src/q3hash/encoding.py) | Basis injections and vector embedding |
+| [search.py](src/q3hash/search.py) | Bounded map generation, constraints, provenance and canonical generation reports |
 | [equivalence.py](src/q3hash/equivalence.py) · [verification.py](src/q3hash/verification.py) | Complete small operators, comparison metrics and verification policy |
 | [verify_cli.py](src/q3hash/verify_cli.py) | Logical/physical verification command |
 | [tests](tests) · [tools](tools) | Regression suites and reproducible audit tools |

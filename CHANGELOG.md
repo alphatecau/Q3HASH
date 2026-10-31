@@ -1,13 +1,22 @@
 # Changelog
 
-## Unreleased — v0.4 design baseline
+## 0.4.0.dev1 — 1 November 2026
+
+- Implement bounded encoding generation with validated immutable constraints, candidates and reports; preserve explicit seeds, register order, first-origin provenance and semantic SHA-256 IDs.
+- Generate flat/register-prefix maps lazily with independent tuple, mapping and unique-candidate limits, exact rejection/duplicate accounting and explicit exhausted/truncated results.
+- Add strict canonical constraints/report JSON and bounded replay validation of constructed or decoded reports.
+- Add 24 focused model/generation tests and an independent tensor-label/event-trace audit covering 504 parameter/budget/seed cases; run the audit in CI and clean distribution installations.
+
+This development version completes the generation stage. Physical-circuit evaluation orchestration, structural resource/Pareto APIs and a search CLI remain pending. The stable v0.3.0 tag is unchanged.
+
+## Design baseline — 1 November 2026
 
 - Define bounded search interfaces, map families, deterministic generation and numerical-work budgets, evidence states, exact resource/Pareto rules and strict report contracts before production implementation.
 - Add 21 executable reference-vector cases and require them in CI and clean distribution checks.
 - Define the dependency-ordered v0.4 implementation and benchmark sequence.
 - Point README CI references at `main` and identify the fixed v0.3.0 release baseline.
 
-The Python package remains 0.3.0. Production candidate generation, search orchestration and comparison APIs are not implemented by this design change.
+That design-only change retained package version 0.3.0 and did not implement production generation, search orchestration or comparison APIs.
 
 ## 0.3.0 — 1 November 2026
 
