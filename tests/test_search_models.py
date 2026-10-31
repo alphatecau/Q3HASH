@@ -169,6 +169,10 @@ class SearchModelTests(unittest.TestCase):
         body["candidates"][0]["extra"] = "forged"
         self.assert_code(ValueError, "Q3-SER-003", lambda: GenerationReport.from_dict(body))
         body = report.to_dict()
+        body["mapping_attempts"] = True
+        body["candidates"][0]["candidate_id"] = "forged"
+        self.assert_code(ValueError, "Q3-SER-003", lambda: GenerationReport.from_dict(body))
+        body = report.to_dict()
         body["schema_version"] = True
         self.assert_code(ValueError, "Q3-SER-004", lambda: GenerationReport.from_dict(body))
         self.assert_code(TypeError, "Q3-SER-003", lambda: GenerationReport.from_json("[]"))

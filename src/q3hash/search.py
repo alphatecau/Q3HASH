@@ -386,6 +386,11 @@ class GenerationReport:
     def from_dict(cls, value):
         names = tuple(item.name for item in dataclass_fields(cls))
         wire.header(value, _GENERATION_SCHEMA, ("schema", "schema_version", *names))
+        counters = ("dimension_tuples_seen", "mapping_attempts", "emitted_candidates",
+                    "duplicate_mappings", "partition_rejections", "family_unavailable")
+        if (any(type(value[name]) is not int for name in counters) or type(value["completion"]) is not str or
+                (value["stop_reason"] is not None and type(value["stop_reason"]) is not str)):
+            _error("Q3-SER-003", "incorrect report scalar field types")
         constraints = SearchConstraints.from_dict(_object(value["constraints"]))
         logical = _array(value["logical_dimensions"], int)
         seed_values, candidate_values = wire.array(value["seed_encodings"]), wire.array(value["candidates"])
@@ -396,11 +401,6 @@ class GenerationReport:
         seeds = tuple(BasisEncoding.from_dict(_object(item)) for item in seed_values)
         candidates = tuple(EncodingCandidate.from_dict(_object(item)) for item in candidate_values)
         rejections = DimensionRejections.from_dict(_object(value["dimension_rejections"]))
-        counters = ("dimension_tuples_seen", "mapping_attempts", "emitted_candidates",
-                    "duplicate_mappings", "partition_rejections", "family_unavailable")
-        if (any(type(value[name]) is not int for name in counters) or type(value["completion"]) is not str or
-                (value["stop_reason"] is not None and type(value["stop_reason"]) is not str)):
-            _error("Q3-SER-003", "incorrect report scalar field types")
         return cls(constraints=constraints, logical_dimensions=logical, seed_encodings=seeds,
                    candidates=candidates, completion=value["completion"], stop_reason=value["stop_reason"],
                    dimension_rejections=rejections, **{name: value[name] for name in counters})
