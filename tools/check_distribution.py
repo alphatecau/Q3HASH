@@ -27,9 +27,14 @@ def run(command, cwd, environment):
 def inspect_wheel(path):
     with zipfile.ZipFile(path) as archive:
         names = archive.namelist()
-        for module in ("__init__.py", "core.py", "ir.py", "cli.py"):
+        modules = ("__init__.py", "core.py", "ir.py", "cli.py", "_serialization.py", "_state.py",
+                   "logical_ir.py", "encoding.py", "equivalence.py", "verification.py", "verify_cli.py")
+        for module in modules:
             if f"q3hash/{module}" not in names:
                 raise RuntimeError(f"Wheel is missing module {module}")
+        package_modules = {name for name in names if name.startswith("q3hash/") and name.endswith(".py")}
+        if package_modules != {f"q3hash/{module}" for module in modules}:
+            raise RuntimeError("Wheel includes unexpected modules; clean stale build output")
         metadata_name = next(name for name in names if name.endswith(".dist-info/METADATA"))
         metadata = BytesParser().parsebytes(archive.read(metadata_name))
         if metadata["Name"] != "q3hash" or metadata["License-Expression"] != "Apache-2.0":
@@ -73,10 +78,14 @@ def extract_source(archive_path, destination):
     required = [
         "LICENSE", "README.md", "CHANGELOG.md", "MANIFEST.in",
         "docs/language-spec.md", "docs/semantics.md", "docs/validation.md",
+        "docs/adr/0001-verified-encoding-first.md", "docs/contracts/logical-ir-and-encoding-v1.md",
+        "docs/contracts/operator-verification-v1.md", "tests/test_contracts.py", "tests/test_equivalence.py",
         "benchmarks/README.md", "tests/test_semantics.py",
         "tools/check_distribution.py", "tools/check_numerics.py",
         "examples/qutrit.q3", "examples/mixed.q3", "examples/bell.q3",
         "examples/qutrit-entangled.q3", "examples/mixed-entangled.q3",
+        "examples/logical-qutrit-shift.q3", "examples/physical-qutrit-shift-binary.q3",
+        "examples/qutrit-binary.encoding.json", "tools/check_encoding.py",
     ]
     missing = [name for name in required if not (source / name).is_file()]
     if missing:
@@ -89,6 +98,7 @@ def installed_checks(wheel, source, destination, version, environment):
     binaries = destination / ("Scripts" if os.name == "nt" else "bin")
     python = binaries / ("python.exe" if os.name == "nt" else "python")
     console = binaries / ("q3hash.exe" if os.name == "nt" else "q3hash")
+    verifier = binaries / ("q3hash-verify.exe" if os.name == "nt" else "q3hash-verify")
     run([str(python), "-m", "pip", "install", "--no-index", "--no-deps", str(wheel)], source, environment)
     check = (
         "import importlib.metadata,pathlib,sys,q3hash;"
@@ -104,11 +114,18 @@ def installed_checks(wheel, source, destination, version, environment):
         source, environment)
     output = run([str(python), "-I", "-m", "unittest", "discover", "-s", "tests", "-v"], source, environment)
     print("\n".join(output.strip().splitlines()[-4:]))
-    for example in sorted((source / "examples").glob("*.q3")):
+    examples = sorted((source / "examples").glob("*.q3"))
+    for example in examples:
         run([str(python), "-I", "-m", "q3hash.cli", str(example), "--amplitudes"], source, environment)
         run([str(console), str(example)], source, environment)
+    for command in ([str(python), "-I", "-m", "q3hash.verify_cli"], [str(verifier)]):
+        output = run(command + ["examples/logical-qutrit-shift.q3", "examples/physical-qutrit-shift-binary.q3",
+                                "--encoding", "examples/qutrit-binary.encoding.json"], source, environment)
+        if "verification: pass" not in output or "q3hash-circuit" not in output:
+            raise RuntimeError("Installed full-subspace verifier failed its explicit circuit example")
     run([str(python), "-m", "pip", "check"], source, environment)
-    print("All five examples passed through both CLI entry points; dependencies are consistent.")
+    print(f"All {len(examples)} examples passed through both simulator CLI entry points; dependencies are consistent.")
+    print("Complete operator verification passed through module and console entry points.")
 
 
 def main():
