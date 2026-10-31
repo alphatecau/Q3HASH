@@ -1,0 +1,6 @@
+# Explicit two-qubit implementation of the 0 -> 1 -> 2 -> 0 cycle; fixes 3.
+qubit a
+qubit b
+sum a b
+sum b a
+shift b
