@@ -1,12 +1,12 @@
 # Build and audit procedure
 
-The audit requires generation, budgeted verification, resource/front/report, CLI and hardware-input modules plus their documentation/fixtures. Both clean installations run all 206 tests, seven source examples, simulator/verifier/search module and console entry points, and every existing contract/generation/resource/aggregate/CLI audit. CI retains the original statevector and complete-operator numerical audits. The 0.2.1 findings and recorded results below are historical.
+The audit requires generation, budgeted verification, resource/front/report, CLI, hardware-input and internal cost modules plus their documentation/fixtures. Both clean installations run all 232 tests, seven source examples, simulator/verifier/search module and console entry points, and every existing contract/generation/resource/aggregate/CLI/cost audit. CI retains the original statevector and complete-operator numerical audits. The 0.2.1 findings and recorded results below are historical.
 
-The v0.5.0.dev1 build requires hardware input models, tests, guide, contract,
-implementation plan, synthetic fixtures and both audit tools in the source archive.
-Both clean installations and numerical CI run the mathematical design audit.
+The v0.5.0.dev2 build requires hardware inputs/cost kernel, tests, guides, contract,
+implementation plan, synthetic fixtures and audit tools in the source archive.
+Both clean installations and numerical CI run the design and production cost audits.
 A separate Python 3.12 CI job installs the pinned Cirq extra and actually runs the
-external composition baseline. Production hardware costs/reports/CLI remain pending.
+external composition baseline. Public verified hardware reports/fronts/CLI remain pending.
 
 The repository is an experimental Python interpreter and IR project. Compiling its Python files, building distributions and running numerical tests does not establish that a complete hardware compiler exists.
 
@@ -28,6 +28,7 @@ python -I tools/check_resources_comparison.py
 python -I tools/check_search_evaluation.py
 python -I tools/check_search.py --isolated
 python -I tools/check_hardware_contract.py
+python -I tools/check_hardware_costs.py
 python -m pip install ".[external-validation]"
 python -I tools/check_external_operators.py
 ```

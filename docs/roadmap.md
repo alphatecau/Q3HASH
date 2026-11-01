@@ -27,16 +27,17 @@ Version/month labels are research milestones, not elapsed-time claims or deadlin
    The [hardware contract](contracts/hardware-profile-v1.md), fixed equivalent
    workloads and executable mathematical reference cases are defined. They use
    synthetic profiles and preserve unknown duration, calibration and circuit-error
-   data. v0.5.0.dev1 implements the [input models/strict JSON](hardware-profiles.md)
-   and independent Cirq baseline. Cost assessment, reports and hardware CLI remain
-   pending; the [work packages](plans/v0.5-implementation.md) define their order.
+   data. v0.5.0.dev2 includes the [input models/strict JSON](hardware-profiles.md),
+   independent Cirq baseline and [internal feasibility/work/timing kernel](hardware-costs.md).
+   The verified report producer, interval fronts and hardware CLI remain pending;
+   the [work packages](plans/v0.5-implementation.md) define their order.
    Routing, synthesis and noise composition need later contracts.
 5. **v0.6 / Month 6 — Reproducible research demonstration:** reconcile the separate
    web/core runtimes, publish comparisons against a tagged core and deliver a
    technical report with peer-reviewable examples. Remains a target.
 
-The next implementation step is matrix-free native feasibility, bounded hardware
-work accounting and conditional timing, followed by reports and a hardware CLI.
+The next implementation step is complete verified hardware reports, interval
+fronts and strict recorded replay, followed by the hardware CLI.
 Existing interpreter semantics and
 regressions remain the reference baseline. Every delivered milestone requires
 executable tests, passing CI for its exact commit and documented limitations.

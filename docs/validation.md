@@ -176,7 +176,8 @@ zero versus missing duration, stale/unknown data and nonaggregated error records
 CI and both clean wheel/source installations run this audit. Its small reference
 models are outside the package. They establish executable design expectations;
 the input-model tests and Cirq baseline below check the delivered first packages.
-Production costs, report codecs and hardware CLI remain pending. The [contract](contracts/hardware-profile-v1.md) and
+The cost-kernel audit below checks the next implemented package. Public verified
+report production, report codecs/fronts and hardware CLI remain pending. The [contract](contracts/hardware-profile-v1.md) and
 [implementation gates](plans/v0.5-implementation.md) specify the remaining work.
 All target numbers are synthetic test values, including the fixtures exercising
 reported-device metadata. No measured device costs or circuit-fidelity result is
@@ -214,6 +215,33 @@ The tool prints exact dependency versions, settings, seed, fixture digest, count
 and statuses. These numbers describe one recorded local environment; CI records
 its own output. Missing or mismatched Cirq fails the dedicated CI check.
 See the [input and reproduction guide](hardware-profiles.md).
+
+## Internal hardware-cost arithmetic — v0.5.0.dev2
+
+`tests/test_hardware_costs.py` adds 26 tests to the unchanged 206-test baseline.
+They exercise full rejection details, ordered native support, all-operation work
+charging and exact boundaries, later-small-after-skip, identity-after-exhaustion,
+explicit versus missing zero time, calibration age, non-adjacent/reordered paths,
+used-error definitions and occurrence order, whole-batch preflight, immutable
+results and visible unexpected exceptions. Maximum cases include 4096 inputs,
+16,384 operations and exact time totals beyond floating-point's integer range.
+A 64-site dimension-32 case guards against state-size, simulator and verifier calls.
+
+`python tools/check_hardware_costs.py` compares production arithmetic against the
+unchanged reference oracle's exhaustive dependency paths and remaining-work ledger.
+It checks 3,110 exhaustive timing circuits, 2,752 native-availability circuits under
+all 64 selected binding subsets, and 5,000 three-row budget ledgers. It additionally
+checks all 17 frozen targets, nine timing DAGs, six freshness cases, five frozen
+ledgers and 13 original operator workloads. Rejection evidence, counts, serial and
+critical-path ranges, error records and all work totals agree.
+
+The exhaustive abstract inputs exercise private arithmetic only; they are not
+new public verification evidence. Frozen target inputs retain actual passing
+source checks. The original fixture is unchanged. CI and clean wheel/source
+installations run this audit without optional numerical dependencies.
+The [kernel guide](hardware-costs.md) documents the private integration boundary;
+the complete fresh-source producer, report/interval fronts, recorded replay and
+hardware CLI remain pending.
 
 ## Limits of the evidence
 
