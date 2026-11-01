@@ -12,7 +12,7 @@ An experimental, ternary-first language, simulator and compiler research project
 
 [Quick start](#quick-start) · [First program](#your-first-program) · [Encoding example](#one-qutrit-two-qubits) · [Technical details](#technical-details) · [Documentation](#documentation)
 
-<sub>Q3HASH · v0.4.0.dev1 · Pure Python · No third-party runtime dependencies</sub>
+<sub>Q3HASH · v0.4.0.dev2 · Pure Python · No third-party runtime dependencies</sub>
 
 </div>
 
@@ -178,7 +178,8 @@ The original `Circuit`, `Register`, `Gate`, `parse`, `simulate` and `probabiliti
 <details>
 <summary><strong>Bounded encoding generation — v0.4 development</strong></summary>
 
-Generate a finite, explicitly constrained set of maps for a logical qutrit:
+In a development checkout (`0.4.0.dev1` or later), generate a finite, explicitly
+constrained set of maps for a logical qutrit:
 
 ```python
 from q3hash import GenerationReport, SearchConstraints, generate_encodings
@@ -199,10 +200,52 @@ capacity rejection, duplicate and budget stop. `exhausted` covers only the decla
 families; `truncated` identifies a budget-limited prefix.
 
 These results are encoding maps. A physical gate implementation must still be
-supplied and checked with the existing verifier. Automated evaluation, resource
-comparisons and a search CLI are later v0.4 work packages. See the [search
+supplied and checked with the existing verifier. Structural comparison is shown
+below; aggregate budgeted evaluation and a search CLI are later work packages.
+See the [search
 contract](docs/contracts/encoding-search-v1.md) and [implementation
 sequence](docs/plans/v0.4-implementation.md).
+
+</details>
+
+<details>
+<summary><strong>Compare verified supplied circuits — v0.4 development</strong></summary>
+
+In `0.4.0.dev2`, compare a native qutrit shift with its supplied two-qubit circuit:
+
+```python
+from q3hash import (
+    CircuitImplementation, RESOURCE_OBJECTIVES, SearchConstraints,
+    evaluate_candidate, generate_encodings, logical_from_source, pareto_front,
+)
+
+logical = logical_from_source("qutrit q\nshift q")
+native, binary = generate_encodings(
+    (3,), SearchConstraints(max_registers=2, max_physical_size=4)
+).candidates
+binary_ir = logical_from_source(
+    "qubit a\nqubit b\nsum a b\nsum b a\nshift b"
+).ir
+rows = (
+    evaluate_candidate(logical, native, CircuitImplementation(native.encoding, logical.ir)),
+    evaluate_candidate(logical, binary, CircuitImplementation(binary.encoding, binary_ir)),
+)
+assert rows[0].resources.as_tuple() == (1, 3, 0, 1, 0, 1)
+assert rows[1].resources.as_tuple() == (2, 2, 1, 3, 2, 3)
+assert pareto_front(rows, RESOURCE_OBJECTIVES) == tuple(row.candidate_id for row in rows)
+```
+
+The counts are registers, maximum local dimension, unused basis states, primitive
+gates, two-register gates and dependency depth. Both circuits remain on the default
+front: binary uses fewer levels per register, while the native circuit uses fewer
+registers and gates. Selecting a different objective subset can change the front.
+
+Only circuits that pass the existing complete-subspace verifier are eligible.
+Ties are retained; missing, failed and unsupported circuits are excluded. All rows
+must describe the same logical program and verification settings. Counts are
+structural, with an ideal disjoint-axis depth model, rather than device gate times
+or hardware performance. The adapter checks one circuit at a time; the aggregate
+call/work ledger and full search reports remain pending.
 
 </details>
 
@@ -252,9 +295,9 @@ Use `python -m q3hash.verify_cli` as the module equivalent of `q3hash-verify`. O
 
 Model construction, vector allocation and dense verification have separate budgets. An encoding can describe a large physical space without allocating its statevector; requests beyond a verifier's budget return `unsupported` before dense operators are allocated.
 
-The preserved v0.3 baseline contains **72 unit tests** and **seven executable source examples**. The development tree adds **24 model/generation tests** and an independent **504-case generation audit**. CI builds and tests both wheel and source distributions in clean environments across **Python 3.10–3.13**, and runs the independent numerical audits.
+The development tree contains **120 unit tests**, including the unchanged **72-test v0.3 baseline** and **seven executable source examples**. Independent audits cover generation and structural comparison as well as the original numerical behaviour. CI builds and tests wheel/source distributions in clean environments across **Python 3.10–3.13**.
 
-| Numerical audit | Recorded coverage |
+| Audit | Recorded coverage |
 | :--- | :--- |
 | Original statevector audit | `2,573` comparisons across dimensions `2–32` |
 | Operator and arbitrary-state audit | `194` comparisons |
@@ -262,6 +305,10 @@ The preserved v0.3 baseline contains **72 unit tests** and **seven executable so
 | Full-subspace positive cases | `253` passes |
 | Expected resource-boundary cases | `20` unsupported |
 | Adversarial reference cases | `3` correctly rejected |
+| Bounded generation audit | `504` cases |
+| Resource-count instruction sequences | `2,433` cases |
+| Abstract dominance comparisons | `1,008` pairs |
+| Verified supplied-circuit fronts | `189` cases |
 
 Reproduce the tests and optional NumPy/SciPy audits:
 
@@ -271,6 +318,7 @@ python -m pip install -e ".[validation]"
 python tools/check_numerics.py
 python tools/check_encoding.py
 python tools/check_search_generation.py
+python tools/check_resources_comparison.py
 ```
 
 The [validation guide](docs/validation.md) explains the independent constructions; the [build and audit guide](docs/build-and-audit.md) covers isolated distribution checks. Consult CI for the exact commit you are using.
@@ -285,13 +333,13 @@ The [validation guide](docs/validation.md) explains the independent construction
 | :--- | :--- | :--- |
 | v0.2.1 | Parser, explicit dimensions, IR, simulator and distribution checks | Preserved regression baseline |
 | v0.3 | Explicit encodings and complete small-operator checks | Implemented and merged into `main` |
-| v0.4 | Bounded candidate generation and Pareto comparisons | Candidate generator implemented; evaluation/comparison orchestration and search CLI pending |
+| v0.4 | Bounded candidate generation and Pareto comparisons | Generator and verified-circuit structural comparison implemented; aggregate evaluation and CLI pending |
 | v0.5 | Hardware-conditioned costs and equivalent benchmark workloads | Research target |
 | v0.6 | Web/core integration and a reproducible research demonstration | Research target |
 
 The [six-month roadmap](docs/roadmap.md) describes the milestones and acceptance criteria.
 
-**Next development step:** implement exact resource counts and Pareto comparison, then orchestration of supplied circuits, following the [v0.4 work packages](docs/plans/v0.4-implementation.md). The generator implements the contract's finite families and deterministic limits. Its maps are not synthesised circuits, and no production search command is available yet.
+**Next development step:** implement the cumulative verification ledger and versioned aggregate search report, then the search CLI, following the [v0.4 work packages](docs/plans/v0.4-implementation.md). Generated maps still require supplied physical circuits; hardware synthesis and a universal best-encoding claim remain outside this milestone.
 
 **Current scope.** Q3# runs on a classical computer using floating-point amplitudes. Automatic logical-dimension inference, physical-circuit search/synthesis, hardware-aware optimisation, measurement, noise, hybrid control flow and hardware execution remain research targets. The gate set is not claimed to be universal. The numerical checks provide bounded evidence; formal proof, hardware performance and quantum advantage have not been demonstrated. Ternary encoding is not assumed to outperform binary encoding.
 
@@ -315,6 +363,8 @@ The [six-month roadmap](docs/roadmap.md) describes the milestones and acceptance
 | [logical_ir.py](src/q3hash/logical_ir.py) | Logical programs and canonical semantic serialization |
 | [encoding.py](src/q3hash/encoding.py) | Basis injections and vector embedding |
 | [search.py](src/q3hash/search.py) | Bounded map generation, constraints, provenance and canonical generation reports |
+| [resources.py](src/q3hash/resources.py) · [comparison.py](src/q3hash/comparison.py) | Exact structural counts and verified-circuit Pareto fronts |
+| [evaluation.py](src/q3hash/evaluation.py) · [search_verification.py](src/q3hash/search_verification.py) | Supplied-circuit input/evidence models and the manual verification adapter |
 | [equivalence.py](src/q3hash/equivalence.py) · [verification.py](src/q3hash/verification.py) | Complete small operators, comparison metrics and verification policy |
 | [verify_cli.py](src/q3hash/verify_cli.py) | Logical/physical verification command |
 | [tests](tests) · [tools](tools) | Regression suites and reproducible audit tools |

@@ -61,7 +61,8 @@ block maps, supplied complete-operator comparisons, structural dependency depth,
 strict dominance and retained ties. The [search contract](contracts/encoding-search-v1.md)
 defines further implementation acceptance cases, including schema validation and
 orchestration budgets. Production encoding generation is implemented in the
-development build; circuit evaluation orchestration and comparison remain pending.
+development build; manual supplied-circuit comparison is implemented in dev2,
+while aggregate budgeted evaluation and its report remain pending.
 
 CI runs the vector audit, and clean wheel/source installation checks require the
 fixture and run it using the installed package. It remains a design/reference
@@ -84,6 +85,29 @@ only public generation APIs. CI and clean distribution installations run it.
 
 This establishes bounded map generation, not physical circuit synthesis,
 equivalence of any generated implementation or a Pareto ranking.
+
+## Exact resources and supplied-circuit comparison — 0.4.0.dev2
+
+`tests/test_resources.py` and `tests/test_comparison.py` add 24 tests to the 96-test
+baseline. Counts include both control/target dependencies and allocation-free
+analysis of large physical spaces. Comparison tests preserve ties, objective
+subsets and input order; reject mixed logical workloads/settings, repeated or
+colliding IDs and reference-only matrices; and exclude missing, failed and
+unsupported implementations. Corrupt/nonfinite verifier snapshots cannot become
+passing comparison evidence. Unexpected verifier exceptions remain visible.
+
+`python tools/check_resources_comparison.py` independently checks:
+
+- 2,433 short circuits using an all-predecessor dependency DAG instead of the
+  production per-axis layer algorithm, plus explicit tensor-label capacity counts.
+- 1,008 exact abstract dominance pairs over all 63 nonempty objective subsets.
+- 189 actual supplied-circuit fronts over those subsets and three input orders,
+  using an independent all-pairs nondominance oracle. Cases include verified ties,
+  a dominated padded circuit, leakage, missing circuits and operation-limit skips.
+
+CI and clean wheel/source installations run this audit. Counts are structural
+resources under the declared primitive model. Pareto eligibility is based on the
+existing small-operator verifier, not hardware execution or a universal optimum.
 
 ## Limits of the evidence
 

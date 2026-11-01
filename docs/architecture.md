@@ -46,6 +46,23 @@ See the [search contract](contracts/encoding-search-v1.md) for exact rules and t
 [work packages](plans/v0.4-implementation.md) for remaining resource/comparison,
 verification orchestration and CLI stages.
 
+## Exact structural comparison — v0.4 development
+
+`resources.py` computes six exact counts from the IR, using per-axis dependency
+layers without allocating a physical statevector. `comparison.py` performs exact
+integer dominance and retains ties/input order among passing supplied circuits.
+`evaluation.py` owns immutable circuit inputs and producer-only evaluation
+records. The manual `search_verification.evaluate_candidate` adapter validates
+dimensions/options, checks operation/dense limits and calls the unchanged v0.3
+verifier before deriving counts. Reference matrices do not enter this circuit
+comparison. Mixed logical workloads, mismatched settings and repeated IDs fail
+preflight instead of becoming a partial front.
+
+This adapter performs at most one numerical call. Aggregate matching of a full
+GenerationReport, cumulative call/work budgets, SearchReport decoding/provenance
+and the search CLI remain the next work packages. Structural depth assumes
+disjoint operations can share a layer; it is not a hardware schedule or cost model.
+
 ## Verification implemented for this milestone
 
 A separate test-only dense-matrix oracle enumerates explicit tensor basis labels. It does not call production stride, lowering or gate-matrix helpers. Tests compare full complex amplitudes, complete small gate matrices, SUM unitarity, reversed and non-adjacent axes, unequal dimensions, norm preservation and reduced-state purity for known pure entangled states.
@@ -55,7 +72,7 @@ These tests provide bounded numerical evidence. They are not formal verification
 ## Proposed architecture beyond this milestone
 
 - Richer front-end types, functions and hybrid classical/quantum control flow.
-- Automatic logical-dimension inference, physical-circuit search and deterministic resource comparisons beyond the implemented map generator.
+- Automatic logical-dimension inference, physical-circuit synthesis and hardware-conditioned comparisons beyond the implemented structural model.
 - Hardware-conditioned cost models with topology, fidelity and gate availability.
 - Semantics-preserving optimisation, equivalence tooling and independent external baselines.
 - Hardware adapters and a hybrid runtime.

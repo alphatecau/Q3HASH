@@ -1,6 +1,6 @@
 # v0.4 contract — bounded encoding search and comparison
 
-**Status:** Generation models, canonical generation reports and `generate_encodings` are implemented in 0.4.0.dev1. Circuit-evaluation orchestration and Pareto APIs below remain proposed.
+**Status:** Generation is implemented in 0.4.0.dev1; exact resource counts, manual supplied-circuit evaluation and Pareto comparison are implemented in 0.4.0.dev2. Aggregate budgeted evaluation and SearchReport remain proposed.
 **Date:** 1 November 2026, Australia/Brisbane.
 **Baseline:** Q3HASH v0.3.0; [ADR 0001](../adr/0001-verified-encoding-first.md), [basis encoding](logical-ir-and-encoding-v1.md), [operator verification](operator-verification-v1.md).
 
@@ -42,7 +42,7 @@ class SearchConstraints:
         "gate_count", "two_register_gate_count", "dependency_depth",
     )
 
-# Proposed evaluation input; not yet exported.
+# Implemented supplied-circuit input.
 @dataclass(frozen=True)
 class CircuitImplementation:
     encoding: BasisEncoding
@@ -53,13 +53,14 @@ def generate_encodings(
     seed_encodings: tuple[BasisEncoding, ...] = (),
 ) -> GenerationReport: ...
 
-# Evaluation/comparison APIs remain proposed; they are not public imports yet.
+# Aggregate evaluation remains proposed; it is not a public import yet.
 def evaluate_candidates(
     logical: LogicalProgram, generation: GenerationReport,
     implementations: tuple[CircuitImplementation, ...] = (), *,
     tolerance: float = 1e-10, max_dimension: int = 64,
 ) -> SearchReport: ...
 
+# Implemented comparison over manually produced circuit evaluations.
 def pareto_front(
     evaluations: tuple[CandidateEvaluation, ...], objectives: tuple[str, ...],
 ) -> tuple[str, ...]: ...  # Candidate IDs in generation order.
@@ -70,8 +71,9 @@ verifier. `resources.py` owns integer circuit counts and imports only the IR.
 `comparison.py` owns strict integer dominance and consumes validated evaluations.
 `search_verification.py` orchestrates the existing verifier, generation and
 resource counts. `search_cli.py` is the final adapter. None is imported by existing
-models or the existing simulator. `search.py` is implemented; the other paths are
-proposed. Numerical-work/objective fields in SearchConstraints are validated and
+models or the existing simulator. Generation, resources, comparison and the
+single-candidate verification adapter are implemented; aggregate orchestration
+and the CLI remain proposed. Numerical-work/objective fields in SearchConstraints are validated and
 preserved now, but the generator does not evaluate circuits or use those limits.
 
 The implemented generation imports are `SearchConstraints`, `EncodingCandidate`,
@@ -273,6 +275,53 @@ still fit. Record actual calls and consumed gate-column steps. These are explici
 algorithmic work proxies, not milliseconds or device gate costs.
 
 ## 8. Structural resources and Pareto comparison
+
+### Resource/comparison implementation interface — 0.4.0.dev2
+
+This work package adds `ResourceCounts`, `count_resources(circuit, *, logical_size)`,
+`dominates(left, right, objectives)` and the specified `pareto_front` interface.
+ResourceCounts is an immutable six-field integer vector in the table's order.
+Its constructor validates types and basic count/depth consistency; it does not
+certify that arbitrary caller-created vectors describe a real circuit.
+`count_resources` derives every field from a validated CircuitIR and an exact
+logical size between 2 and the physical state size, without allocating an operator
+or statevector. It depends on the IR, not on the encoding or numerical verifier.
+
+To supply verified inputs to the comparison stage, `CircuitImplementation` is
+introduced now with its already-specified encoding/circuit fields. The small
+adapter `evaluate_candidate(logical, candidate, implementation=None, *,
+tolerance=1e-10, max_dimension=64, max_operations_per_program=1024)` produces an
+immutable CandidateEvaluation. It validates dimensions and options, returns
+unimplemented when no circuit is supplied, checks the per-program operation
+limit before the dense limit, then delegates to the existing verifier. Counts
+are calculated only on pass. The public result constructor accepts no status,
+verification snapshot or resource vector from the caller; use the adapter.
+
+CandidateEvaluation retains immutable logical/candidate/implementation inputs and
+the normalised verification options. Its `to_dict` uses the five evaluation fields
+already specified in section 9. This is an in-memory producer result; standalone
+snapshot decoding and the aggregate SearchReport remain work package 4.
+`evaluation.py` owns the result/input models, `resources.py` owns counts,
+`comparison.py` imports those validated result types, and `search_verification.py`
+owns this adapter and the future aggregate orchestrator. No reverse import is
+added to the existing generator or verifier.
+
+`dominates` is exact vector mathematics, independent of verification. The
+executable-circuit `pareto_front` instead accepts at most 4,096 producer-created
+evaluations, all for the exact same LogicalProgram and identical tolerance,
+dense-limit and operation-limit settings. Validate the entire tuple before
+filtering statuses. Reject repeated candidate IDs, including identical repeats;
+reject unequal encodings sharing one digest. Preserve the supplied order, which
+the future orchestrator supplies in generation order. Only pass results qualify.
+Empty or all-nonpassing input returns an empty tuple, not a successful evaluation.
+
+The adapter performs at most one numerical verification per call. It is not the
+aggregate `evaluate_candidates` API and does not enforce cumulative call or
+gate-column budgets across separate calls. That global ledger, full candidate
+coverage and the versioned aggregate report remain the next work package.
+Resource/count/comparison argument errors use Q3-SEARCH-001; incompatible
+implementations or logical workloads use Q3-SEARCH-003; inconsistent producer
+results use Q3-SEARCH-005. Existing verifier-option diagnostics remain unchanged.
 
 Compute the following counts from each passing supplied circuit and its encoding.
 All are exact nonnegative integers; none can be supplied by the caller.

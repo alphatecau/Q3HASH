@@ -28,7 +28,8 @@ def inspect_wheel(path):
     with zipfile.ZipFile(path) as archive:
         names = archive.namelist()
         modules = ("__init__.py", "core.py", "ir.py", "cli.py", "_serialization.py", "_state.py",
-                   "logical_ir.py", "encoding.py", "equivalence.py", "verification.py", "verify_cli.py", "search.py")
+                   "logical_ir.py", "encoding.py", "equivalence.py", "verification.py", "verify_cli.py", "search.py",
+                   "resources.py", "evaluation.py", "comparison.py", "search_verification.py")
         for module in modules:
             if f"q3hash/{module}" not in names:
                 raise RuntimeError(f"Wheel is missing module {module}")
@@ -90,6 +91,9 @@ def extract_source(archive_path, destination):
         "benchmarks/encoding-search-v1.json", "tools/check_search_contract.py",
         "src/q3hash/search.py", "tests/test_search_models.py", "tests/test_search_generation.py",
         "tools/check_search_generation.py",
+        "src/q3hash/resources.py", "src/q3hash/evaluation.py", "src/q3hash/comparison.py",
+        "src/q3hash/search_verification.py", "tests/test_resources.py", "tests/test_comparison.py",
+        "tools/check_resources_comparison.py",
     ]
     missing = [name for name in required if not (source / name).is_file()]
     if missing:
@@ -132,6 +136,7 @@ def installed_checks(wheel, source, destination, version, environment):
     print("Complete operator verification passed through module and console entry points.")
     print(run([str(python), "-I", "tools/check_search_contract.py"], source, environment).strip())
     print(run([str(python), "-I", "tools/check_search_generation.py"], source, environment).strip())
+    print(run([str(python), "-I", "tools/check_resources_comparison.py"], source, environment).strip())
 
 
 def main():
