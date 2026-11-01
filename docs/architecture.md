@@ -30,7 +30,7 @@ The encoding model imports no logical-program or verification layer. A physical 
 
 Encoding construction caps explicit logical mapping entries but does not allocate or cap the physical Hilbert space. Vector allocation, explicit reference matrices, the JSON wire format and dense verification each have distinct documented budgets. See [ADR 0001](adr/0001-verified-encoding-first.md), the [data contract](contracts/logical-ir-and-encoding-v1.md) and [operator criteria](contracts/operator-verification-v1.md).
 
-## Bounded generation — v0.4 development
+## Bounded generation — v0.4
 
 `search.py` implements immutable search constraints, encoding candidates, rejection
 counts and generation reports. It lazily enumerates ordered physical tuples and
@@ -43,10 +43,9 @@ shared strict serialization. It imports no verifier or simulator. Public report
 construction/decoding replay the bounded domain; the internal producer avoids
 duplicating work. No physical circuit is synthesised or verified during generation.
 See the [search contract](contracts/encoding-search-v1.md) for exact rules and the
-[work packages](plans/v0.4-implementation.md) for remaining resource/comparison,
-verification orchestration and CLI stages.
+[work packages](plans/v0.4-implementation.md) for the delivered dependency sequence.
 
-## Exact structural comparison — v0.4 development
+## Exact structural comparison — v0.4
 
 `resources.py` computes six exact counts from the IR, using per-axis dependency
 layers without allocating a physical statevector. `comparison.py` performs exact
@@ -58,10 +57,17 @@ verifier before deriving counts. Reference matrices do not enter this circuit
 comparison. Mixed logical workloads, mismatched settings and repeated IDs fail
 preflight instead of becoming a partial front.
 
-This adapter performs at most one numerical call. Aggregate matching of a full
-GenerationReport, cumulative call/work budgets, SearchReport decoding/provenance
-and the search CLI remain the next work packages. Structural depth assumes
-disjoint operations can share a layer; it is not a hardware schedule or cost model.
+The manual adapter performs at most one numerical call. The aggregate
+`evaluate_candidates` adapter validates all supplied bindings and program IDs,
+then evaluates every candidate under a shared deterministic call/work ledger.
+`search_report.py` owns pure preflight/planning, immutable aggregate reports and
+strict recorded-evidence decoding. It replays generation, budgets, counts and
+fronts without importing the numerical orchestrator or running the verifier.
+`search_cli.py` is the file/transport adapter and emits readable or canonical JSON
+results. Existing generator, simulator and verifier algorithms are unchanged.
+
+Structural depth assumes disjoint operations can share a layer; it is not a hardware
+schedule or cost model. Snapshot metadata is recorded provenance, not authentication.
 
 ## Verification implemented for this milestone
 

@@ -30,7 +30,7 @@ def inspect_wheel(path):
         modules = ("__init__.py", "core.py", "ir.py", "cli.py", "_serialization.py", "_state.py",
                    "logical_ir.py", "encoding.py", "equivalence.py", "verification.py", "verify_cli.py", "search.py",
                    "resources.py", "evaluation.py", "comparison.py", "search_verification.py",
-                   "search_report.py", "_version.py")
+                   "search_report.py", "_version.py", "search_cli.py")
         for module in modules:
             if f"q3hash/{module}" not in names:
                 raise RuntimeError(f"Wheel is missing module {module}")
@@ -97,6 +97,9 @@ def extract_source(archive_path, destination):
         "tools/check_resources_comparison.py",
         "src/q3hash/search_report.py", "src/q3hash/_version.py",
         "tests/test_search_verification.py", "tests/test_search_report.py", "tools/check_search_evaluation.py",
+        "src/q3hash/search_cli.py", "tests/test_search_cli.py", "tools/check_search.py",
+        "examples/qutrit-native.encoding.json", "examples/qutrit-search.constraints.json",
+        "benchmarks/search-cli-v1.json", "docs/search-cli.md",
     ]
     missing = [name for name in required if not (source / name).is_file()]
     if missing:
@@ -110,6 +113,7 @@ def installed_checks(wheel, source, destination, version, environment):
     python = binaries / ("python.exe" if os.name == "nt" else "python")
     console = binaries / ("q3hash.exe" if os.name == "nt" else "q3hash")
     verifier = binaries / ("q3hash-verify.exe" if os.name == "nt" else "q3hash-verify")
+    search = binaries / ("q3hash-search.exe" if os.name == "nt" else "q3hash-search")
     run([str(python), "-m", "pip", "install", "--no-index", "--no-deps", str(wheel)], source, environment)
     check = (
         "import importlib.metadata,pathlib,sys,q3hash;"
@@ -142,6 +146,7 @@ def installed_checks(wheel, source, destination, version, environment):
     print(run([str(python), "-I", "tools/check_search_generation.py"], source, environment).strip())
     print(run([str(python), "-I", "tools/check_resources_comparison.py"], source, environment).strip())
     print(run([str(python), "-I", "tools/check_search_evaluation.py"], source, environment).strip())
+    print(run([str(python), "-I", "tools/check_search.py", "--console", str(search), "--isolated"], source, environment).strip())
 
 
 def main():

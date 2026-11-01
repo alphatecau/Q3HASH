@@ -49,3 +49,5 @@ jobs:
         run: python -I tools/check_resources_comparison.py
       - name: Audit cumulative verification budgets and recorded reports
         run: python -I tools/check_search_evaluation.py
+      - name: Audit v0.4 search CLI acceptance vectors
+        run: python -I tools/check_search.py --isolated

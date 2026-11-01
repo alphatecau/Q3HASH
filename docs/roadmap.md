@@ -15,15 +15,12 @@ Version/month labels are research milestones, not elapsed-time claims or deadlin
    not delivered by these numerical checks.
 3. **v0.4 / Month 4 — Bounded candidates and comparisons:** dimension/encoding
    generation, constraint rejection, declared search bounds and deterministic
-   Pareto comparisons. Not implemented in the v0.3 release.
-   The [v1 search contract](contracts/encoding-search-v1.md) defines the proposed
-   interfaces, finite domain, budgets, failure semantics and acceptance vectors.
-   Follow the [implementation sequence](plans/v0.4-implementation.md); a contract
-   or a passing reference vector does not establish a delivered search engine.
-   The development series implements bounded map generation and canonical
-   generation reports. Build 0.4.0.dev2 adds exact structural counts and Pareto
-   comparison of manually verified supplied circuits. The remaining stage is cumulative
-   budgeted evaluation, aggregate reports and the search CLI.
+   Pareto comparisons. Implemented in v0.4.0: bounded maps, complete supplied-circuit
+   statuses, cumulative verification budgets, strict aggregate reports and the
+   [search CLI](search-cli.md). The [v1 search contract](contracts/encoding-search-v1.md)
+   and [implementation sequence](plans/v0.4-implementation.md) define the delivered
+   domain, evidence limits and acceptance gates. Every map still requires an
+   explicitly supplied circuit; hardware cost models and general synthesis are deferred.
 4. **v0.5 / Month 5 — Defensible hardware-conditioned costs:** gate requirements,
    connectivity, depth, durations, error models, synthesis overhead, external
    framework references and equivalent benchmark workloads with uncertainty.
@@ -32,7 +29,7 @@ Version/month labels are research milestones, not elapsed-time claims or deadlin
    web/core runtimes, publish comparisons against a tagged core and deliver a
    technical report with peer-reviewable examples. Remains a target.
 
-The next capability after v0.3 correctness is bounded encoding search under
-explicit semantic and resource constraints. Existing interpreter semantics and
+The next research capability after v0.4 is hardware-conditioned comparison under
+explicit workload and cost contracts. Existing interpreter semantics and
 regressions remain the reference baseline. Every delivered milestone requires
 executable tests, passing CI for its exact commit and documented limitations.

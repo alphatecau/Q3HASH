@@ -132,8 +132,29 @@ verifications and 324 strict snapshot replays. CI and clean wheel/source install
 run the audit. Complete reports repeat byte-for-byte in the same recorded environment;
 decoded reports explicitly identify their evidence as recorded rather than computed.
 
-The search CLI and final v0.4 release gates remain pending. Website runtime and
-deployment are separate from this Python-core development stage.
+## Search CLI and release acceptance — v0.4.0
+
+`tests/test_search_cli.py` adds 25 tests to the preserved 161-test baseline. Cases
+cover canonical process/API parity, readable coverage/objectives/metrics, default
+missing implementations, explicit seeds and binding order, whole-file preflight,
+all budget/exit precedences, identity calls, malformed source/JSON/options, bounded
+UTF-8 byte reads, wire errors without partial output, unchanged inputs and visible
+unexpected runtime exceptions.
+
+`tools/check_search.py` runs 17 fixed vectors from `benchmarks/search-cli-v1.json`
+through actual processes and checks independently declared candidate IDs/order,
+statuses/reasons, exact call/work totals, resource vectors and front membership.
+It additionally checks byte-identical repeated reports, human output, help/version
+and three invalid-input diagnostics. Distribution audits run it through both the
+module and installed console command: 36 JSON reports and six invalid-input cases
+per clean installation, with Python isolated mode for module checks.
+
+The fixtures include complete native/binary qutrit shift, objective subsets and
+ties, call/work skips, operation/dense precedence, missing/truncated/empty domains,
+complete nine-state entangling, seeded mixed-axis reorder, nonzero-input leakage
+and a relative-phase false positive. These are correctness vectors, not hardware
+performance benchmarks. CI runs all audits for the exact release source; publication
+also checks merged/tagged source identity. Website runtime and deployment remain separate.
 
 ## Limits of the evidence
 

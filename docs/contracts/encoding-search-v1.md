@@ -1,6 +1,6 @@
 # v0.4 contract — bounded encoding search and comparison
 
-**Status:** Generation is implemented in 0.4.0.dev1; exact resource counts, manual supplied-circuit evaluation and Pareto comparison are implemented in 0.4.0.dev2. Aggregate budgeted evaluation and SearchReport remain proposed.
+**Status:** Implemented in v0.4.0: bounded generation, exact resources/comparison, budgeted aggregate evaluation, strict recorded reports and CLI. Section 11 specifies the command and exact-commit release gates.
 **Date:** 1 November 2026, Australia/Brisbane.
 **Baseline:** Q3HASH v0.3.0; [ADR 0001](../adr/0001-verified-encoding-first.md), [basis encoding](logical-ir-and-encoding-v1.md), [operator verification](operator-verification-v1.md).
 
@@ -53,7 +53,7 @@ def generate_encodings(
     seed_encodings: tuple[BasisEncoding, ...] = (),
 ) -> GenerationReport: ...
 
-# Aggregate evaluation remains proposed; it is not a public import yet.
+# Implemented aggregate evaluation and strict recorded-report decoding.
 def evaluate_candidates(
     logical: LogicalProgram, generation: GenerationReport,
     implementations: tuple[CircuitImplementation, ...] = (), *,
@@ -72,9 +72,9 @@ verifier. `resources.py` owns integer circuit counts and imports only the IR.
 `search_verification.py` orchestrates the existing verifier, generation and
 resource counts. `search_cli.py` is the final adapter. None is imported by existing
 models or the existing simulator. Generation, resources, comparison and the
-single-candidate verification adapter are implemented; aggregate orchestration
-and the CLI remain proposed. Numerical-work/objective fields in SearchConstraints are validated and
-preserved now, but the generator does not evaluate circuits or use those limits.
+single-candidate verification adapter and aggregate orchestration are implemented.
+The CLI is specified below. Numerical-work/objective fields in SearchConstraints
+are validated and preserved, but the generator does not evaluate circuits or use those limits.
 
 The implemented generation imports are `SearchConstraints`, `EncodingCandidate`,
 `DimensionRejections`, `GenerationReport` and `generate_encodings` from `q3hash`.
@@ -463,7 +463,7 @@ Outcome reason codes are `verified`, `equivalence-failed`, `nonfinite-metrics`,
 generation rejection reasons use the exact literals in sections 4–5. Exception
 messages may add English detail after a stable prefix. No failures are swallowed.
 
-## 10. Acceptance criteria before production implementation
+## 10. Implementation acceptance criteria
 
 The [golden vectors](../../benchmarks/encoding-search-v1.json) and
 [`check_search_contract.py`](../../tools/check_search_contract.py) exercise a tiny,
@@ -502,3 +502,53 @@ alphabet/family/budget/seed cases without importing production generation helper
 
 Release v0.4 only when production modules satisfy these acceptance cases and an
 independent audit, with the declared comparison scope and all limitations visible.
+
+## 11. Command-line interface and final release gates
+
+`q3hash-search` and `python -m q3hash.search_cli` have the same interface:
+
+```text
+q3hash-search LOGICAL_Q3 [--constraints CONSTRAINTS_JSON]
+    [--seed ENCODING_JSON]...
+    [--implementation ENCODING_JSON PHYSICAL_Q3]...
+    [--tolerance NUMBER] [--max-dimension INTEGER] [--json]
+```
+
+Logical and physical inputs use the existing explicit-dimension Q3# source syntax.
+Constraints and encodings use their existing strict v1 JSON schemas. Constraints
+default to SearchConstraints; seeds retain flag order. Implementation pairs bind
+circuits by full encoding equality and are normalised to generation order. An
+implementation does not implicitly add a seed. Custom maps must be retained by
+generation, usually through an explicit `--seed`. No cost or verification claims
+are accepted as input. Options may appear before or after the logical path.
+
+Every input file has a 1 MiB UTF-8 transport limit, checked with a bounded read
+before parsing. This CLI-only limit does not change valid in-memory models or
+existing simulator/verifier CLIs. At most 4096 seed flags and 4096 implementation
+pairs are accepted. Files are read before generation/evaluation; no input is
+modified. The CLI writes only stdout/stderr. Shell redirection is an explicit
+caller choice, not an automatic output-file overwrite.
+
+Human output includes generation completion/stop and accounting, all five status
+counts, per-candidate status/reason, verification metrics where present, selected
+objective counts, front IDs and explicit partial-front/supplied-circuit scope.
+`--json` instead writes exactly SearchReport.to_json(), without a trailing newline
+or commentary, retaining the symmetric 1 MiB JSON cap. It can be decoded with
+SearchReport.from_json. `--version` reports the package version.
+
+| Exit | Meaning and precedence |
+| --- | --- |
+| 0 | At least one candidate, exhausted generation and every candidate passed its supplied circuit check. This is bounded coverage, not global optimality. |
+| 1 | At least one actual verification failed, including nonfinite computed metrics. Takes precedence over partial coverage. The valid report is still emitted. |
+| 2 | Invalid command/input/options, missing/unreadable file or wire/transport limit. Diagnostic on stderr; no report on stdout. |
+| 3 | Valid but incomplete/inconclusive run: truncated generation, missing/unsupported/skipped circuits, or zero candidates. The valid report is still emitted. |
+
+Unexpected implementation exceptions propagate; do not turn them into status 3.
+Exit 0 for `--help`/`--version` follows argparse conventions.
+
+Before tagging v0.4.0, require the complete existing tests and independent audits,
+CLI positive/adversarial/partial cases through module and installed console entry
+points, clean wheel/source rebuilds on Python 3.10–3.13 and numerical CI. Verify
+the merged tree equals the tested tree, the tag identifies that exact passing main
+commit and the v0.3.0 tag is unchanged. A GitHub source release does not imply a
+PyPI publication, hardware backend or website deployment.
