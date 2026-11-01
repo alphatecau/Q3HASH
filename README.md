@@ -10,9 +10,9 @@ An experimental, ternary-first language, simulator and compiler research project
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-64748B)](LICENSE)
 
-[Quick start](#quick-start) · [First program](#your-first-program) · [Encoding example](#one-qutrit-two-qubits) · [Technical details](#technical-details) · [Documentation](#documentation)
+[Quick start](#quick-start) · [First program](#your-first-program) · [Encoding example](#one-qutrit-two-qubits) · [Search CLI](#compare-encoding-candidates) · [Technical details](#technical-details) · [Documentation](#documentation)
 
-<sub>Q3HASH · v0.4.0.dev3 · Pure Python · No third-party runtime dependencies</sub>
+<sub>Q3HASH · v0.4.0 · Pure Python · No third-party runtime dependencies</sub>
 
 </div>
 
@@ -28,10 +28,11 @@ Q3# lets you write quantum programs with **qubits, qutrits and larger qudits in 
 | Inspect its behaviour | Complex amplitudes, probabilities and entanglement examples |
 | Map a logical system into a physical space | Explicit, injective basis encodings with strict data contracts |
 | Check a supplied implementation | Complete small-operator comparisons, including relative phase, leakage and unitarity |
+| Compare declared encoding candidates | Bounded map generation, shared verification budgets, exact structural fronts and portable reports |
 
 ## Quick start
 
-Use **Python 3.10 or later**. For a fixed baseline, check out [v0.3.0](https://github.com/alphatecau/Q3HASH/releases/tag/v0.3.0). From the repository checkout, run:
+Use **Python 3.10 or later**. For a fixed source version, check out [v0.4.0](https://github.com/alphatecau/Q3HASH/releases/tag/v0.4.0). From the repository checkout, run:
 
 ```bash
 python -m pip install -e .
@@ -113,9 +114,30 @@ shift b
 {"kind":"basis-injection","logical_dimensions":[3],"physical_basis_indices":[0,1,2],"physical_dimensions":[2,2],"schema":"q3hash.basis-encoding","schema_version":1}
 ```
 
-Flat physical indices `0, 1, 2` correspond to `|0,0>`, `|0,1>`, `|1,0>`. The caller supplies both the map and the physical circuit; automatic encoding search is planned for v0.4.
+Flat physical indices `0, 1, 2` correspond to `|0,0>`, `|0,1>`, `|1,0>`. The caller supplies both the map and the physical circuit. Bounded map generation below still requires explicitly supplied circuits.
 
 </details>
+
+## Compare encoding candidates
+
+Compare the native qutrit and supplied two-qubit implementations of the same shift:
+
+```bash
+q3hash-search examples/logical-qutrit-shift.q3 \
+  --constraints examples/qutrit-search.constraints.json \
+  --implementation examples/qutrit-native.encoding.json examples/logical-qutrit-shift.q3 \
+  --implementation examples/qutrit-binary.encoding.json examples/physical-qutrit-shift-binary.q3
+```
+
+Both candidates pass and remain on the default Pareto front. The run uses **two
+verification calls and 21 gate-column steps**. Counts describe structural trade-offs;
+they do not assume one encoding has better hardware performance.
+
+Add `--json` for a canonical SearchReport, or use `python -m q3hash.search_cli`.
+Exit codes are `0` for a nonempty, fully checked passing candidate set, `1` for any
+numerical failure, `2` for invalid input, and `3` for valid partial/inconclusive
+results. Failures take precedence over partial coverage. See the [CLI guide](docs/search-cli.md)
+for constraints, seeds, budgets and report replay.
 
 ## Technical details
 
@@ -176,9 +198,9 @@ The original `Circuit`, `Register`, `Gate`, `parse`, `simulate` and `probabiliti
 </details>
 
 <details>
-<summary><strong>Bounded encoding generation — v0.4 development</strong></summary>
+<summary><strong>Bounded encoding generation — v0.4</strong></summary>
 
-In a development checkout (`0.4.0.dev1` or later), generate a finite, explicitly
+Generate a finite, explicitly
 constrained set of maps for a logical qutrit:
 
 ```python
@@ -201,7 +223,7 @@ families; `truncated` identifies a budget-limited prefix.
 
 These results are encoding maps. A physical gate implementation must still be
 supplied and checked with the existing verifier. Structural comparison is shown
-below, followed by aggregate budgeted evaluation. A search CLI remains pending.
+below, followed by aggregate budgeted evaluation. The search CLI exposes both stages.
 See the [search
 contract](docs/contracts/encoding-search-v1.md) and [implementation
 sequence](docs/plans/v0.4-implementation.md).
@@ -209,9 +231,9 @@ sequence](docs/plans/v0.4-implementation.md).
 </details>
 
 <details>
-<summary><strong>Compare verified supplied circuits — v0.4 development</strong></summary>
+<summary><strong>Compare verified supplied circuits — v0.4</strong></summary>
 
-In `0.4.0.dev2`, compare a native qutrit shift with its supplied two-qubit circuit:
+Compare a native qutrit shift with its supplied two-qubit circuit:
 
 ```python
 from q3hash import (
@@ -250,9 +272,9 @@ API below to enforce a shared call/work budget.
 </details>
 
 <details>
-<summary><strong>Budgeted evaluation and portable reports — v0.4 development</strong></summary>
+<summary><strong>Budgeted evaluation and portable reports — v0.4</strong></summary>
 
-In `0.4.0.dev3`, evaluate all retained candidates under one shared numerical budget:
+Evaluate all retained candidates under one shared numerical budget:
 
 ```python
 from q3hash import (
@@ -293,7 +315,7 @@ verification snapshots, exact resources, budget totals and numerical environment
 Decoding checks generation replay, the budget plan, costs and front membership
 without rerunning numerical verification. A decoded report is recorded evidence;
 its metadata is not authenticated. The strict 1 MiB JSON limit raises an error
-instead of truncating a large report. The search CLI is the next work package.
+instead of truncating a large report. The [search CLI](docs/search-cli.md) exposes this API.
 
 </details>
 
@@ -324,7 +346,7 @@ Default tolerance: **`1e-10`**. See the [operator contract and test vectors](doc
 | Invalid input | Types, dimensions, data or arguments are invalid | `2` |
 | `unsupported` | A valid request exceeds the declared dense verification budget | `3` |
 
-Use `python -m q3hash.verify_cli` as the module equivalent of `q3hash-verify`. Options include `--tolerance` and `--max-dimension`. Output includes the metrics and canonical semantic SHA-256 identifiers for the logical program, physical program and encoding. Numerical reports are in-memory objects and human-readable output; their public JSON format is deferred.
+Use `python -m q3hash.verify_cli` as the module equivalent of `q3hash-verify`. Options include `--tolerance` and `--max-dimension`. Output includes the metrics and canonical semantic SHA-256 identifiers for the logical program, physical program and encoding. The standalone v0.3 verifier retains its in-memory/human format; use the aggregate SearchReport API or search CLI for portable supplied-circuit reports.
 
 </details>
 
@@ -343,7 +365,7 @@ Use `python -m q3hash.verify_cli` as the module equivalent of `q3hash-verify`. O
 
 Model construction, vector allocation and dense verification have separate budgets. An encoding can describe a large physical space without allocating its statevector; requests beyond a verifier's budget return `unsupported` before dense operators are allocated.
 
-The development tree contains **120 unit tests**, including the unchanged **72-test v0.3 baseline** and **seven executable source examples**. Independent audits cover generation and structural comparison as well as the original numerical behaviour. CI builds and tests wheel/source distributions in clean environments across **Python 3.10–3.13**.
+The source contains **186 unit tests**, including the unchanged **72-test v0.3 baseline** and **seven executable source examples**. Independent audits cover generation and structural comparison as well as the original numerical behaviour. CI builds and tests wheel/source distributions in clean environments across **Python 3.10–3.13**.
 
 | Audit | Recorded coverage |
 | :--- | :--- |
@@ -381,13 +403,13 @@ The [validation guide](docs/validation.md) explains the independent construction
 | :--- | :--- | :--- |
 | v0.2.1 | Parser, explicit dimensions, IR, simulator and distribution checks | Preserved regression baseline |
 | v0.3 | Explicit encodings and complete small-operator checks | Implemented and merged into `main` |
-| v0.4 | Bounded candidate generation and Pareto comparisons | Generation, budgeted supplied-circuit evaluation, structural fronts and strict reports implemented; CLI pending |
+| v0.4 | Bounded candidate generation and Pareto comparisons | Implemented: bounded generation, budgeted supplied-circuit checks, structural fronts, strict reports and CLI |
 | v0.5 | Hardware-conditioned costs and equivalent benchmark workloads | Research target |
 | v0.6 | Web/core integration and a reproducible research demonstration | Research target |
 
 The [six-month roadmap](docs/roadmap.md) describes the milestones and acceptance criteria.
 
-**Next development step:** add the search CLI and complete the v0.4 release gates, following the [v0.4 work packages](docs/plans/v0.4-implementation.md). Generated maps still require supplied physical circuits; hardware synthesis and a universal best-encoding claim remain outside this milestone.
+**Next research step:** define equivalent workloads and defensible hardware-conditioned cost contracts for v0.5. The [v0.4 work packages](docs/plans/v0.4-implementation.md) document the completed bounded comparison pipeline. Generated maps still require supplied physical circuits; hardware synthesis and a universal best-encoding claim remain outside this milestone.
 
 **Current scope.** Q3# runs on a classical computer using floating-point amplitudes. Automatic logical-dimension inference, physical-circuit search/synthesis, hardware-aware optimisation, measurement, noise, hybrid control flow and hardware execution remain research targets. The gate set is not claimed to be universal. The numerical checks provide bounded evidence; formal proof, hardware performance and quantum advantage have not been demonstrated. Ternary encoding is not assumed to outperform binary encoding.
 
@@ -399,6 +421,7 @@ The [six-month roadmap](docs/roadmap.md) describes the milestones and acceptance
 | [Gate semantics and basis order](docs/semantics.md) | [Operator verification contract](docs/contracts/operator-verification-v1.md) |
 | [Examples](examples) | [Architecture](docs/architecture.md) |
 | [Validation and reproduction](docs/validation.md) | [Distribution builds and audit](docs/build-and-audit.md) |
+| [Search CLI guide](docs/search-cli.md) | [Search contract](docs/contracts/encoding-search-v1.md) |
 | [Changelog](CHANGELOG.md) | [Research roadmap](docs/roadmap.md) |
 
 <details>
@@ -412,9 +435,10 @@ The [six-month roadmap](docs/roadmap.md) describes the milestones and acceptance
 | [encoding.py](src/q3hash/encoding.py) | Basis injections and vector embedding |
 | [search.py](src/q3hash/search.py) | Bounded map generation, constraints, provenance and canonical generation reports |
 | [resources.py](src/q3hash/resources.py) · [comparison.py](src/q3hash/comparison.py) | Exact structural counts and verified-circuit Pareto fronts |
-| [evaluation.py](src/q3hash/evaluation.py) · [search_verification.py](src/q3hash/search_verification.py) | Supplied-circuit input/evidence models and the manual verification adapter |
+| [evaluation.py](src/q3hash/evaluation.py) · [search_verification.py](src/q3hash/search_verification.py) | Supplied-circuit evidence, single-candidate and budgeted aggregate verification |
 | [equivalence.py](src/q3hash/equivalence.py) · [verification.py](src/q3hash/verification.py) | Complete small operators, comparison metrics and verification policy |
-| [verify_cli.py](src/q3hash/verify_cli.py) | Logical/physical verification command |
+| [verify_cli.py](src/q3hash/verify_cli.py) · [search_cli.py](src/q3hash/search_cli.py) | Explicit verification and bounded search commands |
+| [search_report.py](src/q3hash/search_report.py) | Strict aggregate snapshots, provenance and pure budget replay |
 | [tests](tests) · [tools](tools) | Regression suites and reproducible audit tools |
 | [benchmarks](benchmarks) | Comparison methodology; performance results remain future work |
 | [CI workflow](.github/workflows/tests.yml) | Distribution tests and independent numerical audits |

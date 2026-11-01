@@ -1,6 +1,6 @@
 # Build and audit procedure
 
-The current v0.3 audit additionally requires the logical/encoding contracts, full-operator modules and examples. Both clean installations exercise the `q3hash-verify` module and console command, and CI runs `tools/check_encoding.py` after the unchanged original NumPy/SciPy audit. The 0.2.1 findings and recorded results below are historical.
+The v0.4 audit requires generation, budgeted verification, resource/front/report and CLI modules plus their documentation/fixtures. Both clean installations run all 186 tests, seven source examples, the verifier and the new search CLI through module/console entry points, and every contract/generation/resource/aggregate/CLI audit. CI retains the original statevector and complete-operator numerical audits. The 0.2.1 findings and recorded results below are historical.
 
 The repository is an experimental Python interpreter and IR project. Compiling its Python files, building distributions and running numerical tests does not establish that a complete hardware compiler exists.
 
@@ -15,6 +15,12 @@ python -m build
 python tools/check_distribution.py dist
 python -m pip install ".[validation]"
 python -I tools/check_numerics.py
+python -I tools/check_encoding.py
+python -I tools/check_search_contract.py
+python -I tools/check_search_generation.py
+python -I tools/check_resources_comparison.py
+python -I tools/check_search_evaluation.py
+python -I tools/check_search.py --isolated
 ```
 
 The application itself still has no third-party runtime dependencies. NumPy and SciPy are optional validation tools. A build needs the declared setuptools backend; normal isolated builds obtain it automatically.
@@ -26,6 +32,16 @@ The distribution checker validates wheel contents, SPDX licence metadata and eve
 One environment installs the built wheel. The other installs a wheel rebuilt solely from the extracted source archive. Both run the full regression suite from the extracted source tree, compile the installed modules, run every example through both `python -m q3hash.cli` and the `q3hash` console command, and check dependency consistency. An import-path assertion verifies that tests use the installed package rather than an editable checkout.
 
 The archive directory must contain exactly one wheel and one source archive. Remove or choose a new output directory before building a different version. The outer environment needs setuptools and wheel because the source rebuild deliberately disables network access and build isolation; the two runtime environments have no system-site packages.
+
+## Exact-commit release procedure
+
+After local clean distribution/numerical checks, submit the complete source tree
+and require all five CI jobs: Python 3.10–3.13 distributions and independent numerical
+audits. Merge only the reviewed head SHA, then check that the merged tree equals
+the tested tree and that main CI passes for the merge commit. Create the version
+tag at that exact commit, verify its identity and CI, and publish source release
+notes with the test counts, CI link and scope. Preserve older version tags.
+The GitHub source release does not publish to PyPI or deploy the separate website.
 
 ## Independent numerical checks
 

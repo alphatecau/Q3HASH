@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.0 — 1 November 2026
+
+- Complete the bounded encoding-comparison pipeline developed in dev1–dev3: explicit seeds and flat/register-prefix maps, deterministic generation budgets, complete supplied-circuit statuses, cumulative numerical budgets, exact structural resources/Pareto fronts and strict portable reports.
+- Add `q3hash-search` and `python -m q3hash.search_cli` with explicit source/constraint/encoding inputs, bounded UTF-8 reads, readable coverage summaries and canonical JSON. Distinguish numerical failures, invalid input and valid partial/inconclusive results with documented exit codes.
+- Include native/binary qutrit comparison inputs and a CLI guide. Update architecture, contracts, roadmap and reproduction instructions to match the delivered scope.
+- Add 25 CLI tests to the preserved 161-test baseline, plus 17 fixed process-level acceptance cases. Clean wheel/source checks exercise both module and installed console entry points, repeated canonical reports and invalid-input diagnostics on Python 3.10–3.13.
+
+This is a source release of a bounded research comparison tool. Physical circuits remain explicitly supplied. Hardware-conditioned cost models, general synthesis, automatic dimension inference and website integration remain research targets. The stable v0.3.0 tag is preserved.
+
 ## 0.4.0.dev3 — 1 November 2026
 
 - Evaluate every retained candidate under shared call and gate-column budgets, validating all circuit bindings and program IDs before numerical work. Preserve operation/dense-limit precedence, charge failures, and allow later smaller circuits after a work-budget skip.

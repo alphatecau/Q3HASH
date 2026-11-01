@@ -107,7 +107,7 @@ def audit():
 
 def main():
     print("Independent aggregate evaluation audit:", json.dumps(audit(), sort_keys=True))
-    print("Evidence: bounded supplied-circuit calls, complete status coverage and recorded snapshots; CLI remains pending.")
+    print("Evidence: bounded supplied-circuit calls, complete status coverage and recorded snapshots; no hardware execution.")
 
 
 if __name__ == "__main__":

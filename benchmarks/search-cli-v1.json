@@ -1,0 +1,998 @@
+{
+  "schema": "q3hash.search-cli-acceptance-vectors",
+  "schema_version": 1,
+  "programs": {
+    "shift": "qutrit q\nshift q\n",
+    "binary": "qubit a\nqubit b\nsum a b\nsum b a\nshift b\n",
+    "identity": "qutrit q\n",
+    "binary_identity": "qubit a\nqubit b\n",
+    "large": "qudit 5 q\n",
+    "entangling": "qutrit c\nqutrit t\nfourier c\nsum c t\n",
+    "mixed": "qubit c\nqutrit t\nfourier c\nsum c t\n",
+    "reordered": "qutrit t\nqubit c\nfourier c\nsum c t\n",
+    "leakage": "qudit 4 p\nshift p\n",
+    "qubit_identity": "qubit q\n",
+    "relative_phase": "qubit p\nfourier p\nshift p\nfourier p\n"
+  },
+  "encodings": {
+    "native": {
+      "schema": "q3hash.basis-encoding",
+      "schema_version": 1,
+      "kind": "basis-injection",
+      "logical_dimensions": [
+        3
+      ],
+      "physical_dimensions": [
+        3
+      ],
+      "physical_basis_indices": [
+        0,
+        1,
+        2
+      ]
+    },
+    "binary": {
+      "schema": "q3hash.basis-encoding",
+      "schema_version": 1,
+      "kind": "basis-injection",
+      "logical_dimensions": [
+        3
+      ],
+      "physical_dimensions": [
+        2,
+        2
+      ],
+      "physical_basis_indices": [
+        0,
+        1,
+        2
+      ]
+    },
+    "cycle": {
+      "schema": "q3hash.basis-encoding",
+      "schema_version": 1,
+      "kind": "basis-injection",
+      "logical_dimensions": [
+        3
+      ],
+      "physical_dimensions": [
+        3
+      ],
+      "physical_basis_indices": [
+        1,
+        2,
+        0
+      ]
+    },
+    "leakage": {
+      "schema": "q3hash.basis-encoding",
+      "schema_version": 1,
+      "kind": "basis-injection",
+      "logical_dimensions": [
+        3
+      ],
+      "physical_dimensions": [
+        4
+      ],
+      "physical_basis_indices": [
+        0,
+        1,
+        2
+      ]
+    },
+    "entangling": {
+      "schema": "q3hash.basis-encoding",
+      "schema_version": 1,
+      "kind": "basis-injection",
+      "logical_dimensions": [
+        3,
+        3
+      ],
+      "physical_dimensions": [
+        3,
+        3
+      ],
+      "physical_basis_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    "mixed": {
+      "schema": "q3hash.basis-encoding",
+      "schema_version": 1,
+      "kind": "basis-injection",
+      "logical_dimensions": [
+        2,
+        3
+      ],
+      "physical_dimensions": [
+        2,
+        3
+      ],
+      "physical_basis_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "reordered": {
+      "schema": "q3hash.basis-encoding",
+      "schema_version": 1,
+      "kind": "basis-injection",
+      "logical_dimensions": [
+        2,
+        3
+      ],
+      "physical_dimensions": [
+        3,
+        2
+      ],
+      "physical_basis_indices": [
+        0,
+        2,
+        4,
+        1,
+        3,
+        5
+      ]
+    },
+    "flat32": {
+      "schema": "q3hash.basis-encoding",
+      "schema_version": 1,
+      "kind": "basis-injection",
+      "logical_dimensions": [
+        2,
+        3
+      ],
+      "physical_dimensions": [
+        3,
+        2
+      ],
+      "physical_basis_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "flat33": {
+      "schema": "q3hash.basis-encoding",
+      "schema_version": 1,
+      "kind": "basis-injection",
+      "logical_dimensions": [
+        2,
+        3
+      ],
+      "physical_dimensions": [
+        3,
+        3
+      ],
+      "physical_basis_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "qubit": {
+      "schema": "q3hash.basis-encoding",
+      "schema_version": 1,
+      "kind": "basis-injection",
+      "logical_dimensions": [
+        2
+      ],
+      "physical_dimensions": [
+        2
+      ],
+      "physical_basis_indices": [
+        0,
+        1
+      ]
+    }
+  },
+  "cases": [
+    {
+      "name": "complete-native-binary",
+      "logical": "shift",
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "binary",
+          "binary"
+        ],
+        [
+          "native",
+          "shift"
+        ]
+      ],
+      "constraints": {},
+      "seeds": [],
+      "max_dimension": 64,
+      "statuses": [
+        "pass",
+        "pass"
+      ],
+      "reasons": [
+        "verified",
+        "verified"
+      ],
+      "verification_calls": 2,
+      "gate_column_steps": 21,
+      "front_indices": [
+        0,
+        1
+      ],
+      "resources": [
+        [
+          1,
+          3,
+          0,
+          1,
+          0,
+          1
+        ],
+        [
+          2,
+          2,
+          1,
+          3,
+          2,
+          3
+        ]
+      ],
+      "exit": 0,
+      "completion": "exhausted"
+    },
+    {
+      "name": "call-limit",
+      "logical": "shift",
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "binary",
+          "binary"
+        ],
+        [
+          "native",
+          "shift"
+        ]
+      ],
+      "constraints": {
+        "max_verifications": 1
+      },
+      "seeds": [],
+      "max_dimension": 64,
+      "statuses": [
+        "pass",
+        "not-evaluated"
+      ],
+      "reasons": [
+        "verified",
+        "verification-call-budget"
+      ],
+      "verification_calls": 1,
+      "gate_column_steps": 6,
+      "front_indices": [
+        0
+      ],
+      "resources": [
+        [
+          1,
+          3,
+          0,
+          1,
+          0,
+          1
+        ],
+        null
+      ],
+      "exit": 3,
+      "completion": "exhausted"
+    },
+    {
+      "name": "later-small-call-fits",
+      "logical": "shift",
+      "candidates": [
+        "binary",
+        "native"
+      ],
+      "implementations": [
+        [
+          "binary",
+          "binary"
+        ],
+        [
+          "native",
+          "shift"
+        ]
+      ],
+      "constraints": {
+        "max_gate_column_steps": 6
+      },
+      "seeds": [
+        "binary"
+      ],
+      "max_dimension": 64,
+      "statuses": [
+        "not-evaluated",
+        "pass"
+      ],
+      "reasons": [
+        "gate-column-budget",
+        "verified"
+      ],
+      "verification_calls": 1,
+      "gate_column_steps": 6,
+      "front_indices": [
+        1
+      ],
+      "resources": [
+        null,
+        [
+          1,
+          3,
+          0,
+          1,
+          0,
+          1
+        ]
+      ],
+      "exit": 3,
+      "completion": "exhausted"
+    },
+    {
+      "name": "missing-circuits",
+      "logical": "shift",
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [],
+      "constraints": {},
+      "seeds": [],
+      "max_dimension": 64,
+      "statuses": [
+        "unimplemented",
+        "unimplemented"
+      ],
+      "reasons": [
+        "no-implementation",
+        "no-implementation"
+      ],
+      "verification_calls": 0,
+      "gate_column_steps": 0,
+      "front_indices": [],
+      "resources": [
+        null,
+        null
+      ],
+      "exit": 3,
+      "completion": "exhausted"
+    },
+    {
+      "name": "dense-limit",
+      "logical": "shift",
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "binary",
+          "binary"
+        ],
+        [
+          "native",
+          "shift"
+        ]
+      ],
+      "constraints": {},
+      "seeds": [],
+      "max_dimension": 3,
+      "statuses": [
+        "pass",
+        "unsupported"
+      ],
+      "reasons": [
+        "verified",
+        "dense-limit"
+      ],
+      "verification_calls": 1,
+      "gate_column_steps": 6,
+      "front_indices": [
+        0
+      ],
+      "resources": [
+        [
+          1,
+          3,
+          0,
+          1,
+          0,
+          1
+        ],
+        null
+      ],
+      "exit": 3,
+      "completion": "exhausted"
+    },
+    {
+      "name": "operation-before-dense",
+      "logical": "shift",
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "binary",
+          "binary"
+        ],
+        [
+          "native",
+          "shift"
+        ]
+      ],
+      "constraints": {
+        "max_operations_per_program": 1
+      },
+      "seeds": [],
+      "max_dimension": 2,
+      "statuses": [
+        "unsupported",
+        "unsupported"
+      ],
+      "reasons": [
+        "dense-limit",
+        "operation-limit"
+      ],
+      "verification_calls": 0,
+      "gate_column_steps": 0,
+      "front_indices": [],
+      "resources": [
+        null,
+        null
+      ],
+      "exit": 3,
+      "completion": "exhausted"
+    },
+    {
+      "name": "failed-native",
+      "logical": "shift",
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "native",
+          "identity"
+        ],
+        [
+          "binary",
+          "binary"
+        ]
+      ],
+      "constraints": {},
+      "seeds": [],
+      "max_dimension": 64,
+      "statuses": [
+        "fail",
+        "pass"
+      ],
+      "reasons": [
+        "equivalence-failed",
+        "verified"
+      ],
+      "verification_calls": 2,
+      "gate_column_steps": 18,
+      "front_indices": [
+        1
+      ],
+      "resources": [
+        null,
+        [
+          2,
+          2,
+          1,
+          3,
+          2,
+          3
+        ]
+      ],
+      "exit": 1,
+      "completion": "exhausted"
+    },
+    {
+      "name": "failure-before-partial",
+      "logical": "shift",
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "native",
+          "identity"
+        ]
+      ],
+      "constraints": {},
+      "seeds": [],
+      "max_dimension": 64,
+      "statuses": [
+        "fail",
+        "unimplemented"
+      ],
+      "reasons": [
+        "equivalence-failed",
+        "no-implementation"
+      ],
+      "verification_calls": 1,
+      "gate_column_steps": 3,
+      "front_indices": [],
+      "resources": [
+        null,
+        null
+      ],
+      "exit": 1,
+      "completion": "exhausted"
+    },
+    {
+      "name": "truncated-generation",
+      "logical": "shift",
+      "candidates": [
+        "native"
+      ],
+      "implementations": [
+        [
+          "native",
+          "shift"
+        ]
+      ],
+      "constraints": {
+        "max_candidates": 1
+      },
+      "seeds": [],
+      "max_dimension": 64,
+      "statuses": [
+        "pass"
+      ],
+      "reasons": [
+        "verified"
+      ],
+      "verification_calls": 1,
+      "gate_column_steps": 6,
+      "front_indices": [
+        0
+      ],
+      "resources": [
+        [
+          1,
+          3,
+          0,
+          1,
+          0,
+          1
+        ]
+      ],
+      "exit": 3,
+      "completion": "truncated"
+    },
+    {
+      "name": "zero-candidates",
+      "logical": "large",
+      "candidates": [],
+      "implementations": [],
+      "constraints": {},
+      "seeds": [],
+      "max_dimension": 64,
+      "statuses": [],
+      "reasons": [],
+      "verification_calls": 0,
+      "gate_column_steps": 0,
+      "front_indices": [],
+      "resources": [],
+      "exit": 3,
+      "completion": "exhausted"
+    },
+    {
+      "name": "entangling-nine-state",
+      "logical": "entangling",
+      "candidates": [
+        "entangling"
+      ],
+      "implementations": [
+        [
+          "entangling",
+          "entangling"
+        ]
+      ],
+      "constraints": {
+        "max_physical_size": 9
+      },
+      "seeds": [],
+      "max_dimension": 64,
+      "statuses": [
+        "pass"
+      ],
+      "reasons": [
+        "verified"
+      ],
+      "verification_calls": 1,
+      "gate_column_steps": 36,
+      "front_indices": [
+        0
+      ],
+      "resources": [
+        [
+          2,
+          3,
+          0,
+          2,
+          1,
+          2
+        ]
+      ],
+      "exit": 0,
+      "completion": "exhausted"
+    },
+    {
+      "name": "seeded-mixed-reordered",
+      "logical": "mixed",
+      "candidates": [
+        "reordered",
+        "mixed",
+        "flat32",
+        "flat33"
+      ],
+      "implementations": [
+        [
+          "mixed",
+          "mixed"
+        ],
+        [
+          "reordered",
+          "reordered"
+        ]
+      ],
+      "constraints": {
+        "max_physical_size": 9
+      },
+      "seeds": [
+        "reordered"
+      ],
+      "max_dimension": 64,
+      "statuses": [
+        "pass",
+        "pass",
+        "unimplemented",
+        "unimplemented"
+      ],
+      "reasons": [
+        "verified",
+        "verified",
+        "no-implementation",
+        "no-implementation"
+      ],
+      "verification_calls": 2,
+      "gate_column_steps": 48,
+      "front_indices": [
+        0,
+        1
+      ],
+      "resources": [
+        [
+          2,
+          3,
+          0,
+          2,
+          1,
+          2
+        ],
+        [
+          2,
+          3,
+          0,
+          2,
+          1,
+          2
+        ],
+        null,
+        null
+      ],
+      "exit": 3,
+      "completion": "exhausted"
+    },
+    {
+      "name": "leakage-on-nonzero-input",
+      "logical": "shift",
+      "candidates": [
+        "native",
+        "leakage"
+      ],
+      "implementations": [
+        [
+          "leakage",
+          "leakage"
+        ],
+        [
+          "native",
+          "shift"
+        ]
+      ],
+      "constraints": {
+        "allowed_dimensions": [
+          2,
+          3,
+          4
+        ],
+        "max_registers": 1
+      },
+      "seeds": [],
+      "max_dimension": 64,
+      "statuses": [
+        "pass",
+        "fail"
+      ],
+      "reasons": [
+        "verified",
+        "equivalence-failed"
+      ],
+      "verification_calls": 2,
+      "gate_column_steps": 13,
+      "front_indices": [
+        0
+      ],
+      "resources": [
+        [
+          1,
+          3,
+          0,
+          1,
+          0,
+          1
+        ],
+        null
+      ],
+      "exit": 1,
+      "completion": "exhausted"
+    },
+    {
+      "name": "relative-phase-false-positive",
+      "logical": "qubit_identity",
+      "candidates": [
+        "qubit"
+      ],
+      "implementations": [
+        [
+          "qubit",
+          "relative_phase"
+        ]
+      ],
+      "constraints": {
+        "allowed_dimensions": [
+          2
+        ],
+        "max_registers": 1,
+        "max_physical_size": 2
+      },
+      "seeds": [],
+      "max_dimension": 64,
+      "statuses": [
+        "fail"
+      ],
+      "reasons": [
+        "equivalence-failed"
+      ],
+      "verification_calls": 1,
+      "gate_column_steps": 6,
+      "front_indices": [],
+      "resources": [
+        null
+      ],
+      "exit": 1,
+      "completion": "exhausted"
+    },
+    {
+      "name": "verified-ties",
+      "logical": "shift",
+      "candidates": [
+        "cycle",
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "binary",
+          "binary"
+        ],
+        [
+          "native",
+          "shift"
+        ],
+        [
+          "cycle",
+          "shift"
+        ]
+      ],
+      "constraints": {},
+      "seeds": [
+        "cycle"
+      ],
+      "max_dimension": 64,
+      "statuses": [
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "reasons": [
+        "verified",
+        "verified",
+        "verified"
+      ],
+      "verification_calls": 3,
+      "gate_column_steps": 27,
+      "front_indices": [
+        0,
+        1,
+        2
+      ],
+      "resources": [
+        [
+          1,
+          3,
+          0,
+          1,
+          0,
+          1
+        ],
+        [
+          1,
+          3,
+          0,
+          1,
+          0,
+          1
+        ],
+        [
+          2,
+          2,
+          1,
+          3,
+          2,
+          3
+        ]
+      ],
+      "exit": 0,
+      "completion": "exhausted"
+    },
+    {
+      "name": "explicit-objective-subset",
+      "logical": "shift",
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "binary",
+          "binary"
+        ],
+        [
+          "native",
+          "shift"
+        ]
+      ],
+      "constraints": {
+        "objectives": [
+          "gate_count"
+        ]
+      },
+      "seeds": [],
+      "max_dimension": 64,
+      "statuses": [
+        "pass",
+        "pass"
+      ],
+      "reasons": [
+        "verified",
+        "verified"
+      ],
+      "verification_calls": 2,
+      "gate_column_steps": 21,
+      "front_indices": [
+        0
+      ],
+      "resources": [
+        [
+          1,
+          3,
+          0,
+          1,
+          0,
+          1
+        ],
+        [
+          2,
+          2,
+          1,
+          3,
+          2,
+          3
+        ]
+      ],
+      "exit": 0,
+      "completion": "exhausted"
+    },
+    {
+      "name": "identity-call-cap",
+      "logical": "identity",
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "native",
+          "identity"
+        ],
+        [
+          "binary",
+          "binary_identity"
+        ]
+      ],
+      "constraints": {
+        "max_verifications": 1,
+        "max_gate_column_steps": 1
+      },
+      "seeds": [],
+      "max_dimension": 64,
+      "statuses": [
+        "pass",
+        "not-evaluated"
+      ],
+      "reasons": [
+        "verified",
+        "verification-call-budget"
+      ],
+      "verification_calls": 1,
+      "gate_column_steps": 0,
+      "front_indices": [
+        0
+      ],
+      "resources": [
+        [
+          1,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        null
+      ],
+      "exit": 3,
+      "completion": "exhausted"
+    }
+  ]
+}
