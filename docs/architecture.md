@@ -69,18 +69,41 @@ results. Existing generator, simulator and verifier algorithms are unchanged.
 Structural depth assumes disjoint operations can share a layer; it is not a hardware
 schedule or cost model. Snapshot metadata is recorded provenance, not authentication.
 
+## Conditional hardware arithmetic — v0.5 development
+
+`hardware_models.py` owns immutable profile/context/placement inputs and strict
+input JSON. `hardware_costs.py` implements the internal matrix-free cost kernel:
+whole-batch placement/type/fingerprint preflight, exact directed native support,
+cumulative gate-check work, explicit-instant freshness, per-site critical paths,
+serial duration ranges and diagnostic used-error records. It imports IR/input
+models only, never the numerical verifier or search orchestrator.
+
+The kernel's private source-status inputs are not public verification evidence.
+The next `hardware.py`/`hardware_report.py` package must validate fresh source
+reports, complete source membership/coverage and identity inputs before producing
+verified hardware reports, interval fronts and strict recorded replay.
+Those public APIs and the hardware CLI remain pending.
+
+An independent path/remaining-budget oracle audits the kernel. A separate pinned
+Cirq tool independently constructs local gates and composes complete operators,
+including explicit mixed-axis order and spectators. These are mathematical/software
+comparisons; the synthetic profiles are not measured device calibrations. See the
+[cost guide](hardware-costs.md) and [v0.5 sequence](plans/v0.5-implementation.md).
+
 ## Verification implemented for this milestone
 
 A separate test-only dense-matrix oracle enumerates explicit tensor basis labels. It does not call production stride, lowering or gate-matrix helpers. Tests compare full complex amplitudes, complete small gate matrices, SUM unitarity, reversed and non-adjacent axes, unequal dimensions, norm preservation and reduced-state purity for known pure entangled states.
 
-These tests provide bounded numerical evidence. They are not formal verification or external validation. See [validation.md](validation.md).
+These tests provide bounded numerical evidence. The Cirq baseline adds a separate
+SDK composition comparison; neither is formal verification or external peer review.
+See [validation.md](validation.md).
 
 ## Proposed architecture beyond this milestone
 
 - Richer front-end types, functions and hybrid classical/quantum control flow.
 - Automatic logical-dimension inference, physical-circuit synthesis and hardware-conditioned comparisons beyond the implemented structural model.
-- Hardware-conditioned cost models with topology, fidelity and gate availability.
-- Semantics-preserving optimisation, equivalence tooling and independent external baselines.
+- Complete verified hardware reports/fronts, real device-data adapters and noise/fidelity composition.
+- Semantics-preserving optimisation, expanded equivalence tooling and further external baselines.
 - Hardware adapters and a hybrid runtime.
 
 The current IR is an initial resolved representation, not a complete compiler type system. Lowering does not infer dimensions or emit machine instructions.

@@ -53,6 +53,8 @@ jobs:
         run: python -I tools/check_search.py --isolated
       - name: Check v0.5 hardware design reference vectors
         run: python -I tools/check_hardware_contract.py
+      - name: Audit the hardware-cost kernel against independent paths and ledgers
+        run: python -I tools/check_hardware_costs.py
 
   external:
     runs-on: ubuntu-latest

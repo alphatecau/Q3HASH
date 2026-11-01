@@ -40,6 +40,20 @@ The separate input-model tests validate the delivered v0.5.0.dev1 models, and
 See the [input/reproduction guide](../docs/hardware-profiles.md) and
 [implementation sequence](../docs/plans/v0.5-implementation.md).
 
+## v0.5 production cost arithmetic
+
+`python tools/check_hardware_costs.py` compares the internal production kernel
+against the unchanged design oracle's exhaustive paths and remaining-work ledger.
+Coverage is 3,110 timing circuits, 2,752 gate-availability circuits, 5,000 three-row
+budget ledgers and all frozen target/timing/freshness/budget cases. It checks full
+rejection metadata, exact native counts, both duration ranges, error records and
+all gate-check totals. CI and clean wheel/source installations run it.
+
+Abstract cases test arithmetic through private kernel inputs; they do not create
+public verified evidence. The original operator workloads and fixture bytes are
+preserved. See the [cost kernel guide](../docs/hardware-costs.md) for scope and
+remaining verified-report integration.
+
 ## Performance methodology
 
 No benchmark results have been collected or verified for this prototype.

@@ -1,11 +1,12 @@
-# Hardware inputs — v0.5.0.dev1
+# Hardware inputs — v0.5
 
-This development stage supplies immutable hardware inputs and strict JSON, plus
-an independent Cirq operator baseline. The stable source release remains v0.4.0.
-Use the current development checkout for these imports.
+Input models/strict JSON and the independent Cirq baseline are available since
+v0.5.0.dev1. v0.5.0.dev2 adds the [internal cost kernel](hardware-costs.md).
+The stable source release remains v0.4.0. Use the current development checkout
+for these imports.
 
-Hardware assessment, cost reports, interval fronts and a hardware CLI remain
-pending. A valid profile or matching identifier does not establish device support,
+The public verified-assessment API, hardware reports, interval fronts and hardware
+CLI remain pending. A valid profile or matching identifier does not establish device support,
 source verification or measured performance.
 
 ## Construct and identify a synthetic profile
@@ -60,7 +61,7 @@ separate and do not provide an aggregate circuit success probability.
 | `NativeBinding` | An existing `GateKind`, exact ordered site tuple and optional ranges. SUM uses `(control, target)`. |
 | `HardwareProfile` | Up to 64 sites, directed edges, unique canonical native bindings and matching site indices. A SUM binding requires its directed edge. Profile validation never allocates the product state space. |
 | `HardwareContext` | Explicit as-of instant, age/work caps and ordered known objectives. `validate_profile` rejects an as-of instant before retrieval/calibration without consulting the current clock. |
-| `HardwarePlacement` | A lowercase SHA-256 candidate ID and distinct site indices. `validate_for` checks profile bounds and physical arity. Exact dimension mismatch remains a valid future unsupported outcome. |
+| `HardwarePlacement` | A lowercase SHA-256 candidate ID and distinct site indices. `validate_for` checks profile bounds and physical arity. Exact dimension mismatch is a valid unsupported kernel outcome. |
 
 Every model exposes `to_dict`, `from_dict`, `to_json` and `from_json`. Only profiles
 and contexts have top-level schema headers; nested objects and placements retain
@@ -114,5 +115,6 @@ Output records framework/dependency versions, seed, dtype, basis order, toleranc
 fixture digest, coverage, maximum errors and individual workload statuses.
 This establishes a reproducible SDK composition comparison. It does not establish
 native hardware availability, external peer review, a binary entangling synthesis
-or hardware costs. See the [work packages](plans/v0.5-implementation.md) for the
-next cost-assessment stage and the remaining release gates.
+or measured hardware costs. The [cost kernel guide](hardware-costs.md) covers
+conditional arithmetic; the [work packages](plans/v0.5-implementation.md) define
+the remaining verified-report, CLI and release gates.

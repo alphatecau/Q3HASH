@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.0.dev2 — 1 November 2026
+
+- Implement the internal matrix-free native-support/work/timing kernel. Preflight the entire batch, enforce exact dimensions and ordered edges/bindings, retain every rejection and charge whole operation counts with later-small-after-skip behaviour.
+- Derive exact integer critical-path/serial ranges with a per-site fold and explicit-instant freshness. Preserve unknown/stale timing, identity zero time and used-error definitions/counts without deriving circuit fidelity.
+- Add 26 tests to the preserved 206, covering maximum domains/ticks, complete rejection evidence, budgets, timing, preflight and allocation-free behaviour.
+- Add an independent production audit of 3,110 timing circuits, 2,752 gate-availability circuits and 5,000 budget ledgers plus every frozen target/timing/freshness/ledger case. Require it in numerical CI and both clean wheel/source installations.
+
+This completes the internal arithmetic work package. Its private status flags are not public verification evidence. The complete fresh-source report producer, interval fronts, strict recorded replay and hardware CLI remain pending. The original benchmark fixture, source semantics and stable tags are preserved.
+
 ## 0.5.0.dev1 — 1 November 2026
 
 - Add immutable hardware profile, provenance, native-binding, time/error range, context and placement inputs. Validate explicit units/instants, directed bindings, bounded shapes and unknown values without allocating quantum matrices.
