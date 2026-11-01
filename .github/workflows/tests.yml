@@ -45,3 +45,5 @@ jobs:
         run: python -I tools/check_search_contract.py
       - name: Audit bounded encoding generation independently
         run: python -I tools/check_search_generation.py
+      - name: Audit exact resources and supplied-circuit Pareto fronts
+        run: python -I tools/check_resources_comparison.py

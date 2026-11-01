@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.0.dev2 — 1 November 2026
+
+- Derive exact primitive resource counts and dependency depth directly from resolved physical circuits, without allocating statevectors or claiming hardware costs.
+- Add strict integer dominance and pass-only supplied-circuit Pareto fronts with retained ties, objective subsets and deterministic input order. Reject mixed workloads/settings and duplicate or colliding candidate IDs.
+- Introduce validated circuit-implementation inputs and a manual single-candidate adapter to the unchanged v0.3 verifier. Comparison evidence and costs are producer-derived; failed, missing and unsupported circuits cannot enter a front.
+- Add 24 focused tests and independent audits of 2,433 instruction sequences, 1,008 abstract dominance pairs and 189 verified-circuit fronts; require them in CI and clean distribution installations.
+
+The global call/work ledger, aggregate search-report serialization and search CLI remain pending. The v0.3.0 tag and existing generator/simulator behaviour are preserved.
+
 ## 0.4.0.dev1 — 1 November 2026
 
 - Implement bounded encoding generation with validated immutable constraints, candidates and reports; preserve explicit seeds, register order, first-origin provenance and semantic SHA-256 IDs.
