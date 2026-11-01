@@ -14,6 +14,8 @@ from .search_verification import evaluate_candidate, evaluate_candidates
 from .hardware_models import (DEFAULT_HARDWARE_OBJECTIVES, HARDWARE_OBJECTIVES, ErrorRange,
                               HardwareContext, HardwarePlacement, HardwareProfile,
                               NativeBinding, ProfileProvenance, TimeRange)
+from .hardware_report import HardwareEvaluation, HardwareReport, hardware_front
+from .hardware import assess_hardware
 from ._version import __version__
 
 __all__ = [
@@ -27,4 +29,5 @@ __all__ = [
     'NumericalEnvironment', 'SearchReport', 'evaluate_candidates', '__version__',
     'DEFAULT_HARDWARE_OBJECTIVES', 'HARDWARE_OBJECTIVES', 'TimeRange', 'ErrorRange',
     'ProfileProvenance', 'NativeBinding', 'HardwareProfile', 'HardwareContext', 'HardwarePlacement',
+    'HardwareEvaluation', 'HardwareReport', 'assess_hardware', 'hardware_front',
 ]

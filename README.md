@@ -12,7 +12,7 @@ An experimental, ternary-first language, simulator and compiler research project
 
 [Quick start](#quick-start) · [First program](#your-first-program) · [Encoding example](#one-qutrit-two-qubits) · [Search CLI](#compare-encoding-candidates) · [Technical details](#technical-details) · [Documentation](#documentation)
 
-<sub>Q3HASH · v0.5.0.dev2 · Pure Python · No third-party runtime dependencies</sub>
+<sub>Q3HASH · v0.5.0.dev3 · Pure Python · No third-party runtime dependencies</sub>
 
 </div>
 
@@ -29,7 +29,7 @@ Q3# lets you write quantum programs with **qubits, qutrits and larger qudits in 
 | Map a logical system into a physical space | Explicit, injective basis encodings with strict data contracts |
 | Check a supplied implementation | Complete small-operator comparisons, including relative phase, leakage and unitarity |
 | Compare declared encoding candidates | Bounded map generation, shared verification budgets, exact structural fronts and portable reports |
-| Record hardware assumptions | Immutable profiles/strict JSON and an internal native/timing kernel; verified hardware reports are pending |
+| Record hardware assumptions | Explicit profiles, verified supplied-circuit costs/fronts and strict recorded reports |
 
 ## Quick start
 
@@ -366,7 +366,7 @@ Use `python -m q3hash.verify_cli` as the module equivalent of `q3hash-verify`. O
 
 Model construction, vector allocation and dense verification have separate budgets. An encoding can describe a large physical space without allocating its statevector; requests beyond a verifier's budget return `unsupported` before dense operators are allocated.
 
-The source contains **232 unit tests**, retaining all **186 v0.4 tests**, the **20 hardware-input tests**, the original **72-test v0.3 baseline** and **seven executable source examples**. Independent audits cover generation, structural comparison, conditional cost arithmetic and original numerical behaviour. CI builds and tests wheel/source distributions across **Python 3.10–3.13**, with a separate pinned Cirq baseline on Python 3.12.
+The source contains **260 unit tests**, retaining all **186 v0.4 tests**, the **20 hardware-input tests**, the original **72-test v0.3 baseline** and **seven executable source examples**. Independent audits cover generation, structural comparison, conditional cost arithmetic and original numerical behaviour. CI builds and tests wheel/source distributions across **Python 3.10–3.13**, with a separate pinned Cirq baseline on Python 3.12.
 
 | Audit | Recorded coverage |
 | :--- | :--- |
@@ -382,6 +382,7 @@ The source contains **232 unit tests**, retaining all **186 v0.4 tests**, the **
 | Verified supplied-circuit fronts | `189` cases |
 | Cirq full-operator baseline | `523` distinct programs; `15,321` columns and `2,092` arbitrary states |
 | Hardware-cost kernel audit | `3,110` timing circuits, `2,752` availability circuits and `5,000` budget ledgers |
+| Verified hardware-report audit | `1,116` assessments/replays; `31` objective subsets and `900` interval pairs |
 
 Reproduce the tests and optional NumPy/SciPy audits:
 
@@ -393,6 +394,7 @@ python tools/check_encoding.py
 python tools/check_search_generation.py
 python tools/check_resources_comparison.py
 python tools/check_hardware_costs.py
+python tools/check_hardware_reports.py
 ```
 
 The [validation guide](docs/validation.md) explains the independent constructions; the [build and audit guide](docs/build-and-audit.md) covers isolated distribution checks. Consult CI for the exact commit you are using.
@@ -408,14 +410,14 @@ The [validation guide](docs/validation.md) explains the independent construction
 | v0.2.1 | Parser, explicit dimensions, IR, simulator and distribution checks | Preserved regression baseline |
 | v0.3 | Explicit encodings and complete small-operator checks | Implemented and merged into `main` |
 | v0.4 | Bounded candidate generation and Pareto comparisons | Implemented: bounded generation, budgeted supplied-circuit checks, structural fronts, strict reports and CLI |
-| v0.5 | Hardware-conditioned costs and equivalent benchmark workloads | Inputs/strict JSON, Cirq baseline and internal cost kernel implemented; verified reports/fronts and CLI pending |
+| v0.5 | Hardware-conditioned costs and equivalent benchmark workloads | Verified report producer, interval fronts, strict replay, cost kernel and Cirq baseline implemented; hardware CLI pending |
 | v0.6 | Web/core integration and a reproducible research demonstration | Research target |
 
 The [six-month roadmap](docs/roadmap.md) describes the milestones and acceptance criteria.
 
-The [hardware input guide](docs/hardware-profiles.md) documents profile/context/placement models, strict JSON and identifiers. v0.5.0.dev2 adds the [internal cost kernel](docs/hardware-costs.md): exact native support, bounded work, freshness and duration ranges. The Cirq baseline checks full operators and the [fixed workloads](benchmarks/hardware-cost-v1.json). Target numbers remain synthetic scenarios; the [contract](docs/contracts/hardware-profile-v1.md) defines the pending verified report producer.
+The [hardware input guide](docs/hardware-profiles.md) documents profile/context/placement models, strict JSON and identifiers. v0.5.0.dev2 adds the [internal cost kernel](docs/hardware-costs.md): exact native support, bounded work, freshness and duration ranges. The Cirq baseline checks full operators and the [fixed workloads](benchmarks/hardware-cost-v1.json). Target numbers remain synthetic scenarios. The [verified report guide](docs/hardware-reports.md) documents v0.5.0.dev3 assessment, interval fronts and strict recorded replay.
 
-**Next research step:** connect the kernel to fresh source evidence through complete HardwareReports, selected-objective interval fronts and strict recorded replay, then implement the hardware CLI. The [v0.5 work packages](docs/plans/v0.5-implementation.md) specify that order. Generated maps still require supplied physical circuits; hardware synthesis and a universal best-encoding claim remain outside this milestone.
+**Next research step:** finalise and implement the explicit hardware CLI contract, then complete end-to-end release gates. The [v0.5 work packages](docs/plans/v0.5-implementation.md) specify that order. Generated maps still require supplied physical circuits; hardware synthesis and a universal best-encoding claim remain outside this milestone.
 
 **Current scope.** Q3# runs on a classical computer using floating-point amplitudes. Automatic logical-dimension inference, physical-circuit search/synthesis, hardware-aware optimisation, measurement, noise, hybrid control flow and hardware execution remain research targets. The gate set is not claimed to be universal. The numerical checks provide bounded evidence; formal proof, hardware performance and quantum advantage have not been demonstrated. Ternary encoding is not assumed to outperform binary encoding.
 
@@ -430,7 +432,7 @@ The [hardware input guide](docs/hardware-profiles.md) documents profile/context/
 | [Search CLI guide](docs/search-cli.md) | [Search contract](docs/contracts/encoding-search-v1.md) |
 | [v0.5 implementation sequence](docs/plans/v0.5-implementation.md) | [Hardware profile and cost contract](docs/contracts/hardware-profile-v1.md) |
 | [Hardware inputs and Cirq reproduction](docs/hardware-profiles.md) | [Fixed synthetic hardware scenarios](benchmarks/hardware-cost-v1.json) |
-| [Hardware-cost kernel and audit](docs/hardware-costs.md) | [v0.5 remaining work packages](docs/plans/v0.5-implementation.md) |
+| [Hardware-cost kernel and audit](docs/hardware-costs.md) | [Verified reports and interval fronts](docs/hardware-reports.md) |
 | [Changelog](CHANGELOG.md) | [Research roadmap](docs/roadmap.md) |
 
 <details>
@@ -450,6 +452,7 @@ The [hardware input guide](docs/hardware-profiles.md) documents profile/context/
 | [search_report.py](src/q3hash/search_report.py) | Strict aggregate snapshots, provenance and pure budget replay |
 | [hardware_models.py](src/q3hash/hardware_models.py) | Immutable hardware inputs, strict JSON and content identifiers; no cost assessment |
 | [hardware_costs.py](src/q3hash/hardware_costs.py) | Internal matrix-free native support, cumulative work and exact timing/error records |
+| [hardware.py](src/q3hash/hardware.py) · [hardware_report.py](src/q3hash/hardware_report.py) | Computed-source hardware assessment, interval fronts and strict recorded replay |
 | [tests](tests) · [tools](tools) | Regression suites and reproducible audit tools |
 | [benchmarks](benchmarks) | Comparison methodology; performance results remain future work |
 | [CI workflow](.github/workflows/tests.yml) | Distribution tests and independent numerical audits |

@@ -243,6 +243,23 @@ The [kernel guide](hardware-costs.md) documents the private integration boundary
 the complete fresh-source producer, report/interval fronts, recorded replay and
 hardware CLI remain pending.
 
+## Verified hardware reports — v0.5.0.dev3
+
+The 28 report tests bring the preserved 232-test baseline to 260. They cover
+computed-source policy, all-input preflight, collision detection, complete coverage,
+unknown selected objectives, interval overlap/contact/ties, source/hardware work
+skips, source failures, immutable outputs, strict nested tampering and symmetric
+wire limits. Decoder tests reject accidental numerical and environment-capture calls.
+
+`tools/check_hardware_reports.py` audits 1,116 actual assessments and recorded
+replays over all 31 objective subsets, four synthetic profiles, three work caps
+and three placement-coverage policies, reusing three upstream verifications.
+Independent path/remaining-work/all-pairs/key oracles validate the derived outputs.
+It additionally checks 13 frozen abstract fronts and 900 interval pairs. Abstract
+cases test private mathematics; they do not create public verified evidence.
+CI and both clean wheel/source installations run this audit. See the
+[report guide](hardware-reports.md) for API usage and evidence interpretation.
+
 ## Limits of the evidence
 
 The dense oracle is independently implemented within the same repository. Optional numerical audits compare against NumPy tensor operations and SciPy DFT matrices across the supported dimensions. The separate Cirq baseline adds a reproducible comparison with another quantum SDK. Its custom qudit matrices establish composition semantics, not native device support. None of these checks is external peer review or formal verification. Finite examples do not prove correctness for every circuit.

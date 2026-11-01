@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.0.dev3 — 1 November 2026
+
+- Connect computed SearchReport evidence to complete HardwareReports with whole-input membership/identity/collision preflight and unchanged upstream verification budgets.
+- Derive conservative interval fronts, selected-objective completeness, coverage diagnostics and immutable producer-only rows.
+- Add strict hardware-report JSON v1. Replay nested source evidence, costs, freshness, work and fronts without numerical calls or current environment capture; retain recorded evidence and historical metadata.
+- Add 28 tests to the preserved 232. Audit 1,116 actual assessments/replays across all 31 objective subsets, plus 13 abstract fronts and 900 interval pairs, using independent path/ledger/front/key oracles.
+
+The public hardware assessment/report API is implemented. The hardware CLI and final 0.5 release gates remain pending; target profiles are synthetic and numerical snapshots/calibration metadata are not authenticated.
+
 ## 0.5.0.dev2 — 1 November 2026
 
 - Implement the internal matrix-free native-support/work/timing kernel. Preflight the entire batch, enforce exact dimensions and ordered edges/bindings, retain every rejection and charge whole operation counts with later-small-after-skip behaviour.

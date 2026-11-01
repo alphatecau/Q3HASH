@@ -5,11 +5,11 @@ calibration freshness, exact duration ranges and used-error records in the
 internal `hardware_costs.py` kernel. It completes work package 3 of the
 [v0.5 sequence](plans/v0.5-implementation.md).
 
-The kernel receives private typed requests from a future report producer.
+The kernel receives private typed requests from the [verified report producer](hardware-reports.md).
 Its source-status fields are integration inputs, not newly established verification
-evidence. The public `assess_hardware` API, complete HardwareReport, interval fronts,
-strict recorded replay and hardware CLI remain the next packages. No new cost
-function is exported from `q3hash`.
+evidence. The public `assess_hardware` API, complete HardwareReport, interval fronts
+and recorded replay are implemented in v0.5.0.dev3; the hardware CLI remains pending.
+The raw kernel itself remains internal.
 
 ## Derived outcomes and work
 
@@ -89,8 +89,8 @@ not create public verification evidence. All device numbers are synthetic and th
 original fixture digest is retained. CI and both clean wheel/source installations
 run this audit, alongside all original audits and the separate Cirq baseline.
 
-The next producer must validate fresh computed SearchReport evidence, complete
+The v0.5.0.dev3 producer validates fresh computed SearchReport evidence, complete
 candidate/placement membership, source/physical/placement fingerprints and
-collisions before calling this kernel. It must preserve source coverage/budgets,
-derive selected-objective interval fronts, and replay recorded reports without
+collisions before calling this kernel. It preserves source coverage/budgets,
+derives selected-objective interval fronts, and replays recorded reports without
 numerical calls. See the [contract](contracts/hardware-profile-v1.md).

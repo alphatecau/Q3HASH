@@ -237,7 +237,7 @@ def audit():
             require(sum(r.gate_checks for r in result.evaluations) == result.gate_checks <= limit, "Work accounting mismatch")
             stats["exhaustive_budget_ledgers"] += 1
     return dict(result="passed", q3hash=__version__, coverage=stats, fixture_sha256=hashlib.sha256(raw).hexdigest(),
-                evidence_scope="Internal model arithmetic against synthetic paths/ledgers; public verified reports and hardware execution remain pending")
+                evidence_scope="Internal model arithmetic against synthetic paths/ledgers; public reports have a separate audit; no hardware execution")
 
 
 if __name__ == "__main__":

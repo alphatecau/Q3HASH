@@ -5,8 +5,8 @@ v0.5.0.dev1. v0.5.0.dev2 adds the [internal cost kernel](hardware-costs.md).
 The stable source release remains v0.4.0. Use the current development checkout
 for these imports.
 
-The public verified-assessment API, hardware reports, interval fronts and hardware
-CLI remain pending. A valid profile or matching identifier does not establish device support,
+The [verified report API](hardware-reports.md), interval fronts and recorded replay
+are implemented in v0.5.0.dev3. The hardware CLI remains pending. A valid profile or matching identifier does not establish device support,
 source verification or measured performance.
 
 ## Construct and identify a synthetic profile
@@ -81,8 +81,8 @@ values use `Q3-HARD-002`, invalid placements use `Q3-HARD-003`, and context valu
 use `Q3-HARD-001`. Strict JSON mechanics retain `Q3-SER-*` diagnostics.
 
 Source candidate membership, duplicate placement bindings, recorded-source rejection
-and digest collision checks require the future complete report producer. The
-standalone input helpers do not claim those checks or perform circuit verification.
+and digest collision checks are implemented by the [complete report producer](hardware-reports.md).
+Standalone input helpers do not perform circuit verification.
 
 ## Run the independent framework baseline
 
@@ -117,4 +117,4 @@ This establishes a reproducible SDK composition comparison. It does not establis
 native hardware availability, external peer review, a binary entangling synthesis
 or measured hardware costs. The [cost kernel guide](hardware-costs.md) covers
 conditional arithmetic; the [work packages](plans/v0.5-implementation.md) define
-the remaining verified-report, CLI and release gates.
+the remaining CLI and release gates.

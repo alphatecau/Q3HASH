@@ -54,6 +54,16 @@ public verified evidence. The original operator workloads and fixture bytes are
 preserved. See the [cost kernel guide](../docs/hardware-costs.md) for scope and
 remaining verified-report integration.
 
+## Verified hardware report acceptance
+
+`python tools/check_hardware_reports.py` checks 1,116 assessments/replays across
+all 31 objective subsets, four synthetic profiles, three work caps and three
+placement policies, with three upstream circuit verifications. Independent
+path/ledger/front/key calculations check results, supplemented by 13 abstract
+fronts and 900 interval pairs. These are conditional software correctness cases.
+See the [report guide](../docs/hardware-reports.md). CI and clean distributions
+run this audit; no device performance or authenticated calibration is claimed.
+
 ## Performance methodology
 
 No benchmark results have been collected or verified for this prototype.

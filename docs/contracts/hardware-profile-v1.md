@@ -1,9 +1,8 @@
 # v0.5 contract — hardware profiles and conditional circuit costs
 
-**Status:** v0.5.0.dev2 implements the internal feasibility/work/timing kernel,
-following input models/strict JSON and the Cirq baseline in dev1. The public
-verified-assessment producer, HardwareReport/replay, interval fronts and hardware
-CLI remain proposed.
+**Status:** v0.5.0.dev3 implements the computed-source producer, HardwareReport
+v1/replay and interval fronts, following input models, Cirq and the cost kernel.
+The hardware CLI remains pending.
 **Date:** 1 November 2026, Australia/Brisbane.
 **Baseline:** [ADR 0001](../adr/0001-verified-encoding-first.md),
 [encoding search v1](encoding-search-v1.md), Python core v0.4.0.
@@ -99,11 +98,11 @@ def hardware_front(report: HardwareReport) -> tuple[str, ...]: ...
 `hardware_models.py` owns input models, field validation and canonical IDs;
 it imports existing IR/serialization only. `hardware_costs.py` owns internal pure
 feasibility, budget and timing arithmetic; it allocates no quantum matrices.
-`hardware_report.py` will own immutable outputs and strict snapshot replay.
-`hardware.py` will adapt the complete v0.4 SearchReport, retaining all candidates.
+`hardware_report.py` owns immutable outputs, interval fronts and strict snapshot replay.
+`hardware.py` adapts the complete SearchReport, retaining all candidates.
 Neither the existing IR, encoding, verifier nor generator imports this layer.
 The seven input models and objective constants are public imports. The
-`assess_hardware`, HardwareReport and `hardware_front` interfaces remain pending.
+`assess_hardware`, HardwareReport, HardwareEvaluation and `hardware_front` interfaces are implemented.
 See the [input guide](../hardware-profiles.md) for delivered methods.
 The [cost kernel guide](../hardware-costs.md) describes the implemented arithmetic
 and its private integration boundary. Its input source-status fields do not
@@ -181,8 +180,8 @@ the recorded number; it does not supply a physical measurement uncertainty.
 
 ## 5. Eligibility, feasibility and bounded work
 
-The complete producer must retain exactly one HardwareEvaluation per source
-candidate in source order. The current kernel retains every private input in order.
+The complete producer retains exactly one HardwareEvaluation per source candidate
+in source order. The kernel retains every private input in the same order.
 Precedence is normative:
 
 1. Source evaluation is not pass: `ineligible`, reason `source-` plus its source
@@ -294,7 +293,7 @@ point. A valid large in-memory report may exceed the wire cap and must fail
 serialization rather than truncate evidence.
 
 Profiles and contexts implement the following exact `schema` and integer
-`schema_version: 1` headers. The hardware-report schema remains proposed:
+`schema_version: 1` headers. The hardware-report schema is implemented as well:
 
 | Schema | Additional fields |
 | --- | --- |
@@ -372,8 +371,8 @@ The [reference vectors](../../benchmarks/hardware-cost-v1.json) and
 tiny fixed mathematical cases. The input-model tests and
 `tools/check_external_operators.py` separately validate delivered inputs and the
 Cirq composition baseline. `tools/check_hardware_costs.py` compares the implemented
-kernel with independent paths/ledgers. The public verified-assessment producer,
-report decoding, interval fronts and hardware CLI remain pending.
+kernel with independent paths/ledgers. The public verified-assessment producer, report replay and interval fronts
+have additional tests/audits; the hardware CLI remains pending.
 Use the [work packages](../plans/v0.5-implementation.md) for implementation gates.
 
 ## 10. External references and interpretation
