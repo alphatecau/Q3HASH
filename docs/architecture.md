@@ -79,10 +79,11 @@ serial duration ranges and diagnostic used-error records. It imports IR/input
 models only, never the numerical verifier or search orchestrator.
 
 The kernel's private source-status inputs are not public verification evidence.
-The next `hardware.py`/`hardware_report.py` package must validate fresh source
-reports, complete source membership/coverage and identity inputs before producing
-verified hardware reports, interval fronts and strict recorded replay.
-Those public APIs and the hardware CLI remain pending.
+`hardware.py`/`hardware_report.py` validate computed source reports, complete
+source membership/coverage and identity inputs before producing HardwareReports
+and interval fronts. Strict decoding replays recorded evidence without numerical
+calls or environment capture. The [report guide](hardware-reports.md) documents
+these v0.5.0.dev3 APIs. The hardware CLI remains pending.
 
 An independent path/remaining-budget oracle audits the kernel. A separate pinned
 Cirq tool independently constructs local gates and composes complete operators,
@@ -102,7 +103,7 @@ See [validation.md](validation.md).
 
 - Richer front-end types, functions and hybrid classical/quantum control flow.
 - Automatic logical-dimension inference, physical-circuit synthesis and hardware-conditioned comparisons beyond the implemented structural model.
-- Complete verified hardware reports/fronts, real device-data adapters and noise/fidelity composition.
+- Hardware CLI/release acceptance, real device-data adapters and noise/fidelity composition.
 - Semantics-preserving optimisation, expanded equivalence tooling and further external baselines.
 - Hardware adapters and a hybrid runtime.
 

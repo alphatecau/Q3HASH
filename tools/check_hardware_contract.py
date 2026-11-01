@@ -295,7 +295,7 @@ def audit():
 def main():
     print("v0.5 hardware contract reference audit:", json.dumps(audit(), sort_keys=True))
     print("Design vectors only: synthetic target data, existing software verification and tiny mathematical oracles.")
-    print("Input models, cost arithmetic and Cirq have separate checks; public hardware reports/fronts/CLI remain pending.")
+    print("Inputs, costs, verified reports/fronts/replay and Cirq have separate checks; the hardware CLI remains pending.")
 
 
 if __name__ == "__main__":

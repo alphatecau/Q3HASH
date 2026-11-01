@@ -29,15 +29,16 @@ Version/month labels are research milestones, not elapsed-time claims or deadlin
    synthetic profiles and preserve unknown duration, calibration and circuit-error
    data. v0.5.0.dev2 includes the [input models/strict JSON](hardware-profiles.md),
    independent Cirq baseline and [internal feasibility/work/timing kernel](hardware-costs.md).
-   The verified report producer, interval fronts and hardware CLI remain pending;
+   v0.5.0.dev3 adds verified reports, interval fronts and recorded replay; the
+   hardware CLI remains pending;
    the [work packages](plans/v0.5-implementation.md) define their order.
    Routing, synthesis and noise composition need later contracts.
 5. **v0.6 / Month 6 — Reproducible research demonstration:** reconcile the separate
    web/core runtimes, publish comparisons against a tagged core and deliver a
    technical report with peer-reviewable examples. Remains a target.
 
-The next implementation step is complete verified hardware reports, interval
-fronts and strict recorded replay, followed by the hardware CLI.
+The next implementation step is the hardware CLI contract and implementation,
+followed by complete 0.5 release acceptance.
 Existing interpreter semantics and
 regressions remain the reference baseline. Every delivered milestone requires
 executable tests, passing CI for its exact commit and documented limitations.
