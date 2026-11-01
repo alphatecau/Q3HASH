@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.5.0.dev1 — 1 November 2026
+
+- Add immutable hardware profile, provenance, native-binding, time/error range, context and placement inputs. Validate explicit units/instants, directed bindings, bounded shapes and unknown values without allocating quantum matrices.
+- Implement strict input JSON v1, canonical content/placement identifiers, relative timestamp and placement-arity helpers. Preserve exact integer ticks and gate-error definitions; reject malformed fields, Unicode, numeric values, ordering and wire overflow.
+- Add 20 focused tests while retaining all 186 v0.4 tests and seven source examples.
+- Add a pinned optional Cirq 1.7.0 composition baseline with independently constructed qudit gates and built-in binary X/H/CNOT. Check 523 distinct source programs, 15,321 basis columns, 2,092 arbitrary states and all 13 frozen workloads with distinct circuit/reference evidence.
+- Require the new inputs/tests/guide/audit in distributions and run Cirq in a separate Python 3.12 CI job alongside the original five jobs.
+
+This development stage completes input models and the external composition baseline. Hardware feasibility/cost assessment, HardwareReport/replay and hardware CLI remain pending. Stable v0.3.0/v0.4.0 tags and interpreter/verifier semantics are preserved.
+
 ## v0.5 design baseline — 1 November 2026
 
 - Define proposed immutable hardware-profile/context/placement inputs, exact ordered native-gate and dimension checks, explicit freshness, bounded assessment work and strict recorded-report replay.

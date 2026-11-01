@@ -31,9 +31,14 @@ independent mathematical oracles. CI and clean distribution installations run it
 
 All profile numbers are synthetic, including profiles that exercise reported-device
 metadata; `example.invalid` URLs are provenance placeholders and are never fetched.
-The audit is a design reference outside the package. It does not implement the
-hardware API, run an external SDK baseline, measure device performance or establish
-circuit success probabilities. See the [implementation sequence](../docs/plans/v0.5-implementation.md).
+The audit is a design reference outside the package. It does not perform hardware
+assessment, measure device performance or establish circuit success probabilities.
+The separate input-model tests validate the delivered v0.5.0.dev1 models, and
+`tools/check_external_operators.py` actually runs the pinned Cirq baseline:
+523 distinct source programs with full operators, 15,321 basis columns, 2,092 arbitrary states and all
+13 frozen workloads. SDK composition is distinct from native gate availability.
+See the [input/reproduction guide](../docs/hardware-profiles.md) and
+[implementation sequence](../docs/plans/v0.5-implementation.md).
 
 ## Performance methodology
 

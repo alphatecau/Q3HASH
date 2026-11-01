@@ -12,7 +12,7 @@ An experimental, ternary-first language, simulator and compiler research project
 
 [Quick start](#quick-start) · [First program](#your-first-program) · [Encoding example](#one-qutrit-two-qubits) · [Search CLI](#compare-encoding-candidates) · [Technical details](#technical-details) · [Documentation](#documentation)
 
-<sub>Q3HASH · v0.4.0 · Pure Python · No third-party runtime dependencies</sub>
+<sub>Q3HASH · v0.5.0.dev1 · Pure Python · No third-party runtime dependencies</sub>
 
 </div>
 
@@ -29,6 +29,7 @@ Q3# lets you write quantum programs with **qubits, qutrits and larger qudits in 
 | Map a logical system into a physical space | Explicit, injective basis encodings with strict data contracts |
 | Check a supplied implementation | Complete small-operator comparisons, including relative phase, leakage and unitarity |
 | Compare declared encoding candidates | Bounded map generation, shared verification budgets, exact structural fronts and portable reports |
+| Record hardware assumptions | Immutable profiles, explicit placements/provenance and strict input JSON; cost assessment is pending |
 
 ## Quick start
 
@@ -365,7 +366,7 @@ Use `python -m q3hash.verify_cli` as the module equivalent of `q3hash-verify`. O
 
 Model construction, vector allocation and dense verification have separate budgets. An encoding can describe a large physical space without allocating its statevector; requests beyond a verifier's budget return `unsupported` before dense operators are allocated.
 
-The source contains **186 unit tests**, including the unchanged **72-test v0.3 baseline** and **seven executable source examples**. Independent audits cover generation and structural comparison as well as the original numerical behaviour. CI builds and tests wheel/source distributions in clean environments across **Python 3.10–3.13**.
+The source contains **206 unit tests**, retaining all **186 v0.4 tests**, the original **72-test v0.3 baseline** and **seven executable source examples**. Independent audits cover generation, structural comparison and original numerical behaviour. CI builds and tests wheel/source distributions across **Python 3.10–3.13**, with a separate pinned Cirq baseline on Python 3.12.
 
 | Audit | Recorded coverage |
 | :--- | :--- |
@@ -379,6 +380,7 @@ The source contains **186 unit tests**, including the unchanged **72-test v0.3 b
 | Resource-count instruction sequences | `2,433` cases |
 | Abstract dominance comparisons | `1,008` pairs |
 | Verified supplied-circuit fronts | `189` cases |
+| Cirq full-operator baseline | `523` distinct programs; `15,321` columns and `2,092` arbitrary states |
 
 Reproduce the tests and optional NumPy/SciPy audits:
 
@@ -404,14 +406,14 @@ The [validation guide](docs/validation.md) explains the independent construction
 | v0.2.1 | Parser, explicit dimensions, IR, simulator and distribution checks | Preserved regression baseline |
 | v0.3 | Explicit encodings and complete small-operator checks | Implemented and merged into `main` |
 | v0.4 | Bounded candidate generation and Pareto comparisons | Implemented: bounded generation, budgeted supplied-circuit checks, structural fronts, strict reports and CLI |
-| v0.5 | Hardware-conditioned costs and equivalent benchmark workloads | Contracts and executable reference cases defined; production implementation pending |
+| v0.5 | Hardware-conditioned costs and equivalent benchmark workloads | Input models/strict JSON and Cirq baseline implemented; cost assessment, reports and CLI pending |
 | v0.6 | Web/core integration and a reproducible research demonstration | Research target |
 
 The [six-month roadmap](docs/roadmap.md) describes the milestones and acceptance criteria.
 
-The [v0.5 hardware contract](docs/contracts/hardware-profile-v1.md) now defines explicit site placements, directed native-gate support, exact duration ranges, calibration freshness, conservative interval fronts and unknown-data rules. Its [fixed workloads](benchmarks/hardware-cost-v1.json) and executable reference audit use synthetic profiles; they are design acceptance cases, not measured device results or public hardware APIs.
+The [hardware input guide](docs/hardware-profiles.md) documents the delivered v0.5.0.dev1 profile/context/placement models, strict JSON and identifiers. Its independent Cirq baseline checks full operators, mixed/reordered axes and the [fixed workloads](benchmarks/hardware-cost-v1.json). Target numbers remain synthetic scenarios; cost assessment and hardware reports are still defined by the [contract](docs/contracts/hardware-profile-v1.md).
 
-**Next research step:** implement the input models and strict data contracts, then establish an independent Cirq operator baseline before implementing hardware costs. The [v0.5 work packages](docs/plans/v0.5-implementation.md) specify that order. Generated maps still require supplied physical circuits; hardware synthesis and a universal best-encoding claim remain outside this milestone.
+**Next research step:** implement matrix-free native-gate feasibility, bounded assessment work and critical-path duration ranges, then complete reports and the hardware CLI. The [v0.5 work packages](docs/plans/v0.5-implementation.md) specify that order. Generated maps still require supplied physical circuits; hardware synthesis and a universal best-encoding claim remain outside this milestone.
 
 **Current scope.** Q3# runs on a classical computer using floating-point amplitudes. Automatic logical-dimension inference, physical-circuit search/synthesis, hardware-aware optimisation, measurement, noise, hybrid control flow and hardware execution remain research targets. The gate set is not claimed to be universal. The numerical checks provide bounded evidence; formal proof, hardware performance and quantum advantage have not been demonstrated. Ternary encoding is not assumed to outperform binary encoding.
 
@@ -425,6 +427,7 @@ The [v0.5 hardware contract](docs/contracts/hardware-profile-v1.md) now defines 
 | [Validation and reproduction](docs/validation.md) | [Distribution builds and audit](docs/build-and-audit.md) |
 | [Search CLI guide](docs/search-cli.md) | [Search contract](docs/contracts/encoding-search-v1.md) |
 | [v0.5 implementation sequence](docs/plans/v0.5-implementation.md) | [Hardware profile and cost contract](docs/contracts/hardware-profile-v1.md) |
+| [Hardware inputs and Cirq reproduction](docs/hardware-profiles.md) | [Fixed synthetic hardware scenarios](benchmarks/hardware-cost-v1.json) |
 | [Changelog](CHANGELOG.md) | [Research roadmap](docs/roadmap.md) |
 
 <details>
@@ -442,6 +445,7 @@ The [v0.5 hardware contract](docs/contracts/hardware-profile-v1.md) now defines 
 | [equivalence.py](src/q3hash/equivalence.py) · [verification.py](src/q3hash/verification.py) | Complete small operators, comparison metrics and verification policy |
 | [verify_cli.py](src/q3hash/verify_cli.py) · [search_cli.py](src/q3hash/search_cli.py) | Explicit verification and bounded search commands |
 | [search_report.py](src/q3hash/search_report.py) | Strict aggregate snapshots, provenance and pure budget replay |
+| [hardware_models.py](src/q3hash/hardware_models.py) | Immutable hardware inputs, strict JSON and content identifiers; no cost assessment |
 | [tests](tests) · [tools](tools) | Regression suites and reproducible audit tools |
 | [benchmarks](benchmarks) | Comparison methodology; performance results remain future work |
 | [CI workflow](.github/workflows/tests.yml) | Distribution tests and independent numerical audits |
