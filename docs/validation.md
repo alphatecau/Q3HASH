@@ -61,8 +61,8 @@ block maps, supplied complete-operator comparisons, structural dependency depth,
 strict dominance and retained ties. The [search contract](contracts/encoding-search-v1.md)
 defines further implementation acceptance cases, including schema validation and
 orchestration budgets. Production encoding generation is implemented in the
-development build; manual supplied-circuit comparison is implemented in dev2,
-while aggregate budgeted evaluation and its report remain pending.
+development build; manual supplied-circuit comparison was added in dev2, and
+aggregate budgeted evaluation with strict reports is implemented in dev3.
 
 CI runs the vector audit, and clean wheel/source installation checks require the
 fixture and run it using the installed package. It remains a design/reference
@@ -108,6 +108,32 @@ passing comparison evidence. Unexpected verifier exceptions remain visible.
 CI and clean wheel/source installations run this audit. Counts are structural
 resources under the declared primitive model. Pareto eligibility is based on the
 existing small-operator verifier, not hardware execution or a universal optimum.
+
+## Aggregate evaluation and recorded reports — 0.4.0.dev3
+
+`tests/test_search_verification.py` and `tests/test_search_report.py` add 41 tests
+to the unchanged 120-test baseline. They check whole-input preflight before any
+verifier call; exact call/work boundaries; failure charging and later smaller
+circuits after a skip; operation/dense/budget precedence; zero-work identity calls;
+missing circuits and partial fronts; complete nine-state entangling and seeded
+mixed-axis workloads; and visible unexpected verifier exceptions.
+
+Snapshot cases check canonical bytes/IDs, immutability, full generation replay,
+recomputed budgets/resources/fronts with ties, historical environment preservation,
+schema/field/type/order violations, forged pass/cost claims, invalid metrics/phases,
+null-only nonfinite failures, duplicate keys, Unicode and symmetric wire limits.
+Logical and physical program ID wire failures occur before numerical work. Tests
+patch both verifier entry points to reject accidental calls during decoding.
+
+`python tools/check_search_evaluation.py` audits 324 actual bounded runs using an
+independent remaining-budget ledger, explicit (program, basis column, gate) events,
+all-predecessor resource DAG and all-pairs nondominance. It checks 236 actual circuit
+verifications and 324 strict snapshot replays. CI and clean wheel/source installations
+run the audit. Complete reports repeat byte-for-byte in the same recorded environment;
+decoded reports explicitly identify their evidence as recorded rather than computed.
+
+The search CLI and final v0.4 release gates remain pending. Website runtime and
+deployment are separate from this Python-core development stage.
 
 ## Limits of the evidence
 

@@ -9,7 +9,9 @@ from .search import DimensionRejections, EncodingCandidate, GenerationReport, Se
 from .resources import RESOURCE_OBJECTIVES, ResourceCounts, count_resources
 from .evaluation import CandidateEvaluation, CircuitImplementation
 from .comparison import dominates, pareto_front
-from .search_verification import evaluate_candidate
+from .search_report import NumericalEnvironment, SearchReport
+from .search_verification import evaluate_candidate, evaluate_candidates
+from ._version import __version__
 
 __all__ = [
     'Circuit', 'CircuitIR', 'Gate', 'GateKind', 'Operation', 'Register',
@@ -19,4 +21,5 @@ __all__ = [
     'SearchConstraints', 'EncodingCandidate', 'DimensionRejections', 'GenerationReport', 'generate_encodings',
     'RESOURCE_OBJECTIVES', 'ResourceCounts', 'count_resources',
     'CircuitImplementation', 'CandidateEvaluation', 'evaluate_candidate', 'dominates', 'pareto_front',
+    'NumericalEnvironment', 'SearchReport', 'evaluate_candidates', '__version__',
 ]

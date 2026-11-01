@@ -12,7 +12,7 @@ An experimental, ternary-first language, simulator and compiler research project
 
 [Quick start](#quick-start) · [First program](#your-first-program) · [Encoding example](#one-qutrit-two-qubits) · [Technical details](#technical-details) · [Documentation](#documentation)
 
-<sub>Q3HASH · v0.4.0.dev2 · Pure Python · No third-party runtime dependencies</sub>
+<sub>Q3HASH · v0.4.0.dev3 · Pure Python · No third-party runtime dependencies</sub>
 
 </div>
 
@@ -201,7 +201,7 @@ families; `truncated` identifies a budget-limited prefix.
 
 These results are encoding maps. A physical gate implementation must still be
 supplied and checked with the existing verifier. Structural comparison is shown
-below; aggregate budgeted evaluation and a search CLI are later work packages.
+below, followed by aggregate budgeted evaluation. A search CLI remains pending.
 See the [search
 contract](docs/contracts/encoding-search-v1.md) and [implementation
 sequence](docs/plans/v0.4-implementation.md).
@@ -244,8 +244,56 @@ Only circuits that pass the existing complete-subspace verifier are eligible.
 Ties are retained; missing, failed and unsupported circuits are excluded. All rows
 must describe the same logical program and verification settings. Counts are
 structural, with an ideal disjoint-axis depth model, rather than device gate times
-or hardware performance. The adapter checks one circuit at a time; the aggregate
-call/work ledger and full search reports remain pending.
+or hardware performance. The adapter checks one circuit at a time; use the aggregate
+API below to enforce a shared call/work budget.
+
+</details>
+
+<details>
+<summary><strong>Budgeted evaluation and portable reports — v0.4 development</strong></summary>
+
+In `0.4.0.dev3`, evaluate all retained candidates under one shared numerical budget:
+
+```python
+from q3hash import (
+    CircuitImplementation, SearchConstraints, SearchReport,
+    evaluate_candidates, generate_encodings, logical_from_source,
+)
+
+logical = logical_from_source("qutrit q\nshift q")
+generation = generate_encodings(
+    (3,), SearchConstraints(max_registers=2, max_physical_size=4, max_verifications=1)
+)
+native, binary = generation.candidates
+binary_ir = logical_from_source(
+    "qubit a\nqubit b\nsum a b\nsum b a\nshift b"
+).ir
+report = evaluate_candidates(logical, generation, (
+    CircuitImplementation(native.encoding, logical.ir),
+    CircuitImplementation(binary.encoding, binary_ir),
+))
+assert [row.status for row in report.evaluations] == ["pass", "not-evaluated"]
+assert report.evaluations[1].reason_code == "verification-call-budget"
+assert (report.verification_calls, report.gate_column_steps) == (1, 6)
+assert report.front_ids == (native.candidate_id,)
+assert report.front_is_partial
+recorded = SearchReport.from_json(report.to_json())
+assert recorded == report
+assert recorded.evidence_origin == "recorded"
+```
+
+Every retained candidate receives a status in generation order. All bindings and
+options are validated before any numerical work. A failed check still consumes
+its call/work budget; a skipped check consumes neither, allowing a later smaller
+circuit to fit. Missing circuits remain unimplemented. Counts and fronts only use
+passing supplied circuits.
+
+Canonical reports retain inputs, generation/rejection evidence, circuit IDs,
+verification snapshots, exact resources, budget totals and numerical environment.
+Decoding checks generation replay, the budget plan, costs and front membership
+without rerunning numerical verification. A decoded report is recorded evidence;
+its metadata is not authenticated. The strict 1 MiB JSON limit raises an error
+instead of truncating a large report. The search CLI is the next work package.
 
 </details>
 
@@ -333,13 +381,13 @@ The [validation guide](docs/validation.md) explains the independent construction
 | :--- | :--- | :--- |
 | v0.2.1 | Parser, explicit dimensions, IR, simulator and distribution checks | Preserved regression baseline |
 | v0.3 | Explicit encodings and complete small-operator checks | Implemented and merged into `main` |
-| v0.4 | Bounded candidate generation and Pareto comparisons | Generator and verified-circuit structural comparison implemented; aggregate evaluation and CLI pending |
+| v0.4 | Bounded candidate generation and Pareto comparisons | Generation, budgeted supplied-circuit evaluation, structural fronts and strict reports implemented; CLI pending |
 | v0.5 | Hardware-conditioned costs and equivalent benchmark workloads | Research target |
 | v0.6 | Web/core integration and a reproducible research demonstration | Research target |
 
 The [six-month roadmap](docs/roadmap.md) describes the milestones and acceptance criteria.
 
-**Next development step:** implement the cumulative verification ledger and versioned aggregate search report, then the search CLI, following the [v0.4 work packages](docs/plans/v0.4-implementation.md). Generated maps still require supplied physical circuits; hardware synthesis and a universal best-encoding claim remain outside this milestone.
+**Next development step:** add the search CLI and complete the v0.4 release gates, following the [v0.4 work packages](docs/plans/v0.4-implementation.md). Generated maps still require supplied physical circuits; hardware synthesis and a universal best-encoding claim remain outside this milestone.
 
 **Current scope.** Q3# runs on a classical computer using floating-point amplitudes. Automatic logical-dimension inference, physical-circuit search/synthesis, hardware-aware optimisation, measurement, noise, hybrid control flow and hardware execution remain research targets. The gate set is not claimed to be universal. The numerical checks provide bounded evidence; formal proof, hardware performance and quantum advantage have not been demonstrated. Ternary encoding is not assumed to outperform binary encoding.
 

@@ -47,3 +47,5 @@ jobs:
         run: python -I tools/check_search_generation.py
       - name: Audit exact resources and supplied-circuit Pareto fronts
         run: python -I tools/check_resources_comparison.py
+      - name: Audit cumulative verification budgets and recorded reports
+        run: python -I tools/check_search_evaluation.py

@@ -299,11 +299,11 @@ verification snapshot or resource vector from the caller; use the adapter.
 
 CandidateEvaluation retains immutable logical/candidate/implementation inputs and
 the normalised verification options. Its `to_dict` uses the five evaluation fields
-already specified in section 9. This is an in-memory producer result; standalone
-snapshot decoding and the aggregate SearchReport remain work package 4.
+already specified in section 9. This is an in-memory producer result; aggregate
+snapshot decoding is implemented by SearchReport in work package 4 below.
 `evaluation.py` owns the result/input models, `resources.py` owns counts,
 `comparison.py` imports those validated result types, and `search_verification.py`
-owns this adapter and the future aggregate orchestrator. No reverse import is
+owns this adapter and the aggregate orchestrator. No reverse import is
 added to the existing generator or verifier.
 
 `dominates` is exact vector mathematics, independent of verification. The
@@ -312,13 +312,14 @@ evaluations, all for the exact same LogicalProgram and identical tolerance,
 dense-limit and operation-limit settings. Validate the entire tuple before
 filtering statuses. Reject repeated candidate IDs, including identical repeats;
 reject unequal encodings sharing one digest. Preserve the supplied order, which
-the future orchestrator supplies in generation order. Only pass results qualify.
+the aggregate orchestrator supplies in generation order. Only pass results qualify.
 Empty or all-nonpassing input returns an empty tuple, not a successful evaluation.
 
 The adapter performs at most one numerical verification per call. It is not the
 aggregate `evaluate_candidates` API and does not enforce cumulative call or
 gate-column budgets across separate calls. That global ledger, full candidate
-coverage and the versioned aggregate report remain the next work package.
+coverage and the versioned aggregate report are implemented in work package 4,
+as specified in section 9.
 Resource/count/comparison argument errors use Q3-SEARCH-001; incompatible
 implementations or logical workloads use Q3-SEARCH-003; inconsistent producer
 results use Q3-SEARCH-005. Existing verifier-option diagnostics remain unchanged.
@@ -358,6 +359,32 @@ all possible circuits for any map. Missing circuits, truncation and skipped or
 unsupported verification must be visible beside the front.
 
 ## 9. Serialization, provenance and errors
+
+### Aggregate implementation interface — 0.4.0.dev3
+
+`evaluate_candidates(logical, generation, implementations=(), *, tolerance=1e-10,
+max_dimension=64)` implements the ledger in section 7 and returns an immutable
+SearchReport. Validate every supplied binding and all options before any numerical
+call. Implementations must be an exact tuple, belong to retained candidates by full
+encoding equality, and occur at most once. Callers may supply bindings in any order;
+the producer normalises them to candidate order. Stored implementation and evaluation
+arrays must already be in that order; decoding never silently rearranges evidence.
+
+SearchReport constructors do not accept arbitrary status/cost claims. `from_dict`
+and `from_json` replay bounded generation, the pure budget plan and resource/front
+calculations, but never invoke the numerical verifier. `evidence_origin` distinguishes
+`computed` from `recorded` in memory; this is not an extra wire field. Derived
+`status_counts`, `front_reason` and `front_is_partial` expose coverage. A front is
+partial if generation was truncated or any candidate lacks a circuit, is unsupported
+or was skipped. Failures are evaluated evidence, not missing work.
+
+The engine version is the package source version, checked against installed package
+metadata by distribution audits. The verifier revision is
+`q3hash.operator-verification-v1`. Runtime producers leave unavailable source commit
+provenance null; they do not infer it from the current working directory. Decoders
+preserve historical version/environment metadata without claiming to authenticate it.
+Program IDs are computed during preflight, including all supplied physical programs;
+an oversized program ID representation fails before the first verifier call.
 
 Constraints, generation and search reports each get a separate strict JSON
 schema: `q3hash.encoding-search-constraints`, `q3hash.encoding-generation`, and
