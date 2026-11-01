@@ -5,6 +5,7 @@ import math
 from typing import Optional
 
 from .encoding import BasisEncoding
+from .equivalence import dense_limit
 from .ir import CircuitIR
 from .logical_ir import LogicalProgram
 from .resources import ResourceCounts, count_resources
@@ -26,7 +27,25 @@ class CircuitImplementation:
 
 _METRICS = ("subspace_residual", "leakage_norm", "logical_unitarity_error", "physical_unitarity_error")
 _NO_CALL = {"no-implementation": "unimplemented", "operation-limit": "unsupported",
-            "dense-limit": "unsupported"}
+            "dense-limit": "unsupported", "verification-call-budget": "not-evaluated",
+            "gate-column-budget": "not-evaluated"}
+
+
+def _checked_options(tolerance, max_dimension, max_operations_per_program):
+    if type(max_operations_per_program) is not int:
+        raise TypeError("Q3-SEARCH-001: operation limit must be an exact integer")
+    if type(tolerance) not in (int, float):
+        raise TypeError("Q3-VERIFY-001: tolerance must be a built-in positive finite number")
+    try:
+        tolerance = float(tolerance)
+    except OverflowError as error:
+        raise ValueError("Q3-VERIFY-001: unrepresentable tolerance") from error
+    if not math.isfinite(tolerance) or tolerance <= 0:
+        raise ValueError("Q3-VERIFY-001: tolerance must be positive and finite")
+    dense_limit(max_dimension)
+    if not 1 <= max_operations_per_program <= 16384:
+        raise ValueError("Q3-SEARCH-001: operation limit must be in 1..16384")
+    return tolerance
 
 
 def _checked_verification(report, logical, candidate, tolerance):

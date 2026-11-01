@@ -1,12 +1,10 @@
-"""Manual candidate verification adapter; aggregate search orchestration is pending."""
+"""Bounded supplied-circuit verification using the unchanged complete verifier."""
 
-import math
-
-from .equivalence import dense_limit
-from .evaluation import CandidateEvaluation, CircuitImplementation
+from .evaluation import CandidateEvaluation, CircuitImplementation, _checked_options
 from .logical_ir import LogicalProgram
 from .search import EncodingCandidate
 from .verification import verify_equivalence
+from .search_report import SearchReport, _plan, _prepare
 
 
 def evaluate_candidate(logical, candidate, implementation=None, *, tolerance=1e-10,
@@ -20,17 +18,7 @@ def evaluate_candidate(logical, candidate, implementation=None, *, tolerance=1e-
     if (logical.dimensions != candidate.encoding.logical_dimensions or
             (implementation is not None and implementation.encoding != candidate.encoding)):
         raise ValueError("Q3-SEARCH-003: logical program, candidate and implementation disagree")
-    if type(tolerance) not in (int, float):
-        raise TypeError("Q3-VERIFY-001: tolerance must be a built-in positive finite number")
-    try:
-        tolerance = float(tolerance)
-    except OverflowError as error:
-        raise ValueError("Q3-VERIFY-001: unrepresentable tolerance") from error
-    if not math.isfinite(tolerance) or tolerance <= 0:
-        raise ValueError("Q3-VERIFY-001: tolerance must be positive and finite")
-    dense_limit(max_dimension)
-    if not 1 <= max_operations_per_program <= 16384:
-        raise ValueError("Q3-SEARCH-001: operation limit must be in 1..16384")
+    tolerance = _checked_options(tolerance, max_dimension, max_operations_per_program)
     options = (logical, candidate, implementation, tolerance, max_dimension, max_operations_per_program)
     if implementation is None:
         return CandidateEvaluation._computed(*options, reason_code="no-implementation")
@@ -42,3 +30,22 @@ def evaluate_candidate(logical, candidate, implementation=None, *, tolerance=1e-
     report = verify_equivalence(logical, implementation.circuit, candidate.encoding,
                                 tolerance=tolerance, max_dimension=max_dimension)
     return CandidateEvaluation._computed(*options, verification=report)
+
+
+def evaluate_candidates(logical, generation, implementations=(), *, tolerance=1e-10,
+                        max_dimension=64):
+    """Evaluate every retained candidate under one deterministic global ledger."""
+    inputs = _prepare(logical, generation, implementations, tolerance, max_dimension)
+    plan = _plan(inputs)
+    evaluations = []
+    for candidate, implementation, reason in plan.rows:
+        options = (logical, candidate, implementation, inputs.tolerance, max_dimension,
+                   generation.constraints.max_operations_per_program)
+        if reason is not None:
+            result = CandidateEvaluation._computed(*options, reason_code=reason)
+        else:
+            report = verify_equivalence(logical, implementation.circuit, candidate.encoding,
+                                        tolerance=inputs.tolerance, max_dimension=max_dimension)
+            result = CandidateEvaluation._computed(*options, verification=report)
+        evaluations.append(result)
+    return SearchReport._computed(inputs, tuple(evaluations))

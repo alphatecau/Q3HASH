@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.0.dev3 — 1 November 2026
+
+- Evaluate every retained candidate under shared call and gate-column budgets, validating all circuit bindings and program IDs before numerical work. Preserve operation/dense-limit precedence, charge failures, and allow later smaller circuits after a work-budget skip.
+- Add immutable aggregate reports with complete inputs, statuses, exact resources/fronts, canonical program IDs, numerical environment and explicit partial-front diagnostics.
+- Implement strict search-report JSON v1. Decode recorded evidence by replaying bounded generation, budgets, counts and fronts without invoking numerical verification; preserve historical provenance without authenticating it.
+- Add 41 tests, retaining the original 120, and an independent remaining-budget/event-ledger audit of 324 runs, 236 actual circuit verifications and 324 snapshot replays. Require it in CI and clean wheel/source installations.
+
+This completes the aggregate evaluation work package. The search CLI and final v0.4 release gates remain pending. The stable v0.3.0 tag and website are unchanged.
+
 ## 0.4.0.dev2 — 1 November 2026
 
 - Derive exact primitive resource counts and dependency depth directly from resolved physical circuits, without allocating statevectors or claiming hardware costs.

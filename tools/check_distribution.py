@@ -29,7 +29,8 @@ def inspect_wheel(path):
         names = archive.namelist()
         modules = ("__init__.py", "core.py", "ir.py", "cli.py", "_serialization.py", "_state.py",
                    "logical_ir.py", "encoding.py", "equivalence.py", "verification.py", "verify_cli.py", "search.py",
-                   "resources.py", "evaluation.py", "comparison.py", "search_verification.py")
+                   "resources.py", "evaluation.py", "comparison.py", "search_verification.py",
+                   "search_report.py", "_version.py")
         for module in modules:
             if f"q3hash/{module}" not in names:
                 raise RuntimeError(f"Wheel is missing module {module}")
@@ -94,6 +95,8 @@ def extract_source(archive_path, destination):
         "src/q3hash/resources.py", "src/q3hash/evaluation.py", "src/q3hash/comparison.py",
         "src/q3hash/search_verification.py", "tests/test_resources.py", "tests/test_comparison.py",
         "tools/check_resources_comparison.py",
+        "src/q3hash/search_report.py", "src/q3hash/_version.py",
+        "tests/test_search_verification.py", "tests/test_search_report.py", "tools/check_search_evaluation.py",
     ]
     missing = [name for name in required if not (source / name).is_file()]
     if missing:
@@ -113,6 +116,7 @@ def installed_checks(wheel, source, destination, version, environment):
         "p=pathlib.Path(q3hash.__file__).resolve();"
         "assert p.is_relative_to(pathlib.Path(sys.prefix).resolve()),p;"
         f"assert importlib.metadata.version('q3hash')=={version!r};"
+        f"assert q3hash.__version__=={version!r};"
         "print('Installed package:',p)"
     )
     print(run([str(python), "-I", "-c", check], source, environment).strip())
@@ -137,6 +141,7 @@ def installed_checks(wheel, source, destination, version, environment):
     print(run([str(python), "-I", "tools/check_search_contract.py"], source, environment).strip())
     print(run([str(python), "-I", "tools/check_search_generation.py"], source, environment).strip())
     print(run([str(python), "-I", "tools/check_resources_comparison.py"], source, environment).strip())
+    print(run([str(python), "-I", "tools/check_search_evaluation.py"], source, environment).strip())
 
 
 def main():
