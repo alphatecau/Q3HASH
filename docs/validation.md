@@ -175,15 +175,48 @@ zero versus missing duration, stale/unknown data and nonaggregated error records
 
 CI and both clean wheel/source installations run this audit. Its small reference
 models are outside the package. They establish executable design expectations;
-production hardware models, report codecs, hardware CLI and the independent Cirq
-adapter are not delivered. The [contract](contracts/hardware-profile-v1.md) and
+the input-model tests and Cirq baseline below check the delivered first packages.
+Production costs, report codecs and hardware CLI remain pending. The [contract](contracts/hardware-profile-v1.md) and
 [implementation gates](plans/v0.5-implementation.md) specify the remaining work.
 All target numbers are synthetic test values, including the fixtures exercising
 reported-device metadata. No measured device costs or circuit-fidelity result is
-claimed. Package version remains 0.4.0 and the 186-test regression suite is retained.
+claimed. The 186-test v0.4 regression suite is retained.
+
+## Hardware inputs and external composition baseline — v0.5.0.dev1
+
+`tests/test_hardware_models.py` adds 20 tests, bringing the full suite to 206.
+Cases cover integer/UTF-8/age/shape limits, explicit versus missing zero time,
+error definitions and nonfinite/overflowing numbers, strict canonical ordering,
+directed SUM bindings, calendar/provenance rules, matrix-free 64-site profiles,
+immutable snapshots, input schemas, semantic identifiers and symmetric wire limits.
+All eight frozen profiles and 17 placement vectors use the production input models.
+Source-membership, recorded-evidence rejection and collision handling still belong
+to the pending report producer.
+
+`python -I tools/check_external_operators.py` uses pinned Cirq 1.7.0 on Python 3.12.
+It independently reads the fixed source subset and constructs local qudit matrices
+from tensor labels and mathematical definitions. Cirq composes the full operator
+with explicit declaration order, spectator Qids, complex128 and measurements
+disallowed. Binary gates additionally use built-in X/H/CNOT. No Q3# parser, gate,
+stride or operator helper constructs the reference result.
+
+Recorded coverage is 523 distinct programs, 15,321 basis columns and 2,092 arbitrary
+states, including every unary dimension 2–32, 153 in-budget SUM dimension pairs in
+both axis orders, 36 spectator circuits, 120 seeded compositions and all 13 frozen
+workloads. Each of the 12 supplied physical cases is checked both as its actual
+Q3# circuit and as a separately labelled Cirq reference matrix. Independent
+single-phase subspace/leakage/unitarity metrics agree. Nine cases pass, two fail,
+one is unsupported under its original limit and the absent circuit stays unimplemented.
+
+Local maxima were 4.61e-16 for operator amplitudes, 3.18e-14 for arbitrary-state
+amplitudes and 4.45e-16 for metric differences, below the 1e-11 comparison tolerance.
+The tool prints exact dependency versions, settings, seed, fixture digest, counts
+and statuses. These numbers describe one recorded local environment; CI records
+its own output. Missing or mismatched Cirq fails the dedicated CI check.
+See the [input and reproduction guide](hardware-profiles.md).
 
 ## Limits of the evidence
 
-The dense oracle is independently implemented within the same repository. An optional numerical audit additionally compares against NumPy tensor operations and SciPy DFT matrices across the supported dimensions. Neither is an external review, a comparison with another quantum SDK, or formal verification. Finite examples do not prove correctness for every circuit. These checks establish a reproducible numerical baseline for this milestone.
+The dense oracle is independently implemented within the same repository. Optional numerical audits compare against NumPy tensor operations and SciPy DFT matrices across the supported dimensions. The separate Cirq baseline adds a reproducible comparison with another quantum SDK. Its custom qudit matrices establish composition semantics, not native device support. None of these checks is external peer review or formal verification. Finite examples do not prove correctness for every circuit.
 
 No performance benchmark, quantum advantage, hardware execution, automatic dimension selection or compiler optimisation is demonstrated.

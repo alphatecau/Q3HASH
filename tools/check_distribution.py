@@ -30,7 +30,7 @@ def inspect_wheel(path):
         modules = ("__init__.py", "core.py", "ir.py", "cli.py", "_serialization.py", "_state.py",
                    "logical_ir.py", "encoding.py", "equivalence.py", "verification.py", "verify_cli.py", "search.py",
                    "resources.py", "evaluation.py", "comparison.py", "search_verification.py",
-                   "search_report.py", "_version.py", "search_cli.py")
+                   "search_report.py", "_version.py", "search_cli.py", "hardware_models.py")
         for module in modules:
             if f"q3hash/{module}" not in names:
                 raise RuntimeError(f"Wheel is missing module {module}")
@@ -102,6 +102,8 @@ def extract_source(archive_path, destination):
         "benchmarks/search-cli-v1.json", "docs/search-cli.md",
         "docs/contracts/hardware-profile-v1.md", "docs/plans/v0.5-implementation.md",
         "benchmarks/hardware-cost-v1.json", "tools/check_hardware_contract.py",
+        "src/q3hash/hardware_models.py", "tests/test_hardware_models.py",
+        "tools/check_external_operators.py", "docs/hardware-profiles.md",
     ]
     missing = [name for name in required if not (source / name).is_file()]
     if missing:

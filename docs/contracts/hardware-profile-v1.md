@@ -1,7 +1,8 @@
 # v0.5 contract — hardware profiles and conditional circuit costs
 
-**Status:** Design baseline and executable reference vectors. The interfaces below
-are proposed; they are not public imports or a delivered hardware evaluator.
+**Status:** Input models and strict input serialization are implemented in
+v0.5.0.dev1, alongside the independent Cirq operator baseline. Assessment, costs,
+HardwareReport/replay and hardware CLI interfaces remain proposed.
 **Date:** 1 November 2026, Australia/Brisbane.
 **Baseline:** [ADR 0001](../adr/0001-verified-encoding-first.md),
 [encoding search v1](encoding-search-v1.md), Python core v0.4.0.
@@ -94,13 +95,15 @@ def assess_hardware(
 def hardware_front(report: HardwareReport) -> tuple[str, ...]: ...
 ```
 
-`hardware_models.py` will own input models, field validation and canonical IDs;
+`hardware_models.py` owns input models, field validation and canonical IDs;
 it imports existing IR/serialization only. `hardware_costs.py` will own pure
 feasibility, budget and timing arithmetic; it allocates no quantum matrices.
 `hardware_report.py` will own immutable outputs and strict snapshot replay.
 `hardware.py` will adapt the complete v0.4 SearchReport, retaining all candidates.
 Neither the existing IR, encoding, verifier nor generator imports this layer.
-No module or public export is added by this design-only change.
+The seven input models and objective constants are public imports. The
+`assess_hardware`, HardwareReport and `hardware_front` interfaces remain pending.
+See the [input guide](../hardware-profiles.md) for delivered methods.
 
 The producer accepts a SearchReport with `evidence_origin == "computed"`.
 Recorded JSON evidence must be numerically reevaluated through the existing API
@@ -285,7 +288,8 @@ time totals remain lossless integers; clients must not round them through floati
 point. A valid large in-memory report may exceed the wire cap and must fail
 serialization rather than truncate evidence.
 
-The following future schemas have exact `schema` and integer `schema_version: 1`:
+Profiles and contexts implement the following exact `schema` and integer
+`schema_version: 1` headers. The hardware-report schema remains proposed:
 
 | Schema | Additional fields |
 | --- | --- |
@@ -360,8 +364,10 @@ documented qualification.
 
 The [reference vectors](../../benchmarks/hardware-cost-v1.json) and
 [tools/check_hardware_contract.py](../../tools/check_hardware_contract.py) check
-tiny fixed mathematical cases now. They do not establish that the future public
-models, report decoder, hardware CLI or an external-framework adapter are delivered.
+tiny fixed mathematical cases. The input-model tests and
+`tools/check_external_operators.py` separately validate delivered inputs and the
+Cirq composition baseline. Production cost assessment, report decoding and the
+hardware CLI remain pending.
 Use the [work packages](../plans/v0.5-implementation.md) for implementation gates.
 
 ## 10. External references and interpretation

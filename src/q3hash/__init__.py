@@ -11,6 +11,9 @@ from .evaluation import CandidateEvaluation, CircuitImplementation
 from .comparison import dominates, pareto_front
 from .search_report import NumericalEnvironment, SearchReport
 from .search_verification import evaluate_candidate, evaluate_candidates
+from .hardware_models import (DEFAULT_HARDWARE_OBJECTIVES, HARDWARE_OBJECTIVES, ErrorRange,
+                              HardwareContext, HardwarePlacement, HardwareProfile,
+                              NativeBinding, ProfileProvenance, TimeRange)
 from ._version import __version__
 
 __all__ = [
@@ -22,4 +25,6 @@ __all__ = [
     'RESOURCE_OBJECTIVES', 'ResourceCounts', 'count_resources',
     'CircuitImplementation', 'CandidateEvaluation', 'evaluate_candidate', 'dominates', 'pareto_front',
     'NumericalEnvironment', 'SearchReport', 'evaluate_candidates', '__version__',
+    'DEFAULT_HARDWARE_OBJECTIVES', 'HARDWARE_OBJECTIVES', 'TimeRange', 'ErrorRange',
+    'ProfileProvenance', 'NativeBinding', 'HardwareProfile', 'HardwareContext', 'HardwarePlacement',
 ]
