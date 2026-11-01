@@ -1,0 +1,3093 @@
+{
+  "schema": "q3hash.hardware-contract-vectors",
+  "schema_version": 1,
+  "evidence_scope": "synthetic-contract-fixtures-no-device-data",
+  "profiles": {
+    "hybrid": {
+      "schema": "q3hash.hardware-profile",
+      "schema_version": 1,
+      "name": "synthetic-hybrid-fixture",
+      "site_dimensions": [
+        3,
+        2,
+        2,
+        3
+      ],
+      "couplings": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ]
+      ],
+      "bindings": [
+        {
+          "kind": "shift",
+          "sites": [
+            0
+          ],
+          "duration": {
+            "lower_ps": 40000,
+            "upper_ps": 60000
+          },
+          "error": {
+            "metric": "average-gate-infidelity",
+            "lower": 0.001,
+            "upper": 0.003
+          }
+        },
+        {
+          "kind": "shift",
+          "sites": [
+            1
+          ],
+          "duration": {
+            "lower_ps": 10000,
+            "upper_ps": 10000
+          },
+          "error": null
+        },
+        {
+          "kind": "shift",
+          "sites": [
+            2
+          ],
+          "duration": {
+            "lower_ps": 10000,
+            "upper_ps": 20000
+          },
+          "error": null
+        },
+        {
+          "kind": "shift",
+          "sites": [
+            3
+          ],
+          "duration": {
+            "lower_ps": 5000,
+            "upper_ps": 8000
+          },
+          "error": null
+        },
+        {
+          "kind": "fourier",
+          "sites": [
+            0
+          ],
+          "duration": {
+            "lower_ps": 80000,
+            "upper_ps": 120000
+          },
+          "error": null
+        },
+        {
+          "kind": "fourier",
+          "sites": [
+            1
+          ],
+          "duration": {
+            "lower_ps": 20000,
+            "upper_ps": 30000
+          },
+          "error": null
+        },
+        {
+          "kind": "fourier",
+          "sites": [
+            3
+          ],
+          "duration": {
+            "lower_ps": 110000,
+            "upper_ps": 130000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            0,
+            3
+          ],
+          "duration": {
+            "lower_ps": 500000,
+            "upper_ps": 600000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            1,
+            0
+          ],
+          "duration": {
+            "lower_ps": 90000,
+            "upper_ps": 110000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            1,
+            2
+          ],
+          "duration": {
+            "lower_ps": 200000,
+            "upper_ps": 250000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            2,
+            1
+          ],
+          "duration": {
+            "lower_ps": 180000,
+            "upper_ps": 220000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            3,
+            0
+          ],
+          "duration": {
+            "lower_ps": 400000,
+            "upper_ps": 450000
+          },
+          "error": null
+        }
+      ],
+      "provenance": {
+        "kind": "synthetic",
+        "provider": "q3hash-contract-fixture",
+        "device_id": "fictitious-hybrid",
+        "snapshot_id": "fixture-v1",
+        "source_uri": "urn:q3hash:synthetic:hardware-cost-v1",
+        "retrieved_at": "2026-11-01T00:00:00Z",
+        "calibrated_at": null,
+        "notes": "Synthetic contract values only. No measured device data, confidence intervals or physical performance claim."
+      }
+    },
+    "one-way": {
+      "schema": "q3hash.hardware-profile",
+      "schema_version": 1,
+      "name": "one-way-fixture",
+      "site_dimensions": [
+        3,
+        2,
+        2,
+        3
+      ],
+      "couplings": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          0
+        ]
+      ],
+      "bindings": [
+        {
+          "kind": "shift",
+          "sites": [
+            0
+          ],
+          "duration": {
+            "lower_ps": 40000,
+            "upper_ps": 60000
+          },
+          "error": {
+            "metric": "average-gate-infidelity",
+            "lower": 0.001,
+            "upper": 0.003
+          }
+        },
+        {
+          "kind": "shift",
+          "sites": [
+            1
+          ],
+          "duration": {
+            "lower_ps": 10000,
+            "upper_ps": 10000
+          },
+          "error": null
+        },
+        {
+          "kind": "shift",
+          "sites": [
+            2
+          ],
+          "duration": {
+            "lower_ps": 10000,
+            "upper_ps": 20000
+          },
+          "error": null
+        },
+        {
+          "kind": "shift",
+          "sites": [
+            3
+          ],
+          "duration": {
+            "lower_ps": 5000,
+            "upper_ps": 8000
+          },
+          "error": null
+        },
+        {
+          "kind": "fourier",
+          "sites": [
+            0
+          ],
+          "duration": {
+            "lower_ps": 80000,
+            "upper_ps": 120000
+          },
+          "error": null
+        },
+        {
+          "kind": "fourier",
+          "sites": [
+            1
+          ],
+          "duration": {
+            "lower_ps": 20000,
+            "upper_ps": 30000
+          },
+          "error": null
+        },
+        {
+          "kind": "fourier",
+          "sites": [
+            3
+          ],
+          "duration": {
+            "lower_ps": 110000,
+            "upper_ps": 130000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            0,
+            3
+          ],
+          "duration": {
+            "lower_ps": 500000,
+            "upper_ps": 600000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            1,
+            0
+          ],
+          "duration": {
+            "lower_ps": 90000,
+            "upper_ps": 110000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            1,
+            2
+          ],
+          "duration": {
+            "lower_ps": 200000,
+            "upper_ps": 250000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            3,
+            0
+          ],
+          "duration": {
+            "lower_ps": 400000,
+            "upper_ps": 450000
+          },
+          "error": null
+        }
+      ],
+      "provenance": {
+        "kind": "synthetic",
+        "provider": "q3hash-contract-fixture",
+        "device_id": "fictitious-hybrid",
+        "snapshot_id": "one-way-v1",
+        "source_uri": "urn:q3hash:synthetic:hardware-cost-v1",
+        "retrieved_at": "2026-11-01T00:00:00Z",
+        "calibrated_at": null,
+        "notes": "Synthetic contract values only. No measured device data, confidence intervals or physical performance claim."
+      }
+    },
+    "missing-used": {
+      "schema": "q3hash.hardware-profile",
+      "schema_version": 1,
+      "name": "missing-used-fixture",
+      "site_dimensions": [
+        3,
+        2,
+        2,
+        3
+      ],
+      "couplings": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ]
+      ],
+      "bindings": [
+        {
+          "kind": "shift",
+          "sites": [
+            0
+          ],
+          "duration": null,
+          "error": {
+            "metric": "average-gate-infidelity",
+            "lower": 0.001,
+            "upper": 0.003
+          }
+        },
+        {
+          "kind": "shift",
+          "sites": [
+            1
+          ],
+          "duration": {
+            "lower_ps": 10000,
+            "upper_ps": 10000
+          },
+          "error": null
+        },
+        {
+          "kind": "shift",
+          "sites": [
+            2
+          ],
+          "duration": {
+            "lower_ps": 10000,
+            "upper_ps": 20000
+          },
+          "error": null
+        },
+        {
+          "kind": "shift",
+          "sites": [
+            3
+          ],
+          "duration": {
+            "lower_ps": 5000,
+            "upper_ps": 8000
+          },
+          "error": null
+        },
+        {
+          "kind": "fourier",
+          "sites": [
+            0
+          ],
+          "duration": {
+            "lower_ps": 80000,
+            "upper_ps": 120000
+          },
+          "error": null
+        },
+        {
+          "kind": "fourier",
+          "sites": [
+            1
+          ],
+          "duration": {
+            "lower_ps": 20000,
+            "upper_ps": 30000
+          },
+          "error": null
+        },
+        {
+          "kind": "fourier",
+          "sites": [
+            3
+          ],
+          "duration": {
+            "lower_ps": 110000,
+            "upper_ps": 130000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            0,
+            3
+          ],
+          "duration": {
+            "lower_ps": 500000,
+            "upper_ps": 600000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            1,
+            0
+          ],
+          "duration": {
+            "lower_ps": 90000,
+            "upper_ps": 110000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            1,
+            2
+          ],
+          "duration": {
+            "lower_ps": 200000,
+            "upper_ps": 250000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            2,
+            1
+          ],
+          "duration": {
+            "lower_ps": 180000,
+            "upper_ps": 220000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            3,
+            0
+          ],
+          "duration": {
+            "lower_ps": 400000,
+            "upper_ps": 450000
+          },
+          "error": null
+        }
+      ],
+      "provenance": {
+        "kind": "synthetic",
+        "provider": "q3hash-contract-fixture",
+        "device_id": "fictitious-hybrid",
+        "snapshot_id": "missing-used-v1",
+        "source_uri": "urn:q3hash:synthetic:hardware-cost-v1",
+        "retrieved_at": "2026-11-01T00:00:00Z",
+        "calibrated_at": null,
+        "notes": "Synthetic contract values only. No measured device data, confidence intervals or physical performance claim."
+      }
+    },
+    "missing-unused": {
+      "schema": "q3hash.hardware-profile",
+      "schema_version": 1,
+      "name": "missing-unused-fixture",
+      "site_dimensions": [
+        3,
+        2,
+        2,
+        3
+      ],
+      "couplings": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ]
+      ],
+      "bindings": [
+        {
+          "kind": "shift",
+          "sites": [
+            0
+          ],
+          "duration": {
+            "lower_ps": 40000,
+            "upper_ps": 60000
+          },
+          "error": {
+            "metric": "average-gate-infidelity",
+            "lower": 0.001,
+            "upper": 0.003
+          }
+        },
+        {
+          "kind": "shift",
+          "sites": [
+            1
+          ],
+          "duration": {
+            "lower_ps": 10000,
+            "upper_ps": 10000
+          },
+          "error": null
+        },
+        {
+          "kind": "shift",
+          "sites": [
+            2
+          ],
+          "duration": {
+            "lower_ps": 10000,
+            "upper_ps": 20000
+          },
+          "error": null
+        },
+        {
+          "kind": "shift",
+          "sites": [
+            3
+          ],
+          "duration": {
+            "lower_ps": 5000,
+            "upper_ps": 8000
+          },
+          "error": null
+        },
+        {
+          "kind": "fourier",
+          "sites": [
+            0
+          ],
+          "duration": {
+            "lower_ps": 80000,
+            "upper_ps": 120000
+          },
+          "error": null
+        },
+        {
+          "kind": "fourier",
+          "sites": [
+            1
+          ],
+          "duration": {
+            "lower_ps": 20000,
+            "upper_ps": 30000
+          },
+          "error": null
+        },
+        {
+          "kind": "fourier",
+          "sites": [
+            3
+          ],
+          "duration": null,
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            0,
+            3
+          ],
+          "duration": {
+            "lower_ps": 500000,
+            "upper_ps": 600000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            1,
+            0
+          ],
+          "duration": {
+            "lower_ps": 90000,
+            "upper_ps": 110000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            1,
+            2
+          ],
+          "duration": {
+            "lower_ps": 200000,
+            "upper_ps": 250000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            2,
+            1
+          ],
+          "duration": {
+            "lower_ps": 180000,
+            "upper_ps": 220000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            3,
+            0
+          ],
+          "duration": {
+            "lower_ps": 400000,
+            "upper_ps": 450000
+          },
+          "error": null
+        }
+      ],
+      "provenance": {
+        "kind": "synthetic",
+        "provider": "q3hash-contract-fixture",
+        "device_id": "fictitious-hybrid",
+        "snapshot_id": "missing-unused-v1",
+        "source_uri": "urn:q3hash:synthetic:hardware-cost-v1",
+        "retrieved_at": "2026-11-01T00:00:00Z",
+        "calibrated_at": null,
+        "notes": "Synthetic contract values only. No measured device data, confidence intervals or physical performance claim."
+      }
+    },
+    "zero-duration": {
+      "schema": "q3hash.hardware-profile",
+      "schema_version": 1,
+      "name": "zero-duration-fixture",
+      "site_dimensions": [
+        3,
+        2,
+        2,
+        3
+      ],
+      "couplings": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ]
+      ],
+      "bindings": [
+        {
+          "kind": "shift",
+          "sites": [
+            0
+          ],
+          "duration": {
+            "lower_ps": 0,
+            "upper_ps": 0
+          },
+          "error": {
+            "metric": "average-gate-infidelity",
+            "lower": 0.001,
+            "upper": 0.003
+          }
+        },
+        {
+          "kind": "shift",
+          "sites": [
+            1
+          ],
+          "duration": {
+            "lower_ps": 10000,
+            "upper_ps": 10000
+          },
+          "error": null
+        },
+        {
+          "kind": "shift",
+          "sites": [
+            2
+          ],
+          "duration": {
+            "lower_ps": 10000,
+            "upper_ps": 20000
+          },
+          "error": null
+        },
+        {
+          "kind": "shift",
+          "sites": [
+            3
+          ],
+          "duration": {
+            "lower_ps": 5000,
+            "upper_ps": 8000
+          },
+          "error": null
+        },
+        {
+          "kind": "fourier",
+          "sites": [
+            0
+          ],
+          "duration": {
+            "lower_ps": 80000,
+            "upper_ps": 120000
+          },
+          "error": null
+        },
+        {
+          "kind": "fourier",
+          "sites": [
+            1
+          ],
+          "duration": {
+            "lower_ps": 20000,
+            "upper_ps": 30000
+          },
+          "error": null
+        },
+        {
+          "kind": "fourier",
+          "sites": [
+            3
+          ],
+          "duration": {
+            "lower_ps": 110000,
+            "upper_ps": 130000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            0,
+            3
+          ],
+          "duration": {
+            "lower_ps": 500000,
+            "upper_ps": 600000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            1,
+            0
+          ],
+          "duration": {
+            "lower_ps": 90000,
+            "upper_ps": 110000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            1,
+            2
+          ],
+          "duration": {
+            "lower_ps": 200000,
+            "upper_ps": 250000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            2,
+            1
+          ],
+          "duration": {
+            "lower_ps": 180000,
+            "upper_ps": 220000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            3,
+            0
+          ],
+          "duration": {
+            "lower_ps": 400000,
+            "upper_ps": 450000
+          },
+          "error": null
+        }
+      ],
+      "provenance": {
+        "kind": "synthetic",
+        "provider": "q3hash-contract-fixture",
+        "device_id": "fictitious-hybrid",
+        "snapshot_id": "zero-duration-v1",
+        "source_uri": "urn:q3hash:synthetic:hardware-cost-v1",
+        "retrieved_at": "2026-11-01T00:00:00Z",
+        "calibrated_at": null,
+        "notes": "Synthetic contract values only. No measured device data, confidence intervals or physical performance claim."
+      }
+    },
+    "reported-fresh": {
+      "schema": "q3hash.hardware-profile",
+      "schema_version": 1,
+      "name": "reported-fresh-fixture",
+      "site_dimensions": [
+        3,
+        2,
+        2,
+        3
+      ],
+      "couplings": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ]
+      ],
+      "bindings": [
+        {
+          "kind": "shift",
+          "sites": [
+            0
+          ],
+          "duration": {
+            "lower_ps": 40000,
+            "upper_ps": 60000
+          },
+          "error": {
+            "metric": "average-gate-infidelity",
+            "lower": 0.001,
+            "upper": 0.003
+          }
+        },
+        {
+          "kind": "shift",
+          "sites": [
+            1
+          ],
+          "duration": {
+            "lower_ps": 10000,
+            "upper_ps": 10000
+          },
+          "error": null
+        },
+        {
+          "kind": "shift",
+          "sites": [
+            2
+          ],
+          "duration": {
+            "lower_ps": 10000,
+            "upper_ps": 20000
+          },
+          "error": null
+        },
+        {
+          "kind": "shift",
+          "sites": [
+            3
+          ],
+          "duration": {
+            "lower_ps": 5000,
+            "upper_ps": 8000
+          },
+          "error": null
+        },
+        {
+          "kind": "fourier",
+          "sites": [
+            0
+          ],
+          "duration": {
+            "lower_ps": 80000,
+            "upper_ps": 120000
+          },
+          "error": null
+        },
+        {
+          "kind": "fourier",
+          "sites": [
+            1
+          ],
+          "duration": {
+            "lower_ps": 20000,
+            "upper_ps": 30000
+          },
+          "error": null
+        },
+        {
+          "kind": "fourier",
+          "sites": [
+            3
+          ],
+          "duration": {
+            "lower_ps": 110000,
+            "upper_ps": 130000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            0,
+            3
+          ],
+          "duration": {
+            "lower_ps": 500000,
+            "upper_ps": 600000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            1,
+            0
+          ],
+          "duration": {
+            "lower_ps": 90000,
+            "upper_ps": 110000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            1,
+            2
+          ],
+          "duration": {
+            "lower_ps": 200000,
+            "upper_ps": 250000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            2,
+            1
+          ],
+          "duration": {
+            "lower_ps": 180000,
+            "upper_ps": 220000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            3,
+            0
+          ],
+          "duration": {
+            "lower_ps": 400000,
+            "upper_ps": 450000
+          },
+          "error": null
+        }
+      ],
+      "provenance": {
+        "kind": "reported-device",
+        "provider": "q3hash-contract-fixture",
+        "device_id": "fictitious-hybrid",
+        "snapshot_id": "reported-fresh-v1",
+        "source_uri": "https://example.invalid/q3hash-fixture",
+        "retrieved_at": "2026-11-01T00:00:00Z",
+        "calibrated_at": "2026-11-01T00:00:00Z",
+        "notes": "Synthetic test of reported-device metadata only; no actual device/calibration data."
+      }
+    },
+    "reported-stale": {
+      "schema": "q3hash.hardware-profile",
+      "schema_version": 1,
+      "name": "reported-stale-fixture",
+      "site_dimensions": [
+        3,
+        2,
+        2,
+        3
+      ],
+      "couplings": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ]
+      ],
+      "bindings": [
+        {
+          "kind": "shift",
+          "sites": [
+            0
+          ],
+          "duration": {
+            "lower_ps": 40000,
+            "upper_ps": 60000
+          },
+          "error": {
+            "metric": "average-gate-infidelity",
+            "lower": 0.001,
+            "upper": 0.003
+          }
+        },
+        {
+          "kind": "shift",
+          "sites": [
+            1
+          ],
+          "duration": {
+            "lower_ps": 10000,
+            "upper_ps": 10000
+          },
+          "error": null
+        },
+        {
+          "kind": "shift",
+          "sites": [
+            2
+          ],
+          "duration": {
+            "lower_ps": 10000,
+            "upper_ps": 20000
+          },
+          "error": null
+        },
+        {
+          "kind": "shift",
+          "sites": [
+            3
+          ],
+          "duration": {
+            "lower_ps": 5000,
+            "upper_ps": 8000
+          },
+          "error": null
+        },
+        {
+          "kind": "fourier",
+          "sites": [
+            0
+          ],
+          "duration": {
+            "lower_ps": 80000,
+            "upper_ps": 120000
+          },
+          "error": null
+        },
+        {
+          "kind": "fourier",
+          "sites": [
+            1
+          ],
+          "duration": {
+            "lower_ps": 20000,
+            "upper_ps": 30000
+          },
+          "error": null
+        },
+        {
+          "kind": "fourier",
+          "sites": [
+            3
+          ],
+          "duration": {
+            "lower_ps": 110000,
+            "upper_ps": 130000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            0,
+            3
+          ],
+          "duration": {
+            "lower_ps": 500000,
+            "upper_ps": 600000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            1,
+            0
+          ],
+          "duration": {
+            "lower_ps": 90000,
+            "upper_ps": 110000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            1,
+            2
+          ],
+          "duration": {
+            "lower_ps": 200000,
+            "upper_ps": 250000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            2,
+            1
+          ],
+          "duration": {
+            "lower_ps": 180000,
+            "upper_ps": 220000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            3,
+            0
+          ],
+          "duration": {
+            "lower_ps": 400000,
+            "upper_ps": 450000
+          },
+          "error": null
+        }
+      ],
+      "provenance": {
+        "kind": "reported-device",
+        "provider": "q3hash-contract-fixture",
+        "device_id": "fictitious-hybrid",
+        "snapshot_id": "reported-stale-v1",
+        "source_uri": "https://example.invalid/q3hash-fixture",
+        "retrieved_at": "2026-11-01T00:00:00Z",
+        "calibrated_at": "2026-10-31T23:00:00Z",
+        "notes": "Synthetic test of reported-device metadata only; no actual device/calibration data."
+      }
+    },
+    "reported-unknown": {
+      "schema": "q3hash.hardware-profile",
+      "schema_version": 1,
+      "name": "reported-unknown-fixture",
+      "site_dimensions": [
+        3,
+        2,
+        2,
+        3
+      ],
+      "couplings": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ]
+      ],
+      "bindings": [
+        {
+          "kind": "shift",
+          "sites": [
+            0
+          ],
+          "duration": {
+            "lower_ps": 40000,
+            "upper_ps": 60000
+          },
+          "error": {
+            "metric": "average-gate-infidelity",
+            "lower": 0.001,
+            "upper": 0.003
+          }
+        },
+        {
+          "kind": "shift",
+          "sites": [
+            1
+          ],
+          "duration": {
+            "lower_ps": 10000,
+            "upper_ps": 10000
+          },
+          "error": null
+        },
+        {
+          "kind": "shift",
+          "sites": [
+            2
+          ],
+          "duration": {
+            "lower_ps": 10000,
+            "upper_ps": 20000
+          },
+          "error": null
+        },
+        {
+          "kind": "shift",
+          "sites": [
+            3
+          ],
+          "duration": {
+            "lower_ps": 5000,
+            "upper_ps": 8000
+          },
+          "error": null
+        },
+        {
+          "kind": "fourier",
+          "sites": [
+            0
+          ],
+          "duration": {
+            "lower_ps": 80000,
+            "upper_ps": 120000
+          },
+          "error": null
+        },
+        {
+          "kind": "fourier",
+          "sites": [
+            1
+          ],
+          "duration": {
+            "lower_ps": 20000,
+            "upper_ps": 30000
+          },
+          "error": null
+        },
+        {
+          "kind": "fourier",
+          "sites": [
+            3
+          ],
+          "duration": {
+            "lower_ps": 110000,
+            "upper_ps": 130000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            0,
+            3
+          ],
+          "duration": {
+            "lower_ps": 500000,
+            "upper_ps": 600000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            1,
+            0
+          ],
+          "duration": {
+            "lower_ps": 90000,
+            "upper_ps": 110000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            1,
+            2
+          ],
+          "duration": {
+            "lower_ps": 200000,
+            "upper_ps": 250000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            2,
+            1
+          ],
+          "duration": {
+            "lower_ps": 180000,
+            "upper_ps": 220000
+          },
+          "error": null
+        },
+        {
+          "kind": "sum",
+          "sites": [
+            3,
+            0
+          ],
+          "duration": {
+            "lower_ps": 400000,
+            "upper_ps": 450000
+          },
+          "error": null
+        }
+      ],
+      "provenance": {
+        "kind": "reported-device",
+        "provider": "q3hash-contract-fixture",
+        "device_id": "fictitious-hybrid",
+        "snapshot_id": "reported-unknown-v1",
+        "source_uri": "https://example.invalid/q3hash-fixture",
+        "retrieved_at": "2026-11-01T00:00:00Z",
+        "calibrated_at": null,
+        "notes": "Synthetic test of reported-device metadata only; no actual device/calibration data."
+      }
+    }
+  },
+  "workloads": [
+    {
+      "id": "shift-native",
+      "logical": "qutrit q\nshift q\n",
+      "physical": "qutrit q\nshift q\n",
+      "mapping": [
+        0,
+        1,
+        2
+      ],
+      "expected": "pass",
+      "max_dimension": 64
+    },
+    {
+      "id": "shift-binary",
+      "logical": "qutrit q\nshift q\n",
+      "physical": "qubit a\nqubit b\nsum a b\nsum b a\nshift b\n",
+      "mapping": [
+        0,
+        1,
+        2
+      ],
+      "expected": "pass",
+      "max_dimension": 64
+    },
+    {
+      "id": "shift-cycle",
+      "logical": "qutrit q\nshift q\n",
+      "physical": "qutrit q\nshift q\n",
+      "mapping": [
+        1,
+        2,
+        0
+      ],
+      "expected": "pass",
+      "max_dimension": 64
+    },
+    {
+      "id": "entangle-native",
+      "logical": "qutrit a\nqutrit b\nfourier a\nsum a b\n",
+      "physical": "qutrit a\nqutrit b\nfourier a\nsum a b\n",
+      "mapping": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "expected": "pass",
+      "max_dimension": 64
+    },
+    {
+      "id": "entangle-reordered",
+      "logical": "qutrit a\nqutrit b\nfourier a\nsum a b\n",
+      "physical": "qutrit b\nqutrit a\nfourier a\nsum a b\n",
+      "mapping": [
+        0,
+        3,
+        6,
+        1,
+        4,
+        7,
+        2,
+        5,
+        8
+      ],
+      "expected": "pass",
+      "max_dimension": 64
+    },
+    {
+      "id": "mixed-native",
+      "logical": "qubit a\nqutrit b\nfourier a\nsum a b\n",
+      "physical": "qubit a\nqutrit b\nfourier a\nsum a b\n",
+      "mapping": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "expected": "pass",
+      "max_dimension": 64
+    },
+    {
+      "id": "mixed-reordered",
+      "logical": "qubit a\nqutrit b\nfourier a\nsum a b\n",
+      "physical": "qutrit b\nqubit a\nfourier a\nsum a b\n",
+      "mapping": [
+        0,
+        2,
+        4,
+        1,
+        3,
+        5
+      ],
+      "expected": "pass",
+      "max_dimension": 64
+    },
+    {
+      "id": "leakage",
+      "logical": "qutrit q\nshift q\n",
+      "physical": "qudit 4 p\nshift p\n",
+      "mapping": [
+        0,
+        1,
+        2
+      ],
+      "expected": "fail",
+      "max_dimension": 64
+    },
+    {
+      "id": "relative-phase",
+      "logical": "qubit q\n",
+      "physical": "qubit p\nfourier p\nshift p\nfourier p\n",
+      "mapping": [
+        0,
+        1
+      ],
+      "expected": "fail",
+      "max_dimension": 64
+    },
+    {
+      "id": "dense-limit",
+      "logical": "qutrit q\nshift q\n",
+      "physical": "qutrit q\nshift q\n",
+      "mapping": [
+        0,
+        1,
+        2
+      ],
+      "expected": "unsupported",
+      "max_dimension": 2
+    },
+    {
+      "id": "entangle-binary-missing",
+      "logical": "qutrit a\nqutrit b\nfourier a\nsum a b\n",
+      "physical": null,
+      "mapping": null,
+      "expected": "unimplemented",
+      "max_dimension": 64
+    },
+    {
+      "id": "identity",
+      "logical": "qutrit q\n",
+      "physical": "qutrit q\n",
+      "mapping": [
+        0,
+        1,
+        2
+      ],
+      "expected": "pass",
+      "max_dimension": 64
+    },
+    {
+      "id": "qubit-fourier",
+      "logical": "qubit q\nfourier q\n",
+      "physical": "qubit q\nfourier q\n",
+      "mapping": [
+        0,
+        1
+      ],
+      "expected": "pass",
+      "max_dimension": 64
+    }
+  ],
+  "target_cases": [
+    {
+      "id": "native-supported",
+      "workload": "shift-native",
+      "profile": "hybrid",
+      "site_indices": [
+        0
+      ],
+      "status": "supported",
+      "rejections": [],
+      "gate_checks": 1,
+      "expected_time_ps": [
+        40000,
+        60000
+      ],
+      "timing_reason": "model-range",
+      "expected_counts": [
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "id": "binary-supported",
+      "workload": "shift-binary",
+      "profile": "hybrid",
+      "site_indices": [
+        1,
+        2
+      ],
+      "status": "supported",
+      "rejections": [],
+      "gate_checks": 3,
+      "expected_time_ps": [
+        390000,
+        490000
+      ],
+      "timing_reason": "model-range",
+      "expected_counts": [
+        2,
+        3,
+        2
+      ]
+    },
+    {
+      "id": "wrong-site-dimension",
+      "workload": "shift-native",
+      "profile": "hybrid",
+      "site_indices": [
+        1
+      ],
+      "status": "unsupported",
+      "rejections": [
+        "site-dimension"
+      ],
+      "gate_checks": 0,
+      "expected_time_ps": null,
+      "timing_reason": null,
+      "expected_counts": null
+    },
+    {
+      "id": "reverse-edge-required",
+      "workload": "shift-binary",
+      "profile": "one-way",
+      "site_indices": [
+        1,
+        2
+      ],
+      "status": "unsupported",
+      "rejections": [
+        "directed-coupling"
+      ],
+      "gate_checks": 3,
+      "expected_time_ps": null,
+      "timing_reason": null,
+      "expected_counts": null
+    },
+    {
+      "id": "missing-native-gate",
+      "workload": "qubit-fourier",
+      "profile": "hybrid",
+      "site_indices": [
+        2
+      ],
+      "status": "unsupported",
+      "rejections": [
+        "native-gate"
+      ],
+      "gate_checks": 1,
+      "expected_time_ps": null,
+      "timing_reason": null,
+      "expected_counts": null
+    },
+    {
+      "id": "mixed-supported",
+      "workload": "mixed-native",
+      "profile": "hybrid",
+      "site_indices": [
+        1,
+        0
+      ],
+      "status": "supported",
+      "rejections": [],
+      "gate_checks": 2,
+      "expected_time_ps": [
+        110000,
+        140000
+      ],
+      "timing_reason": "model-range",
+      "expected_counts": [
+        2,
+        2,
+        1
+      ]
+    },
+    {
+      "id": "mixed-reorder-supported",
+      "workload": "mixed-reordered",
+      "profile": "hybrid",
+      "site_indices": [
+        0,
+        1
+      ],
+      "status": "supported",
+      "rejections": [],
+      "gate_checks": 2,
+      "expected_time_ps": [
+        110000,
+        140000
+      ],
+      "timing_reason": "model-range",
+      "expected_counts": [
+        2,
+        2,
+        1
+      ]
+    },
+    {
+      "id": "entangle-supported",
+      "workload": "entangle-native",
+      "profile": "hybrid",
+      "site_indices": [
+        0,
+        3
+      ],
+      "status": "supported",
+      "rejections": [],
+      "gate_checks": 2,
+      "expected_time_ps": [
+        580000,
+        720000
+      ],
+      "timing_reason": "model-range",
+      "expected_counts": [
+        2,
+        2,
+        1
+      ]
+    },
+    {
+      "id": "entangle-reorder-supported",
+      "workload": "entangle-reordered",
+      "profile": "hybrid",
+      "site_indices": [
+        3,
+        0
+      ],
+      "status": "supported",
+      "rejections": [],
+      "gate_checks": 2,
+      "expected_time_ps": [
+        580000,
+        720000
+      ],
+      "timing_reason": "model-range",
+      "expected_counts": [
+        2,
+        2,
+        1
+      ]
+    },
+    {
+      "id": "unknown-used-duration",
+      "workload": "shift-native",
+      "profile": "missing-used",
+      "site_indices": [
+        0
+      ],
+      "status": "supported",
+      "rejections": [],
+      "gate_checks": 1,
+      "expected_time_ps": null,
+      "timing_reason": "missing-duration",
+      "expected_counts": [
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "id": "unknown-unused-duration",
+      "workload": "shift-native",
+      "profile": "missing-unused",
+      "site_indices": [
+        0
+      ],
+      "status": "supported",
+      "rejections": [],
+      "gate_checks": 1,
+      "expected_time_ps": [
+        40000,
+        60000
+      ],
+      "timing_reason": "model-range",
+      "expected_counts": [
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "id": "known-zero-duration",
+      "workload": "shift-native",
+      "profile": "zero-duration",
+      "site_indices": [
+        0
+      ],
+      "status": "supported",
+      "rejections": [],
+      "gate_checks": 1,
+      "expected_time_ps": [
+        0,
+        0
+      ],
+      "timing_reason": "model-range",
+      "expected_counts": [
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "id": "reported-boundary-fresh",
+      "workload": "shift-native",
+      "profile": "reported-fresh",
+      "site_indices": [
+        0
+      ],
+      "status": "supported",
+      "rejections": [],
+      "gate_checks": 1,
+      "expected_time_ps": [
+        40000,
+        60000
+      ],
+      "timing_reason": "model-range",
+      "expected_counts": [
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "id": "reported-old-data",
+      "workload": "shift-native",
+      "profile": "reported-stale",
+      "site_indices": [
+        0
+      ],
+      "status": "supported",
+      "rejections": [],
+      "gate_checks": 1,
+      "expected_time_ps": null,
+      "timing_reason": "stale-calibration",
+      "expected_counts": [
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "id": "reported-unknown-date",
+      "workload": "shift-native",
+      "profile": "reported-unknown",
+      "site_indices": [
+        0
+      ],
+      "status": "supported",
+      "rejections": [],
+      "gate_checks": 1,
+      "expected_time_ps": null,
+      "timing_reason": "unknown-calibration",
+      "expected_counts": [
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "id": "identity-with-stale-data",
+      "workload": "identity",
+      "profile": "reported-stale",
+      "site_indices": [
+        0
+      ],
+      "status": "supported",
+      "rejections": [],
+      "gate_checks": 0,
+      "expected_time_ps": [
+        0,
+        0
+      ],
+      "timing_reason": "empty-circuit",
+      "expected_counts": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "different-native-site-cost",
+      "workload": "shift-cycle",
+      "profile": "hybrid",
+      "site_indices": [
+        3
+      ],
+      "status": "supported",
+      "rejections": [],
+      "gate_checks": 1,
+      "expected_time_ps": [
+        5000,
+        8000
+      ],
+      "timing_reason": "model-range",
+      "expected_counts": [
+        1,
+        1,
+        0
+      ]
+    }
+  ],
+  "timing_cases": [
+    {
+      "id": "empty",
+      "operations": [],
+      "critical": [
+        0,
+        0
+      ],
+      "serial": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "serial",
+      "operations": [
+        {
+          "sites": [
+            0
+          ],
+          "duration_ps": [
+            5,
+            7
+          ]
+        },
+        {
+          "sites": [
+            0
+          ],
+          "duration_ps": [
+            11,
+            13
+          ]
+        }
+      ],
+      "critical": [
+        16,
+        20
+      ],
+      "serial": [
+        16,
+        20
+      ]
+    },
+    {
+      "id": "disjoint",
+      "operations": [
+        {
+          "sites": [
+            0
+          ],
+          "duration_ps": [
+            10,
+            15
+          ]
+        },
+        {
+          "sites": [
+            1
+          ],
+          "duration_ps": [
+            20,
+            25
+          ]
+        }
+      ],
+      "critical": [
+        20,
+        25
+      ],
+      "serial": [
+        30,
+        40
+      ]
+    },
+    {
+      "id": "joining-paths",
+      "operations": [
+        {
+          "sites": [
+            0
+          ],
+          "duration_ps": [
+            10,
+            10
+          ]
+        },
+        {
+          "sites": [
+            1
+          ],
+          "duration_ps": [
+            20,
+            30
+          ]
+        },
+        {
+          "sites": [
+            0,
+            1
+          ],
+          "duration_ps": [
+            5,
+            7
+          ]
+        }
+      ],
+      "critical": [
+        25,
+        37
+      ],
+      "serial": [
+        35,
+        47
+      ]
+    },
+    {
+      "id": "independent-long-branch",
+      "operations": [
+        {
+          "sites": [
+            0
+          ],
+          "duration_ps": [
+            5,
+            10
+          ]
+        },
+        {
+          "sites": [
+            1
+          ],
+          "duration_ps": [
+            7,
+            11
+          ]
+        },
+        {
+          "sites": [
+            0,
+            1
+          ],
+          "duration_ps": [
+            2,
+            3
+          ]
+        },
+        {
+          "sites": [
+            2
+          ],
+          "duration_ps": [
+            100,
+            120
+          ]
+        }
+      ],
+      "critical": [
+        100,
+        120
+      ],
+      "serial": [
+        114,
+        144
+      ]
+    },
+    {
+      "id": "explicit-zero",
+      "operations": [
+        {
+          "sites": [
+            0
+          ],
+          "duration_ps": [
+            0,
+            0
+          ]
+        },
+        {
+          "sites": [
+            0,
+            1
+          ],
+          "duration_ps": [
+            0,
+            0
+          ]
+        }
+      ],
+      "critical": [
+        0,
+        0
+      ],
+      "serial": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "unknown-used",
+      "operations": [
+        {
+          "sites": [
+            0
+          ],
+          "duration_ps": null
+        },
+        {
+          "sites": [
+            1
+          ],
+          "duration_ps": [
+            2,
+            3
+          ]
+        }
+      ],
+      "critical": null,
+      "serial": null
+    },
+    {
+      "id": "non-adjacent-fork",
+      "operations": [
+        {
+          "sites": [
+            0,
+            2
+          ],
+          "duration_ps": [
+            5,
+            7
+          ]
+        },
+        {
+          "sites": [
+            1
+          ],
+          "duration_ps": [
+            9,
+            11
+          ]
+        },
+        {
+          "sites": [
+            2,
+            1
+          ],
+          "duration_ps": [
+            2,
+            4
+          ]
+        },
+        {
+          "sites": [
+            0
+          ],
+          "duration_ps": [
+            20,
+            30
+          ]
+        }
+      ],
+      "critical": [
+        25,
+        37
+      ],
+      "serial": [
+        36,
+        52
+      ]
+    },
+    {
+      "id": "aggregate-above-binding-cap",
+      "operations": [
+        {
+          "sites": [
+            0
+          ],
+          "duration_ps": [
+            1000000000000000,
+            1000000000000000
+          ]
+        },
+        {
+          "sites": [
+            0
+          ],
+          "duration_ps": [
+            1000000000000000,
+            1000000000000000
+          ]
+        }
+      ],
+      "critical": [
+        2000000000000000,
+        2000000000000000
+      ],
+      "serial": [
+        2000000000000000,
+        2000000000000000
+      ]
+    }
+  ],
+  "freshness_cases": [
+    {
+      "id": "synthetic",
+      "profile": "hybrid",
+      "as_of": "2026-11-01T01:00:00Z",
+      "max_age": 3600,
+      "expected": "synthetic"
+    },
+    {
+      "id": "exact-boundary",
+      "profile": "reported-fresh",
+      "as_of": "2026-11-01T01:00:00Z",
+      "max_age": 3600,
+      "expected": "fresh"
+    },
+    {
+      "id": "one-second-old",
+      "profile": "reported-fresh",
+      "as_of": "2026-11-01T01:00:01Z",
+      "max_age": 3600,
+      "expected": "stale"
+    },
+    {
+      "id": "unknown-calibration",
+      "profile": "reported-unknown",
+      "as_of": "2026-11-01T01:00:00Z",
+      "max_age": 3600,
+      "expected": "unknown"
+    },
+    {
+      "id": "future-snapshot",
+      "profile": "reported-fresh",
+      "as_of": "2026-10-31T23:59:59Z",
+      "max_age": 3600,
+      "expected": "invalid"
+    },
+    {
+      "id": "zero-age-at-calibration",
+      "profile": "reported-fresh",
+      "as_of": "2026-11-01T00:00:00Z",
+      "max_age": 0,
+      "expected": "fresh"
+    }
+  ],
+  "front_cases": [
+    {
+      "id": "point-dominance",
+      "rows": [
+        {
+          "group": "same-profile",
+          "eligible": true,
+          "values": {
+            "active_sites": [
+              1,
+              1
+            ],
+            "critical_path_ps": [
+              10,
+              10
+            ]
+          }
+        },
+        {
+          "group": "same-profile",
+          "eligible": true,
+          "values": {
+            "active_sites": [
+              2,
+              2
+            ],
+            "critical_path_ps": [
+              20,
+              20
+            ]
+          }
+        }
+      ],
+      "objectives": [
+        "active_sites",
+        "critical_path_ps"
+      ],
+      "front_indices": [
+        0
+      ],
+      "invalid": false
+    },
+    {
+      "id": "ties",
+      "rows": [
+        {
+          "group": "same-profile",
+          "eligible": true,
+          "values": {
+            "active_sites": [
+              1,
+              1
+            ],
+            "critical_path_ps": [
+              10,
+              10
+            ]
+          }
+        },
+        {
+          "group": "same-profile",
+          "eligible": true,
+          "values": {
+            "active_sites": [
+              1,
+              1
+            ],
+            "critical_path_ps": [
+              10,
+              10
+            ]
+          }
+        }
+      ],
+      "objectives": [
+        "active_sites",
+        "critical_path_ps"
+      ],
+      "front_indices": [
+        0,
+        1
+      ],
+      "invalid": false
+    },
+    {
+      "id": "overlap",
+      "rows": [
+        {
+          "group": "same-profile",
+          "eligible": true,
+          "values": {
+            "active_sites": [
+              1,
+              1
+            ],
+            "critical_path_ps": [
+              10,
+              20
+            ]
+          }
+        },
+        {
+          "group": "same-profile",
+          "eligible": true,
+          "values": {
+            "active_sites": [
+              1,
+              1
+            ],
+            "critical_path_ps": [
+              15,
+              25
+            ]
+          }
+        }
+      ],
+      "objectives": [
+        "active_sites",
+        "critical_path_ps"
+      ],
+      "front_indices": [
+        0,
+        1
+      ],
+      "invalid": false
+    },
+    {
+      "id": "separation",
+      "rows": [
+        {
+          "group": "same-profile",
+          "eligible": true,
+          "values": {
+            "active_sites": [
+              1,
+              1
+            ],
+            "critical_path_ps": [
+              10,
+              12
+            ]
+          }
+        },
+        {
+          "group": "same-profile",
+          "eligible": true,
+          "values": {
+            "active_sites": [
+              1,
+              1
+            ],
+            "critical_path_ps": [
+              13,
+              20
+            ]
+          }
+        }
+      ],
+      "objectives": [
+        "active_sites",
+        "critical_path_ps"
+      ],
+      "front_indices": [
+        0
+      ],
+      "invalid": false
+    },
+    {
+      "id": "endpoint-contact",
+      "rows": [
+        {
+          "group": "same-profile",
+          "eligible": true,
+          "values": {
+            "active_sites": [
+              1,
+              1
+            ],
+            "critical_path_ps": [
+              10,
+              12
+            ]
+          }
+        },
+        {
+          "group": "same-profile",
+          "eligible": true,
+          "values": {
+            "active_sites": [
+              1,
+              1
+            ],
+            "critical_path_ps": [
+              12,
+              20
+            ]
+          }
+        }
+      ],
+      "objectives": [
+        "active_sites",
+        "critical_path_ps"
+      ],
+      "front_indices": [
+        0,
+        1
+      ],
+      "invalid": false
+    },
+    {
+      "id": "tradeoff",
+      "rows": [
+        {
+          "group": "same-profile",
+          "eligible": true,
+          "values": {
+            "active_sites": [
+              1,
+              1
+            ],
+            "critical_path_ps": [
+              30,
+              40
+            ]
+          }
+        },
+        {
+          "group": "same-profile",
+          "eligible": true,
+          "values": {
+            "active_sites": [
+              2,
+              2
+            ],
+            "critical_path_ps": [
+              10,
+              20
+            ]
+          }
+        }
+      ],
+      "objectives": [
+        "active_sites",
+        "critical_path_ps"
+      ],
+      "front_indices": [
+        0,
+        1
+      ],
+      "invalid": false
+    },
+    {
+      "id": "selected-unknown",
+      "rows": [
+        {
+          "group": "same-profile",
+          "eligible": true,
+          "values": {
+            "active_sites": [
+              1,
+              1
+            ],
+            "critical_path_ps": null
+          }
+        },
+        {
+          "group": "same-profile",
+          "eligible": true,
+          "values": {
+            "active_sites": [
+              2,
+              2
+            ],
+            "critical_path_ps": [
+              30,
+              40
+            ]
+          }
+        }
+      ],
+      "objectives": [
+        "active_sites",
+        "critical_path_ps"
+      ],
+      "front_indices": [
+        1
+      ],
+      "invalid": false
+    },
+    {
+      "id": "unselected-unknown",
+      "rows": [
+        {
+          "group": "same-profile",
+          "eligible": true,
+          "values": {
+            "active_sites": [
+              1,
+              1
+            ],
+            "critical_path_ps": null
+          }
+        },
+        {
+          "group": "same-profile",
+          "eligible": true,
+          "values": {
+            "active_sites": [
+              2,
+              2
+            ],
+            "critical_path_ps": [
+              30,
+              40
+            ]
+          }
+        }
+      ],
+      "objectives": [
+        "active_sites"
+      ],
+      "front_indices": [
+        0
+      ],
+      "invalid": false
+    },
+    {
+      "id": "failed-evidence-excluded",
+      "rows": [
+        {
+          "group": "same-profile",
+          "eligible": false,
+          "values": {
+            "active_sites": [
+              1,
+              1
+            ],
+            "critical_path_ps": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "group": "same-profile",
+          "eligible": true,
+          "values": {
+            "active_sites": [
+              2,
+              2
+            ],
+            "critical_path_ps": [
+              30,
+              40
+            ]
+          }
+        }
+      ],
+      "objectives": [
+        "active_sites",
+        "critical_path_ps"
+      ],
+      "front_indices": [
+        1
+      ],
+      "invalid": false
+    },
+    {
+      "id": "later-dominance",
+      "rows": [
+        {
+          "group": "same-profile",
+          "eligible": true,
+          "values": {
+            "active_sites": [
+              2,
+              2
+            ],
+            "critical_path_ps": [
+              30,
+              40
+            ]
+          }
+        },
+        {
+          "group": "same-profile",
+          "eligible": true,
+          "values": {
+            "active_sites": [
+              1,
+              1
+            ],
+            "critical_path_ps": [
+              10,
+              20
+            ]
+          }
+        }
+      ],
+      "objectives": [
+        "active_sites",
+        "critical_path_ps"
+      ],
+      "front_indices": [
+        1
+      ],
+      "invalid": false
+    },
+    {
+      "id": "range-chain",
+      "rows": [
+        {
+          "group": "same-profile",
+          "eligible": true,
+          "values": {
+            "active_sites": [
+              1,
+              1
+            ],
+            "critical_path_ps": [
+              2,
+              3
+            ]
+          }
+        },
+        {
+          "group": "same-profile",
+          "eligible": true,
+          "values": {
+            "active_sites": [
+              1,
+              1
+            ],
+            "critical_path_ps": [
+              5,
+              7
+            ]
+          }
+        },
+        {
+          "group": "same-profile",
+          "eligible": true,
+          "values": {
+            "active_sites": [
+              1,
+              1
+            ],
+            "critical_path_ps": [
+              9,
+              10
+            ]
+          }
+        }
+      ],
+      "objectives": [
+        "active_sites",
+        "critical_path_ps"
+      ],
+      "front_indices": [
+        0
+      ],
+      "invalid": false
+    },
+    {
+      "id": "all-unknown",
+      "rows": [
+        {
+          "group": "same-profile",
+          "eligible": true,
+          "values": {
+            "active_sites": [
+              1,
+              1
+            ],
+            "critical_path_ps": null
+          }
+        }
+      ],
+      "objectives": [
+        "active_sites",
+        "critical_path_ps"
+      ],
+      "front_indices": [],
+      "invalid": false
+    },
+    {
+      "id": "all-ineligible",
+      "rows": [
+        {
+          "group": "same-profile",
+          "eligible": false,
+          "values": {
+            "active_sites": [
+              1,
+              1
+            ],
+            "critical_path_ps": [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "objectives": [
+        "active_sites",
+        "critical_path_ps"
+      ],
+      "front_indices": [],
+      "invalid": false
+    },
+    {
+      "id": "cross-profile",
+      "rows": [
+        {
+          "group": "p1",
+          "eligible": true,
+          "values": {
+            "active_sites": [
+              1,
+              1
+            ],
+            "critical_path_ps": [
+              10,
+              10
+            ]
+          }
+        },
+        {
+          "group": "p2",
+          "eligible": true,
+          "values": {
+            "active_sites": [
+              2,
+              2
+            ],
+            "critical_path_ps": [
+              20,
+              20
+            ]
+          }
+        }
+      ],
+      "objectives": [
+        "active_sites",
+        "critical_path_ps"
+      ],
+      "front_indices": [],
+      "invalid": true
+    }
+  ],
+  "budget_cases": [
+    {
+      "id": "whole-row-exact",
+      "limit": 3,
+      "rows": [
+        {
+          "source_status": "pass",
+          "placed": true,
+          "dimensions_match": true,
+          "operations": 3,
+          "supported": true
+        },
+        {
+          "source_status": "pass",
+          "placed": true,
+          "dimensions_match": true,
+          "operations": 1,
+          "supported": true
+        }
+      ],
+      "statuses": [
+        "supported",
+        "not-evaluated"
+      ],
+      "gate_checks": 3
+    },
+    {
+      "id": "later-small-fits",
+      "limit": 2,
+      "rows": [
+        {
+          "source_status": "pass",
+          "placed": true,
+          "dimensions_match": true,
+          "operations": 3,
+          "supported": true
+        },
+        {
+          "source_status": "pass",
+          "placed": true,
+          "dimensions_match": true,
+          "operations": 1,
+          "supported": true
+        },
+        {
+          "source_status": "pass",
+          "placed": true,
+          "dimensions_match": true,
+          "operations": 1,
+          "supported": false
+        }
+      ],
+      "statuses": [
+        "not-evaluated",
+        "supported",
+        "unsupported"
+      ],
+      "gate_checks": 2
+    },
+    {
+      "id": "prechecks-uncharged",
+      "limit": 1,
+      "rows": [
+        {
+          "source_status": "pass",
+          "placed": true,
+          "dimensions_match": false,
+          "operations": 100,
+          "supported": true
+        },
+        {
+          "source_status": "fail",
+          "placed": true,
+          "dimensions_match": true,
+          "operations": 100,
+          "supported": true
+        },
+        {
+          "source_status": "pass",
+          "placed": false,
+          "dimensions_match": true,
+          "operations": 100,
+          "supported": true
+        },
+        {
+          "source_status": "pass",
+          "placed": true,
+          "dimensions_match": true,
+          "operations": 1,
+          "supported": false
+        },
+        {
+          "source_status": "pass",
+          "placed": true,
+          "dimensions_match": true,
+          "operations": 0,
+          "supported": true
+        }
+      ],
+      "statuses": [
+        "unsupported",
+        "ineligible",
+        "unplaced",
+        "unsupported",
+        "supported"
+      ],
+      "gate_checks": 1
+    },
+    {
+      "id": "identity-after-limit",
+      "limit": 1,
+      "rows": [
+        {
+          "source_status": "pass",
+          "placed": true,
+          "dimensions_match": true,
+          "operations": 1,
+          "supported": true
+        },
+        {
+          "source_status": "pass",
+          "placed": true,
+          "dimensions_match": true,
+          "operations": 0,
+          "supported": true
+        },
+        {
+          "source_status": "pass",
+          "placed": true,
+          "dimensions_match": true,
+          "operations": 0,
+          "supported": true
+        }
+      ],
+      "statuses": [
+        "supported",
+        "supported",
+        "supported"
+      ],
+      "gate_checks": 1
+    },
+    {
+      "id": "all-rejections-charged",
+      "limit": 3,
+      "rows": [
+        {
+          "source_status": "pass",
+          "placed": true,
+          "dimensions_match": true,
+          "operations": 3,
+          "supported": false
+        },
+        {
+          "source_status": "pass",
+          "placed": true,
+          "dimensions_match": true,
+          "operations": 1,
+          "supported": true
+        }
+      ],
+      "statuses": [
+        "unsupported",
+        "not-evaluated"
+      ],
+      "gate_checks": 3
+    }
+  ],
+  "context": {
+    "schema": "q3hash.hardware-context",
+    "schema_version": 1,
+    "as_of": "2026-11-01T01:00:00Z",
+    "max_calibration_age_seconds": 3600,
+    "max_gate_checks": 262144,
+    "objectives": [
+      "active_sites",
+      "native_operations",
+      "two_site_operations",
+      "critical_path_ps"
+    ]
+  }
+}

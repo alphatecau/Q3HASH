@@ -404,12 +404,14 @@ The [validation guide](docs/validation.md) explains the independent construction
 | v0.2.1 | Parser, explicit dimensions, IR, simulator and distribution checks | Preserved regression baseline |
 | v0.3 | Explicit encodings and complete small-operator checks | Implemented and merged into `main` |
 | v0.4 | Bounded candidate generation and Pareto comparisons | Implemented: bounded generation, budgeted supplied-circuit checks, structural fronts, strict reports and CLI |
-| v0.5 | Hardware-conditioned costs and equivalent benchmark workloads | Research target |
+| v0.5 | Hardware-conditioned costs and equivalent benchmark workloads | Contracts and executable reference cases defined; production implementation pending |
 | v0.6 | Web/core integration and a reproducible research demonstration | Research target |
 
 The [six-month roadmap](docs/roadmap.md) describes the milestones and acceptance criteria.
 
-**Next research step:** define equivalent workloads and defensible hardware-conditioned cost contracts for v0.5. The [v0.4 work packages](docs/plans/v0.4-implementation.md) document the completed bounded comparison pipeline. Generated maps still require supplied physical circuits; hardware synthesis and a universal best-encoding claim remain outside this milestone.
+The [v0.5 hardware contract](docs/contracts/hardware-profile-v1.md) now defines explicit site placements, directed native-gate support, exact duration ranges, calibration freshness, conservative interval fronts and unknown-data rules. Its [fixed workloads](benchmarks/hardware-cost-v1.json) and executable reference audit use synthetic profiles; they are design acceptance cases, not measured device results or public hardware APIs.
+
+**Next research step:** implement the input models and strict data contracts, then establish an independent Cirq operator baseline before implementing hardware costs. The [v0.5 work packages](docs/plans/v0.5-implementation.md) specify that order. Generated maps still require supplied physical circuits; hardware synthesis and a universal best-encoding claim remain outside this milestone.
 
 **Current scope.** Q3# runs on a classical computer using floating-point amplitudes. Automatic logical-dimension inference, physical-circuit search/synthesis, hardware-aware optimisation, measurement, noise, hybrid control flow and hardware execution remain research targets. The gate set is not claimed to be universal. The numerical checks provide bounded evidence; formal proof, hardware performance and quantum advantage have not been demonstrated. Ternary encoding is not assumed to outperform binary encoding.
 
@@ -422,6 +424,7 @@ The [six-month roadmap](docs/roadmap.md) describes the milestones and acceptance
 | [Examples](examples) | [Architecture](docs/architecture.md) |
 | [Validation and reproduction](docs/validation.md) | [Distribution builds and audit](docs/build-and-audit.md) |
 | [Search CLI guide](docs/search-cli.md) | [Search contract](docs/contracts/encoding-search-v1.md) |
+| [v0.5 implementation sequence](docs/plans/v0.5-implementation.md) | [Hardware profile and cost contract](docs/contracts/hardware-profile-v1.md) |
 | [Changelog](CHANGELOG.md) | [Research roadmap](docs/roadmap.md) |
 
 <details>

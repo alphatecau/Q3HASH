@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.5 design baseline — 1 November 2026
+
+- Define proposed immutable hardware-profile/context/placement inputs, exact ordered native-gate and dimension checks, explicit freshness, bounded assessment work and strict recorded-report replay.
+- Specify integer-picosecond duration ranges, dependency-path timing, conservative interval fronts and selected-objective completeness. Retain gate-error definitions without inventing a circuit-error or success estimate.
+- Freeze equivalent operator workloads and synthetic target fixtures. Add an executable reference audit with 13 workload cases, 17 placements, tiny timing/freshness/budget/front cases and 900 exhaustive interval comparisons; require it in CI and clean wheel/source checks.
+- Define the production sequence: strict input models, independent Cirq composition baseline, cost assessment, report/replay, CLI and release gates.
+
+This is a design-only stage. Package version remains 0.4.0; production hardware APIs, the external-framework adapter and a 0.5 release remain pending.
+
 ## 0.4.0 — 1 November 2026
 
 - Complete the bounded encoding-comparison pipeline developed in dev1–dev3: explicit seeds and flat/register-prefix maps, deterministic generation budgets, complete supplied-circuit statuses, cumulative numerical budgets, exact structural resources/Pareto fronts and strict portable reports.

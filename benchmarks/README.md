@@ -15,6 +15,26 @@ both the module and installed console command. These fixtures are correctness
 checks, not timing measurements. The separate generator/resource/aggregate audits
 remain independent implementations of their mathematical/accounting rules.
 
+## v0.5 hardware design fixtures
+
+`hardware-cost-v1.json` freezes 13 operator-workload cases and eight synthetic
+target profiles for the [hardware contract](../docs/contracts/hardware-profile-v1.md).
+The workloads include native/binary/cyclic qutrit shift, reordered qutrit and mixed
+entangling circuits, leakage, relative phase, a dense-limit boundary and an explicit
+missing binary entangling implementation. Missing synthesis remains missing.
+
+Run `python tools/check_hardware_contract.py` against an installed/source-selected
+package. It checks 17 placements, nine timing DAGs, six freshness cases, 14 interval
+fronts, five gate-check ledgers and 13 invalid inputs, plus 900 exhaustive abstract
+interval comparisons. Expected values are fixed in the fixture or obtained by tiny
+independent mathematical oracles. CI and clean distribution installations run it.
+
+All profile numbers are synthetic, including profiles that exercise reported-device
+metadata; `example.invalid` URLs are provenance placeholders and are never fetched.
+The audit is a design reference outside the package. It does not implement the
+hardware API, run an external SDK baseline, measure device performance or establish
+circuit success probabilities. See the [implementation sequence](../docs/plans/v0.5-implementation.md).
+
 ## Performance methodology
 
 No benchmark results have been collected or verified for this prototype.

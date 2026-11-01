@@ -2,6 +2,11 @@
 
 The v0.4 audit requires generation, budgeted verification, resource/front/report and CLI modules plus their documentation/fixtures. Both clean installations run all 186 tests, seven source examples, the verifier and the new search CLI through module/console entry points, and every contract/generation/resource/aggregate/CLI audit. CI retains the original statevector and complete-operator numerical audits. The 0.2.1 findings and recorded results below are historical.
 
+The v0.5 planning baseline additionally requires its hardware contract, implementation
+plan, synthetic fixtures and reference audit in the source archive. Both clean
+installations and numerical CI run that audit. It checks design expectations only;
+the package remains 0.4.0 with no production hardware API or Cirq adapter yet.
+
 The repository is an experimental Python interpreter and IR project. Compiling its Python files, building distributions and running numerical tests does not establish that a complete hardware compiler exists.
 
 ## Reproduce the complete checks
@@ -21,6 +26,7 @@ python -I tools/check_search_generation.py
 python -I tools/check_resources_comparison.py
 python -I tools/check_search_evaluation.py
 python -I tools/check_search.py --isolated
+python -I tools/check_hardware_contract.py
 ```
 
 The application itself still has no third-party runtime dependencies. NumPy and SciPy are optional validation tools. A build needs the declared setuptools backend; normal isolated builds obtain it automatically.

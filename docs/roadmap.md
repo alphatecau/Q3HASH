@@ -24,12 +24,18 @@ Version/month labels are research milestones, not elapsed-time claims or deadlin
 4. **v0.5 / Month 5 — Defensible hardware-conditioned costs:** gate requirements,
    connectivity, depth, durations, error models, synthesis overhead, external
    framework references and equivalent benchmark workloads with uncertainty.
-   Remains a research target.
+   The [hardware contract](contracts/hardware-profile-v1.md), fixed equivalent
+   workloads and executable mathematical reference cases are defined. They use
+   synthetic profiles and preserve unknown duration, calibration and circuit-error
+   data. Production models, cost assessment, reports, CLI and the independent
+   Cirq baseline remain pending; the [work packages](plans/v0.5-implementation.md)
+   define their order. Routing, synthesis and noise composition need later contracts.
 5. **v0.6 / Month 6 — Reproducible research demonstration:** reconcile the separate
    web/core runtimes, publish comparisons against a tagged core and deliver a
    technical report with peer-reviewable examples. Remains a target.
 
-The next research capability after v0.4 is hardware-conditioned comparison under
-explicit workload and cost contracts. Existing interpreter semantics and
+The next implementation step is the v0.5 input models and strict data contracts,
+followed by the independent framework baseline and hardware-conditioned comparison.
+Existing interpreter semantics and
 regressions remain the reference baseline. Every delivered milestone requires
 executable tests, passing CI for its exact commit and documented limitations.
