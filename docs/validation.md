@@ -156,6 +156,32 @@ and a relative-phase false positive. These are correctness vectors, not hardware
 performance benchmarks. CI runs all audits for the exact release source; publication
 also checks merged/tagged source identity. Website runtime and deployment remain separate.
 
+## Hardware design reference cases — v0.5 planning baseline
+
+`python tools/check_hardware_contract.py` checks the fixed synthetic scenarios in
+`benchmarks/hardware-cost-v1.json` against the proposed hardware contract. It runs
+13 workload cases through the existing evidence rules: nine supplied circuits
+pass complete-operator verification, two fail, one exceeds the dense limit and one
+has no supplied implementation. The last case remains unimplemented and is not
+sent to the verifier.
+
+The audit additionally covers eight profile fixtures, 17 placed-target cases,
+nine timing DAGs, six freshness boundaries, 14 interval-front cases, five bounded
+work ledgers and 13 invalid-input cases. It compares interval dominance against
+all integer realisations for 900 vector pairs. Timing uses exhaustive tiny
+dependency paths, separate from the planned production per-site algorithm.
+Target vectors check exact dimensions, ordered SUM edges, missing native gates,
+zero versus missing duration, stale/unknown data and nonaggregated error records.
+
+CI and both clean wheel/source installations run this audit. Its small reference
+models are outside the package. They establish executable design expectations;
+production hardware models, report codecs, hardware CLI and the independent Cirq
+adapter are not delivered. The [contract](contracts/hardware-profile-v1.md) and
+[implementation gates](plans/v0.5-implementation.md) specify the remaining work.
+All target numbers are synthetic test values, including the fixtures exercising
+reported-device metadata. No measured device costs or circuit-fidelity result is
+claimed. Package version remains 0.4.0 and the 186-test regression suite is retained.
+
 ## Limits of the evidence
 
 The dense oracle is independently implemented within the same repository. An optional numerical audit additionally compares against NumPy tensor operations and SciPy DFT matrices across the supported dimensions. Neither is an external review, a comparison with another quantum SDK, or formal verification. Finite examples do not prove correctness for every circuit. These checks establish a reproducible numerical baseline for this milestone.

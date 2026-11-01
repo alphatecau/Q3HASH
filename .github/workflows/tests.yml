@@ -51,3 +51,5 @@ jobs:
         run: python -I tools/check_search_evaluation.py
       - name: Audit v0.4 search CLI acceptance vectors
         run: python -I tools/check_search.py --isolated
+      - name: Check v0.5 hardware design reference vectors
+        run: python -I tools/check_hardware_contract.py

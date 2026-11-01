@@ -100,6 +100,8 @@ def extract_source(archive_path, destination):
         "src/q3hash/search_cli.py", "tests/test_search_cli.py", "tools/check_search.py",
         "examples/qutrit-native.encoding.json", "examples/qutrit-search.constraints.json",
         "benchmarks/search-cli-v1.json", "docs/search-cli.md",
+        "docs/contracts/hardware-profile-v1.md", "docs/plans/v0.5-implementation.md",
+        "benchmarks/hardware-cost-v1.json", "tools/check_hardware_contract.py",
     ]
     missing = [name for name in required if not (source / name).is_file()]
     if missing:
@@ -147,6 +149,7 @@ def installed_checks(wheel, source, destination, version, environment):
     print(run([str(python), "-I", "tools/check_resources_comparison.py"], source, environment).strip())
     print(run([str(python), "-I", "tools/check_search_evaluation.py"], source, environment).strip())
     print(run([str(python), "-I", "tools/check_search.py", "--console", str(search), "--isolated"], source, environment).strip())
+    print(run([str(python), "-I", "tools/check_hardware_contract.py"], source, environment).strip())
 
 
 def main():
