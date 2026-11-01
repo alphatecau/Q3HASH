@@ -1,4 +1,4 @@
-# Hardware-cost kernel — v0.5.0.dev2
+# Hardware-cost kernel — v0.5.0
 
 This stage implements native-gate feasibility, cumulative work accounting,
 calibration freshness, exact duration ranges and used-error records in the
@@ -8,7 +8,7 @@ internal `hardware_costs.py` kernel. It completes work package 3 of the
 The kernel receives private typed requests from the [verified report producer](hardware-reports.md).
 Its source-status fields are integration inputs, not newly established verification
 evidence. The public `assess_hardware` API, complete HardwareReport, interval fronts
-and recorded replay are implemented in v0.5.0.dev3; the hardware CLI remains pending.
+and recorded replay are implemented in v0.5.0, along with the [hardware CLI](hardware-cli.md).
 The raw kernel itself remains internal.
 
 ## Derived outcomes and work
@@ -89,7 +89,7 @@ not create public verification evidence. All device numbers are synthetic and th
 original fixture digest is retained. CI and both clean wheel/source installations
 run this audit, alongside all original audits and the separate Cirq baseline.
 
-The v0.5.0.dev3 producer validates fresh computed SearchReport evidence, complete
+The v0.5.0 producer validates fresh computed SearchReport evidence, complete
 candidate/placement membership, source/physical/placement fingerprints and
 collisions before calling this kernel. It preserves source coverage/budgets,
 derives selected-objective interval fronts, and replays recorded reports without

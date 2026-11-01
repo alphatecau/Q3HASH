@@ -52,7 +52,7 @@ all gate-check totals. CI and clean wheel/source installations run it.
 Abstract cases test arithmetic through private kernel inputs; they do not create
 public verified evidence. The original operator workloads and fixture bytes are
 preserved. See the [cost kernel guide](../docs/hardware-costs.md) for scope and
-remaining verified-report integration.
+verified-report integration.
 
 ## Verified hardware report acceptance
 
@@ -63,6 +63,17 @@ path/ledger/front/key calculations check results, supplemented by 13 abstract
 fronts and 900 interval pairs. These are conditional software correctness cases.
 See the [report guide](../docs/hardware-reports.md). CI and clean distributions
 run this audit; no device performance or authenticated calibration is claimed.
+
+## Hardware CLI acceptance
+
+`hardware-cli-v1.json` fixes 23 process cases for fresh source verification and
+conditional assessment. `python tools/check_hardware_cli.py` checks source and
+hardware statuses, both work ledgers, exact counts/time ranges, identity keys,
+freshness, coverage and fronts. Clean installations add the console entry point:
+48 JSON reports (including repeats) and 10 invalid-input checks. The unchanged
+`search-cli-v1.json` supplies program/encoding inputs and `hardware-cost-v1.json`
+supplies synthetic targets; expected outcomes are explicitly fixed in the new
+fixture. See the [hardware CLI guide](../docs/hardware-cli.md).
 
 ## Performance methodology
 

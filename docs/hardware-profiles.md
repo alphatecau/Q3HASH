@@ -1,12 +1,12 @@
 # Hardware inputs — v0.5
 
-Input models/strict JSON and the independent Cirq baseline are available since
-v0.5.0.dev1. v0.5.0.dev2 adds the [internal cost kernel](hardware-costs.md).
-The stable source release remains v0.4.0. Use the current development checkout
+Stable v0.5.0 includes input models/strict JSON, the independent Cirq baseline
+and the [internal cost kernel](hardware-costs.md). Use the tagged source checkout
 for these imports.
 
 The [verified report API](hardware-reports.md), interval fronts and recorded replay
-are implemented in v0.5.0.dev3. The hardware CLI remains pending. A valid profile or matching identifier does not establish device support,
+and the [hardware CLI](hardware-cli.md) are implemented in v0.5.0.
+A valid profile or matching identifier does not establish device support,
 source verification or measured performance.
 
 ## Construct and identify a synthetic profile
@@ -117,4 +117,4 @@ This establishes a reproducible SDK composition comparison. It does not establis
 native hardware availability, external peer review, a binary entangling synthesis
 or measured hardware costs. The [cost kernel guide](hardware-costs.md) covers
 conditional arithmetic; the [work packages](plans/v0.5-implementation.md) define
-the remaining CLI and release gates.
+the completed dependency sequence and release gates.

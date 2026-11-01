@@ -1,0 +1,1890 @@
+{
+  "schema": "q3hash.hardware-cli-acceptance-vectors",
+  "schema_version": 1,
+  "note": "Fixed expected outputs. Programs/encodings come from search-cli-v1.json; target inputs from frozen hardware-cost-v1.json. All target numbers are synthetic.",
+  "row_fields": [
+    "status",
+    "reason_code",
+    "gate_checks",
+    "counts(active_sites,native_operations,two_site_operations)",
+    "timing_reason",
+    "critical_path_ps",
+    "serial_duration_ps"
+  ],
+  "cases": [
+    {
+      "logical": "shift",
+      "profile": "hybrid",
+      "context": {},
+      "constraints": {},
+      "seeds": [],
+      "max_dimension": 64,
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "binary",
+          "binary"
+        ],
+        [
+          "native",
+          "shift"
+        ]
+      ],
+      "placements": [
+        [
+          "binary",
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          "native",
+          [
+            0
+          ]
+        ]
+      ],
+      "source_statuses": [
+        "pass",
+        "pass"
+      ],
+      "source_reasons": [
+        "verified",
+        "verified"
+      ],
+      "verification_calls": 2,
+      "gate_column_steps": 21,
+      "rows": [
+        [
+          "supported",
+          "native-model-supported",
+          1,
+          [
+            1,
+            1,
+            0
+          ],
+          "model-range",
+          [
+            40000,
+            60000
+          ],
+          [
+            40000,
+            60000
+          ]
+        ],
+        [
+          "supported",
+          "native-model-supported",
+          3,
+          [
+            2,
+            3,
+            2
+          ],
+          "model-range",
+          [
+            390000,
+            490000
+          ],
+          [
+            390000,
+            490000
+          ]
+        ]
+      ],
+      "gate_checks": 4,
+      "front_indices": [
+        0
+      ],
+      "partial": false,
+      "front_reason": "verified-supplied-placements-under-one-profile",
+      "freshness": "synthetic",
+      "completion": "exhausted",
+      "exit": 0,
+      "name": "complete-native-binary"
+    },
+    {
+      "logical": "shift",
+      "profile": "one-way",
+      "context": {},
+      "constraints": {},
+      "seeds": [],
+      "max_dimension": 64,
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "binary",
+          "binary"
+        ],
+        [
+          "native",
+          "shift"
+        ]
+      ],
+      "placements": [
+        [
+          "binary",
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          "native",
+          [
+            0
+          ]
+        ]
+      ],
+      "source_statuses": [
+        "pass",
+        "pass"
+      ],
+      "source_reasons": [
+        "verified",
+        "verified"
+      ],
+      "verification_calls": 2,
+      "gate_column_steps": 21,
+      "rows": [
+        [
+          "supported",
+          "native-model-supported",
+          1,
+          [
+            1,
+            1,
+            0
+          ],
+          "model-range",
+          [
+            40000,
+            60000
+          ],
+          [
+            40000,
+            60000
+          ]
+        ],
+        [
+          "unsupported",
+          "target-rejections",
+          3,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "gate_checks": 4,
+      "front_indices": [
+        0
+      ],
+      "partial": false,
+      "front_reason": "verified-supplied-placements-under-one-profile",
+      "freshness": "synthetic",
+      "completion": "exhausted",
+      "exit": 0,
+      "name": "known-rejected-alternative"
+    },
+    {
+      "logical": "shift",
+      "profile": "hybrid",
+      "context": {},
+      "constraints": {},
+      "seeds": [],
+      "max_dimension": 64,
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "binary",
+          "binary"
+        ],
+        [
+          "native",
+          "shift"
+        ]
+      ],
+      "placements": [
+        [
+          "native",
+          [
+            1
+          ]
+        ],
+        [
+          "binary",
+          [
+            0,
+            3
+          ]
+        ]
+      ],
+      "source_statuses": [
+        "pass",
+        "pass"
+      ],
+      "source_reasons": [
+        "verified",
+        "verified"
+      ],
+      "verification_calls": 2,
+      "gate_column_steps": 21,
+      "rows": [
+        [
+          "unsupported",
+          "site-dimension",
+          0,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          "unsupported",
+          "site-dimension",
+          0,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "gate_checks": 0,
+      "front_indices": [],
+      "partial": false,
+      "front_reason": "no-supported-placements",
+      "freshness": "synthetic",
+      "completion": "exhausted",
+      "exit": 4,
+      "name": "complete-target-infeasible"
+    },
+    {
+      "logical": "shift",
+      "profile": "hybrid",
+      "context": {
+        "max_gate_checks": 1
+      },
+      "constraints": {},
+      "seeds": [],
+      "max_dimension": 64,
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "binary",
+          "binary"
+        ],
+        [
+          "native",
+          "shift"
+        ]
+      ],
+      "placements": [
+        [
+          "binary",
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          "native",
+          [
+            0
+          ]
+        ]
+      ],
+      "source_statuses": [
+        "pass",
+        "pass"
+      ],
+      "source_reasons": [
+        "verified",
+        "verified"
+      ],
+      "verification_calls": 2,
+      "gate_column_steps": 21,
+      "rows": [
+        [
+          "supported",
+          "native-model-supported",
+          1,
+          [
+            1,
+            1,
+            0
+          ],
+          "model-range",
+          [
+            40000,
+            60000
+          ],
+          [
+            40000,
+            60000
+          ]
+        ],
+        [
+          "not-evaluated",
+          "hardware-operation-budget",
+          0,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "gate_checks": 1,
+      "front_indices": [
+        0
+      ],
+      "partial": true,
+      "front_reason": "verified-supplied-placements-under-one-profile",
+      "freshness": "synthetic",
+      "completion": "exhausted",
+      "exit": 3,
+      "name": "hardware-whole-circuit-cap"
+    },
+    {
+      "logical": "shift",
+      "profile": "hybrid",
+      "context": {
+        "max_gate_checks": 1
+      },
+      "constraints": {},
+      "seeds": [
+        "binary"
+      ],
+      "max_dimension": 64,
+      "candidates": [
+        "binary",
+        "native"
+      ],
+      "implementations": [
+        [
+          "binary",
+          "binary"
+        ],
+        [
+          "native",
+          "shift"
+        ]
+      ],
+      "placements": [
+        [
+          "binary",
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          "native",
+          [
+            0
+          ]
+        ]
+      ],
+      "source_statuses": [
+        "pass",
+        "pass"
+      ],
+      "source_reasons": [
+        "verified",
+        "verified"
+      ],
+      "verification_calls": 2,
+      "gate_column_steps": 21,
+      "rows": [
+        [
+          "not-evaluated",
+          "hardware-operation-budget",
+          0,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          "supported",
+          "native-model-supported",
+          1,
+          [
+            1,
+            1,
+            0
+          ],
+          "model-range",
+          [
+            40000,
+            60000
+          ],
+          [
+            40000,
+            60000
+          ]
+        ]
+      ],
+      "gate_checks": 1,
+      "front_indices": [
+        1
+      ],
+      "partial": true,
+      "front_reason": "verified-supplied-placements-under-one-profile",
+      "freshness": "synthetic",
+      "completion": "exhausted",
+      "exit": 3,
+      "name": "hardware-later-small-fits"
+    },
+    {
+      "logical": "shift",
+      "profile": "missing-used",
+      "context": {},
+      "constraints": {},
+      "seeds": [],
+      "max_dimension": 64,
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "binary",
+          "binary"
+        ],
+        [
+          "native",
+          "shift"
+        ]
+      ],
+      "placements": [
+        [
+          "binary",
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          "native",
+          [
+            0
+          ]
+        ]
+      ],
+      "source_statuses": [
+        "pass",
+        "pass"
+      ],
+      "source_reasons": [
+        "verified",
+        "verified"
+      ],
+      "verification_calls": 2,
+      "gate_column_steps": 21,
+      "rows": [
+        [
+          "supported",
+          "native-model-supported",
+          1,
+          [
+            1,
+            1,
+            0
+          ],
+          "missing-duration",
+          null,
+          null
+        ],
+        [
+          "supported",
+          "native-model-supported",
+          3,
+          [
+            2,
+            3,
+            2
+          ],
+          "model-range",
+          [
+            390000,
+            490000
+          ],
+          [
+            390000,
+            490000
+          ]
+        ]
+      ],
+      "gate_checks": 4,
+      "front_indices": [
+        1
+      ],
+      "partial": true,
+      "front_reason": "verified-supplied-placements-under-one-profile",
+      "freshness": "synthetic",
+      "completion": "exhausted",
+      "exit": 3,
+      "name": "missing-used-duration"
+    },
+    {
+      "logical": "shift",
+      "profile": "missing-unused",
+      "context": {},
+      "constraints": {},
+      "seeds": [],
+      "max_dimension": 64,
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "binary",
+          "binary"
+        ],
+        [
+          "native",
+          "shift"
+        ]
+      ],
+      "placements": [
+        [
+          "binary",
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          "native",
+          [
+            0
+          ]
+        ]
+      ],
+      "source_statuses": [
+        "pass",
+        "pass"
+      ],
+      "source_reasons": [
+        "verified",
+        "verified"
+      ],
+      "verification_calls": 2,
+      "gate_column_steps": 21,
+      "rows": [
+        [
+          "supported",
+          "native-model-supported",
+          1,
+          [
+            1,
+            1,
+            0
+          ],
+          "model-range",
+          [
+            40000,
+            60000
+          ],
+          [
+            40000,
+            60000
+          ]
+        ],
+        [
+          "supported",
+          "native-model-supported",
+          3,
+          [
+            2,
+            3,
+            2
+          ],
+          "model-range",
+          [
+            390000,
+            490000
+          ],
+          [
+            390000,
+            490000
+          ]
+        ]
+      ],
+      "gate_checks": 4,
+      "front_indices": [
+        0
+      ],
+      "partial": false,
+      "front_reason": "verified-supplied-placements-under-one-profile",
+      "freshness": "synthetic",
+      "completion": "exhausted",
+      "exit": 0,
+      "name": "missing-unused-duration"
+    },
+    {
+      "logical": "shift",
+      "profile": "zero-duration",
+      "context": {},
+      "constraints": {},
+      "seeds": [],
+      "max_dimension": 64,
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "binary",
+          "binary"
+        ],
+        [
+          "native",
+          "shift"
+        ]
+      ],
+      "placements": [
+        [
+          "binary",
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          "native",
+          [
+            0
+          ]
+        ]
+      ],
+      "source_statuses": [
+        "pass",
+        "pass"
+      ],
+      "source_reasons": [
+        "verified",
+        "verified"
+      ],
+      "verification_calls": 2,
+      "gate_column_steps": 21,
+      "rows": [
+        [
+          "supported",
+          "native-model-supported",
+          1,
+          [
+            1,
+            1,
+            0
+          ],
+          "model-range",
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        [
+          "supported",
+          "native-model-supported",
+          3,
+          [
+            2,
+            3,
+            2
+          ],
+          "model-range",
+          [
+            390000,
+            490000
+          ],
+          [
+            390000,
+            490000
+          ]
+        ]
+      ],
+      "gate_checks": 4,
+      "front_indices": [
+        0
+      ],
+      "partial": false,
+      "front_reason": "verified-supplied-placements-under-one-profile",
+      "freshness": "synthetic",
+      "completion": "exhausted",
+      "exit": 0,
+      "name": "explicit-zero-duration"
+    },
+    {
+      "logical": "shift",
+      "profile": "reported-fresh",
+      "context": {},
+      "constraints": {},
+      "seeds": [],
+      "max_dimension": 64,
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "binary",
+          "binary"
+        ],
+        [
+          "native",
+          "shift"
+        ]
+      ],
+      "placements": [
+        [
+          "binary",
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          "native",
+          [
+            0
+          ]
+        ]
+      ],
+      "source_statuses": [
+        "pass",
+        "pass"
+      ],
+      "source_reasons": [
+        "verified",
+        "verified"
+      ],
+      "verification_calls": 2,
+      "gate_column_steps": 21,
+      "rows": [
+        [
+          "supported",
+          "native-model-supported",
+          1,
+          [
+            1,
+            1,
+            0
+          ],
+          "model-range",
+          [
+            40000,
+            60000
+          ],
+          [
+            40000,
+            60000
+          ]
+        ],
+        [
+          "supported",
+          "native-model-supported",
+          3,
+          [
+            2,
+            3,
+            2
+          ],
+          "model-range",
+          [
+            390000,
+            490000
+          ],
+          [
+            390000,
+            490000
+          ]
+        ]
+      ],
+      "gate_checks": 4,
+      "front_indices": [
+        0
+      ],
+      "partial": false,
+      "front_reason": "verified-supplied-placements-under-one-profile",
+      "freshness": "fresh",
+      "completion": "exhausted",
+      "exit": 0,
+      "name": "fresh-inclusive-boundary"
+    },
+    {
+      "logical": "shift",
+      "profile": "reported-stale",
+      "context": {},
+      "constraints": {},
+      "seeds": [],
+      "max_dimension": 64,
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "binary",
+          "binary"
+        ],
+        [
+          "native",
+          "shift"
+        ]
+      ],
+      "placements": [
+        [
+          "binary",
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          "native",
+          [
+            0
+          ]
+        ]
+      ],
+      "source_statuses": [
+        "pass",
+        "pass"
+      ],
+      "source_reasons": [
+        "verified",
+        "verified"
+      ],
+      "verification_calls": 2,
+      "gate_column_steps": 21,
+      "rows": [
+        [
+          "supported",
+          "native-model-supported",
+          1,
+          [
+            1,
+            1,
+            0
+          ],
+          "stale-calibration",
+          null,
+          null
+        ],
+        [
+          "supported",
+          "native-model-supported",
+          3,
+          [
+            2,
+            3,
+            2
+          ],
+          "stale-calibration",
+          null,
+          null
+        ]
+      ],
+      "gate_checks": 4,
+      "front_indices": [],
+      "partial": true,
+      "front_reason": "no-complete-objective-vectors",
+      "freshness": "stale",
+      "completion": "exhausted",
+      "exit": 3,
+      "name": "stale-selected-time"
+    },
+    {
+      "logical": "shift",
+      "profile": "reported-unknown",
+      "context": {},
+      "constraints": {},
+      "seeds": [],
+      "max_dimension": 64,
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "binary",
+          "binary"
+        ],
+        [
+          "native",
+          "shift"
+        ]
+      ],
+      "placements": [
+        [
+          "binary",
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          "native",
+          [
+            0
+          ]
+        ]
+      ],
+      "source_statuses": [
+        "pass",
+        "pass"
+      ],
+      "source_reasons": [
+        "verified",
+        "verified"
+      ],
+      "verification_calls": 2,
+      "gate_column_steps": 21,
+      "rows": [
+        [
+          "supported",
+          "native-model-supported",
+          1,
+          [
+            1,
+            1,
+            0
+          ],
+          "unknown-calibration",
+          null,
+          null
+        ],
+        [
+          "supported",
+          "native-model-supported",
+          3,
+          [
+            2,
+            3,
+            2
+          ],
+          "unknown-calibration",
+          null,
+          null
+        ]
+      ],
+      "gate_checks": 4,
+      "front_indices": [],
+      "partial": true,
+      "front_reason": "no-complete-objective-vectors",
+      "freshness": "unknown",
+      "completion": "exhausted",
+      "exit": 3,
+      "name": "unknown-calibration"
+    },
+    {
+      "logical": "shift",
+      "profile": "reported-stale",
+      "context": {
+        "objectives": [
+          "native_operations"
+        ]
+      },
+      "constraints": {},
+      "seeds": [],
+      "max_dimension": 64,
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "binary",
+          "binary"
+        ],
+        [
+          "native",
+          "shift"
+        ]
+      ],
+      "placements": [
+        [
+          "binary",
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          "native",
+          [
+            0
+          ]
+        ]
+      ],
+      "source_statuses": [
+        "pass",
+        "pass"
+      ],
+      "source_reasons": [
+        "verified",
+        "verified"
+      ],
+      "verification_calls": 2,
+      "gate_column_steps": 21,
+      "rows": [
+        [
+          "supported",
+          "native-model-supported",
+          1,
+          [
+            1,
+            1,
+            0
+          ],
+          "stale-calibration",
+          null,
+          null
+        ],
+        [
+          "supported",
+          "native-model-supported",
+          3,
+          [
+            2,
+            3,
+            2
+          ],
+          "stale-calibration",
+          null,
+          null
+        ]
+      ],
+      "gate_checks": 4,
+      "front_indices": [
+        0
+      ],
+      "partial": false,
+      "front_reason": "verified-supplied-placements-under-one-profile",
+      "freshness": "stale",
+      "completion": "exhausted",
+      "exit": 0,
+      "name": "stale-count-only"
+    },
+    {
+      "logical": "shift",
+      "profile": "hybrid",
+      "context": {},
+      "constraints": {},
+      "seeds": [],
+      "max_dimension": 64,
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [],
+      "placements": [],
+      "source_statuses": [
+        "unimplemented",
+        "unimplemented"
+      ],
+      "source_reasons": [
+        "no-implementation",
+        "no-implementation"
+      ],
+      "verification_calls": 0,
+      "gate_column_steps": 0,
+      "rows": [
+        [
+          "ineligible",
+          "source-unimplemented",
+          0,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          "ineligible",
+          "source-unimplemented",
+          0,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "gate_checks": 0,
+      "front_indices": [],
+      "partial": true,
+      "front_reason": "no-verified-supplied-circuits",
+      "freshness": "synthetic",
+      "completion": "exhausted",
+      "exit": 3,
+      "name": "missing-circuits"
+    },
+    {
+      "logical": "shift",
+      "profile": "hybrid",
+      "context": {},
+      "constraints": {},
+      "seeds": [],
+      "max_dimension": 64,
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "binary",
+          "binary"
+        ],
+        [
+          "native",
+          "shift"
+        ]
+      ],
+      "placements": [],
+      "source_statuses": [
+        "pass",
+        "pass"
+      ],
+      "source_reasons": [
+        "verified",
+        "verified"
+      ],
+      "verification_calls": 2,
+      "gate_column_steps": 21,
+      "rows": [
+        [
+          "unplaced",
+          "no-placement",
+          0,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          "unplaced",
+          "no-placement",
+          0,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "gate_checks": 0,
+      "front_indices": [],
+      "partial": true,
+      "front_reason": "no-placed-verified-circuits",
+      "freshness": "synthetic",
+      "completion": "exhausted",
+      "exit": 3,
+      "name": "no-placements"
+    },
+    {
+      "logical": "shift",
+      "profile": "hybrid",
+      "context": {},
+      "constraints": {},
+      "seeds": [],
+      "max_dimension": 64,
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "binary",
+          "binary"
+        ],
+        [
+          "native",
+          "shift"
+        ]
+      ],
+      "placements": [
+        [
+          "native",
+          [
+            0
+          ]
+        ]
+      ],
+      "source_statuses": [
+        "pass",
+        "pass"
+      ],
+      "source_reasons": [
+        "verified",
+        "verified"
+      ],
+      "verification_calls": 2,
+      "gate_column_steps": 21,
+      "rows": [
+        [
+          "supported",
+          "native-model-supported",
+          1,
+          [
+            1,
+            1,
+            0
+          ],
+          "model-range",
+          [
+            40000,
+            60000
+          ],
+          [
+            40000,
+            60000
+          ]
+        ],
+        [
+          "unplaced",
+          "no-placement",
+          0,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "gate_checks": 1,
+      "front_indices": [
+        0
+      ],
+      "partial": true,
+      "front_reason": "verified-supplied-placements-under-one-profile",
+      "freshness": "synthetic",
+      "completion": "exhausted",
+      "exit": 3,
+      "name": "one-unplaced"
+    },
+    {
+      "logical": "shift",
+      "profile": "hybrid",
+      "context": {},
+      "constraints": {
+        "max_verifications": 1
+      },
+      "seeds": [],
+      "max_dimension": 64,
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "binary",
+          "binary"
+        ],
+        [
+          "native",
+          "shift"
+        ]
+      ],
+      "placements": [
+        [
+          "binary",
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          "native",
+          [
+            0
+          ]
+        ]
+      ],
+      "source_statuses": [
+        "pass",
+        "not-evaluated"
+      ],
+      "source_reasons": [
+        "verified",
+        "verification-call-budget"
+      ],
+      "verification_calls": 1,
+      "gate_column_steps": 6,
+      "rows": [
+        [
+          "supported",
+          "native-model-supported",
+          1,
+          [
+            1,
+            1,
+            0
+          ],
+          "model-range",
+          [
+            40000,
+            60000
+          ],
+          [
+            40000,
+            60000
+          ]
+        ],
+        [
+          "ineligible",
+          "source-not-evaluated",
+          0,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "gate_checks": 1,
+      "front_indices": [
+        0
+      ],
+      "partial": true,
+      "front_reason": "verified-supplied-placements-under-one-profile",
+      "freshness": "synthetic",
+      "completion": "exhausted",
+      "exit": 3,
+      "name": "source-call-limit"
+    },
+    {
+      "logical": "shift",
+      "profile": "hybrid",
+      "context": {},
+      "constraints": {
+        "max_gate_column_steps": 6
+      },
+      "seeds": [
+        "binary"
+      ],
+      "max_dimension": 64,
+      "candidates": [
+        "binary",
+        "native"
+      ],
+      "implementations": [
+        [
+          "binary",
+          "binary"
+        ],
+        [
+          "native",
+          "shift"
+        ]
+      ],
+      "placements": [
+        [
+          "binary",
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          "native",
+          [
+            0
+          ]
+        ]
+      ],
+      "source_statuses": [
+        "not-evaluated",
+        "pass"
+      ],
+      "source_reasons": [
+        "gate-column-budget",
+        "verified"
+      ],
+      "verification_calls": 1,
+      "gate_column_steps": 6,
+      "rows": [
+        [
+          "ineligible",
+          "source-not-evaluated",
+          0,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          "supported",
+          "native-model-supported",
+          1,
+          [
+            1,
+            1,
+            0
+          ],
+          "model-range",
+          [
+            40000,
+            60000
+          ],
+          [
+            40000,
+            60000
+          ]
+        ]
+      ],
+      "gate_checks": 1,
+      "front_indices": [
+        1
+      ],
+      "partial": true,
+      "front_reason": "verified-supplied-placements-under-one-profile",
+      "freshness": "synthetic",
+      "completion": "exhausted",
+      "exit": 3,
+      "name": "source-later-small-fits"
+    },
+    {
+      "logical": "shift",
+      "profile": "hybrid",
+      "context": {},
+      "constraints": {},
+      "seeds": [],
+      "max_dimension": 3,
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "binary",
+          "binary"
+        ],
+        [
+          "native",
+          "shift"
+        ]
+      ],
+      "placements": [
+        [
+          "binary",
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          "native",
+          [
+            0
+          ]
+        ]
+      ],
+      "source_statuses": [
+        "pass",
+        "unsupported"
+      ],
+      "source_reasons": [
+        "verified",
+        "dense-limit"
+      ],
+      "verification_calls": 1,
+      "gate_column_steps": 6,
+      "rows": [
+        [
+          "supported",
+          "native-model-supported",
+          1,
+          [
+            1,
+            1,
+            0
+          ],
+          "model-range",
+          [
+            40000,
+            60000
+          ],
+          [
+            40000,
+            60000
+          ]
+        ],
+        [
+          "ineligible",
+          "source-unsupported",
+          0,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "gate_checks": 1,
+      "front_indices": [
+        0
+      ],
+      "partial": true,
+      "front_reason": "verified-supplied-placements-under-one-profile",
+      "freshness": "synthetic",
+      "completion": "exhausted",
+      "exit": 3,
+      "name": "source-dense-limit"
+    },
+    {
+      "logical": "shift",
+      "profile": "hybrid",
+      "context": {},
+      "constraints": {},
+      "seeds": [],
+      "max_dimension": 64,
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "native",
+          "identity"
+        ],
+        [
+          "binary",
+          "binary"
+        ]
+      ],
+      "placements": [
+        [
+          "binary",
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          "native",
+          [
+            0
+          ]
+        ]
+      ],
+      "source_statuses": [
+        "fail",
+        "pass"
+      ],
+      "source_reasons": [
+        "equivalence-failed",
+        "verified"
+      ],
+      "verification_calls": 2,
+      "gate_column_steps": 18,
+      "rows": [
+        [
+          "ineligible",
+          "source-fail",
+          0,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          "supported",
+          "native-model-supported",
+          3,
+          [
+            2,
+            3,
+            2
+          ],
+          "model-range",
+          [
+            390000,
+            490000
+          ],
+          [
+            390000,
+            490000
+          ]
+        ]
+      ],
+      "gate_checks": 3,
+      "front_indices": [
+        1
+      ],
+      "partial": false,
+      "front_reason": "verified-supplied-placements-under-one-profile",
+      "freshness": "synthetic",
+      "completion": "exhausted",
+      "exit": 1,
+      "name": "numerical-failure"
+    },
+    {
+      "logical": "shift",
+      "profile": "hybrid",
+      "context": {},
+      "constraints": {},
+      "seeds": [],
+      "max_dimension": 64,
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "native",
+          "identity"
+        ]
+      ],
+      "placements": [
+        [
+          "native",
+          [
+            0
+          ]
+        ]
+      ],
+      "source_statuses": [
+        "fail",
+        "unimplemented"
+      ],
+      "source_reasons": [
+        "equivalence-failed",
+        "no-implementation"
+      ],
+      "verification_calls": 1,
+      "gate_column_steps": 3,
+      "rows": [
+        [
+          "ineligible",
+          "source-fail",
+          0,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          "ineligible",
+          "source-unimplemented",
+          0,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "gate_checks": 0,
+      "front_indices": [],
+      "partial": true,
+      "front_reason": "no-verified-supplied-circuits",
+      "freshness": "synthetic",
+      "completion": "exhausted",
+      "exit": 1,
+      "name": "failure-before-partial"
+    },
+    {
+      "logical": "shift",
+      "profile": "hybrid",
+      "context": {},
+      "constraints": {
+        "max_candidates": 1
+      },
+      "seeds": [],
+      "max_dimension": 64,
+      "candidates": [
+        "native"
+      ],
+      "implementations": [
+        [
+          "native",
+          "shift"
+        ]
+      ],
+      "placements": [
+        [
+          "native",
+          [
+            0
+          ]
+        ]
+      ],
+      "source_statuses": [
+        "pass"
+      ],
+      "source_reasons": [
+        "verified"
+      ],
+      "verification_calls": 1,
+      "gate_column_steps": 6,
+      "rows": [
+        [
+          "supported",
+          "native-model-supported",
+          1,
+          [
+            1,
+            1,
+            0
+          ],
+          "model-range",
+          [
+            40000,
+            60000
+          ],
+          [
+            40000,
+            60000
+          ]
+        ]
+      ],
+      "gate_checks": 1,
+      "front_indices": [
+        0
+      ],
+      "partial": true,
+      "front_reason": "verified-supplied-placements-under-one-profile",
+      "freshness": "synthetic",
+      "completion": "truncated",
+      "exit": 3,
+      "name": "truncated-domain"
+    },
+    {
+      "logical": "large",
+      "profile": "hybrid",
+      "context": {},
+      "constraints": {},
+      "seeds": [],
+      "max_dimension": 64,
+      "candidates": [],
+      "implementations": [],
+      "placements": [],
+      "source_statuses": [],
+      "source_reasons": [],
+      "verification_calls": 0,
+      "gate_column_steps": 0,
+      "rows": [],
+      "gate_checks": 0,
+      "front_indices": [],
+      "partial": false,
+      "front_reason": "no-candidates",
+      "freshness": "synthetic",
+      "completion": "exhausted",
+      "exit": 3,
+      "name": "empty-domain"
+    },
+    {
+      "logical": "identity",
+      "profile": "reported-stale",
+      "context": {},
+      "constraints": {},
+      "seeds": [],
+      "max_dimension": 64,
+      "candidates": [
+        "native",
+        "binary"
+      ],
+      "implementations": [
+        [
+          "native",
+          "identity"
+        ],
+        [
+          "binary",
+          "binary_identity"
+        ]
+      ],
+      "placements": [
+        [
+          "binary",
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          "native",
+          [
+            0
+          ]
+        ]
+      ],
+      "source_statuses": [
+        "pass",
+        "pass"
+      ],
+      "source_reasons": [
+        "verified",
+        "verified"
+      ],
+      "verification_calls": 2,
+      "gate_column_steps": 0,
+      "rows": [
+        [
+          "supported",
+          "native-model-supported",
+          0,
+          [
+            1,
+            0,
+            0
+          ],
+          "empty-circuit",
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        [
+          "supported",
+          "native-model-supported",
+          0,
+          [
+            2,
+            0,
+            0
+          ],
+          "empty-circuit",
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      ],
+      "gate_checks": 0,
+      "front_indices": [
+        0
+      ],
+      "partial": false,
+      "front_reason": "verified-supplied-placements-under-one-profile",
+      "freshness": "stale",
+      "completion": "exhausted",
+      "exit": 0,
+      "name": "stale-identity-zero-work"
+    }
+  ]
+}

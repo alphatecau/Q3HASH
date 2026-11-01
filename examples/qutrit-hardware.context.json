@@ -1,0 +1,13 @@
+{
+  "schema": "q3hash.hardware-context",
+  "schema_version": 1,
+  "as_of": "2026-11-01T01:00:00Z",
+  "max_calibration_age_seconds": 3600,
+  "max_gate_checks": 262144,
+  "objectives": [
+    "active_sites",
+    "native_operations",
+    "two_site_operations",
+    "critical_path_ps"
+  ]
+}
