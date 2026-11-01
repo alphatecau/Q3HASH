@@ -1,13 +1,13 @@
-# Verified hardware reports — v0.5.0.dev3
+# Verified hardware reports — v0.5.0
 
 `assess_hardware` connects a computed SearchReport to an explicit hardware profile,
 placements and context. It retains every source candidate, derives conditional
 costs and interval fronts, and emits a strict portable HardwareReport.
-The hardware CLI and final 0.5 release gates remain pending.
+The [hardware CLI](hardware-cli.md) exposes this pipeline with fresh source verification.
 
 ## Compare supplied circuits
 
-Run this example from the development checkout after installing the package:
+Run this example from the tagged source checkout after installing the package:
 
 ```python
 import json
@@ -98,7 +98,8 @@ can exceed the wire cap and must raise rather than truncate evidence.
 
 ## Reproduce validation
 
-`tests/test_hardware_report.py` adds 28 tests to the preserved 232, for 260 total.
+`tests/test_hardware_report.py` added 28 tests to the preserved 232. The 28 CLI
+tests bring the v0.5.0 total to 288.
 The independent report audit checks 1,116 assessments and recorded replays across
 31 objective subsets, four synthetic profiles, three work caps and three placement
 coverage choices. It uses three upstream circuit verifications, independent
@@ -111,4 +112,4 @@ python -I tools/check_hardware_reports.py
 
 CI and both clean wheel/source installations run the audit. Existing numerical,
 Cirq, generation, resource, search CLI and kernel audits remain required.
-The next work package is the explicit hardware CLI contract and implementation.
+The [CLI audit](hardware-cli.md) additionally checks 23 fixed process vectors.

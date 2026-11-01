@@ -1,8 +1,8 @@
 # v0.5 contract — hardware profiles and conditional circuit costs
 
-**Status:** v0.5.0.dev3 implements the computed-source producer, HardwareReport
-v1/replay and interval fronts, following input models, Cirq and the cost kernel.
-The hardware CLI remains pending.
+**Status:** Implemented in v0.5.0: strict inputs, Cirq baseline, cost kernel,
+computed-source HardwareReports, interval fronts, recorded replay and the
+[hardware CLI](hardware-cli-v1.md).
 **Date:** 1 November 2026, Australia/Brisbane.
 **Baseline:** [ADR 0001](../adr/0001-verified-encoding-first.md),
 [encoding search v1](encoding-search-v1.md), Python core v0.4.0.
@@ -372,7 +372,7 @@ tiny fixed mathematical cases. The input-model tests and
 `tools/check_external_operators.py` separately validate delivered inputs and the
 Cirq composition baseline. `tools/check_hardware_costs.py` compares the implemented
 kernel with independent paths/ledgers. The public verified-assessment producer, report replay and interval fronts
-have additional tests/audits; the hardware CLI remains pending.
+have additional tests/audits; the hardware CLI adds 28 tests and 23 fixed process cases.
 Use the [work packages](../plans/v0.5-implementation.md) for implementation gates.
 
 ## 10. External references and interpretation

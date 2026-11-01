@@ -31,7 +31,7 @@ def inspect_wheel(path):
                    "logical_ir.py", "encoding.py", "equivalence.py", "verification.py", "verify_cli.py", "search.py",
                    "resources.py", "evaluation.py", "comparison.py", "search_verification.py",
                    "search_report.py", "_version.py", "search_cli.py", "hardware_models.py", "hardware_costs.py",
-                   "hardware_report.py", "hardware.py")
+                   "hardware_report.py", "hardware.py", "hardware_cli.py")
         for module in modules:
             if f"q3hash/{module}" not in names:
                 raise RuntimeError(f"Wheel is missing module {module}")
@@ -109,6 +109,9 @@ def extract_source(archive_path, destination):
         "tools/check_hardware_costs.py", "docs/hardware-costs.md",
         "src/q3hash/hardware_report.py", "src/q3hash/hardware.py", "tests/test_hardware_report.py",
         "tools/check_hardware_reports.py", "docs/hardware-reports.md",
+        "src/q3hash/hardware_cli.py", "tests/test_hardware_cli.py", "tools/check_hardware_cli.py",
+        "benchmarks/hardware-cli-v1.json", "docs/contracts/hardware-cli-v1.md", "docs/hardware-cli.md",
+        "examples/qutrit-hybrid.hardware.json", "examples/qutrit-hardware.context.json",
     ]
     missing = [name for name in required if not (source / name).is_file()]
     if missing:
@@ -123,6 +126,7 @@ def installed_checks(wheel, source, destination, version, environment):
     console = binaries / ("q3hash.exe" if os.name == "nt" else "q3hash")
     verifier = binaries / ("q3hash-verify.exe" if os.name == "nt" else "q3hash-verify")
     search = binaries / ("q3hash-search.exe" if os.name == "nt" else "q3hash-search")
+    hardware = binaries / ("q3hash-hardware.exe" if os.name == "nt" else "q3hash-hardware")
     run([str(python), "-m", "pip", "install", "--no-index", "--no-deps", str(wheel)], source, environment)
     check = (
         "import importlib.metadata,pathlib,sys,q3hash;"
@@ -159,6 +163,7 @@ def installed_checks(wheel, source, destination, version, environment):
     print(run([str(python), "-I", "tools/check_hardware_contract.py"], source, environment).strip())
     print(run([str(python), "-I", "tools/check_hardware_costs.py"], source, environment).strip())
     print(run([str(python), "-I", "tools/check_hardware_reports.py"], source, environment).strip())
+    print(run([str(python), "-I", "tools/check_hardware_cli.py", "--console", str(hardware), "--isolated"], source, environment).strip())
 
 
 def main():

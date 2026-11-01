@@ -69,7 +69,7 @@ results. Existing generator, simulator and verifier algorithms are unchanged.
 Structural depth assumes disjoint operations can share a layer; it is not a hardware
 schedule or cost model. Snapshot metadata is recorded provenance, not authentication.
 
-## Conditional hardware arithmetic — v0.5 development
+## Conditional hardware arithmetic — v0.5
 
 `hardware_models.py` owns immutable profile/context/placement inputs and strict
 input JSON. `hardware_costs.py` implements the internal matrix-free cost kernel:
@@ -83,7 +83,10 @@ The kernel's private source-status inputs are not public verification evidence.
 source membership/coverage and identity inputs before producing HardwareReports
 and interval fronts. Strict decoding replays recorded evidence without numerical
 calls or environment capture. The [report guide](hardware-reports.md) documents
-these v0.5.0.dev3 APIs. The hardware CLI remains pending.
+these APIs. `hardware_cli.py` preflights all files, source bindings, placements
+and available identity inputs before calling the existing numerical orchestrator.
+It passes computed evidence directly to `assess_hardware` and buffers a complete
+wire-valid report before writing either output mode. See the [CLI guide](hardware-cli.md).
 
 An independent path/remaining-budget oracle audits the kernel. A separate pinned
 Cirq tool independently constructs local gates and composes complete operators,
@@ -103,7 +106,7 @@ See [validation.md](validation.md).
 
 - Richer front-end types, functions and hybrid classical/quantum control flow.
 - Automatic logical-dimension inference, physical-circuit synthesis and hardware-conditioned comparisons beyond the implemented structural model.
-- Hardware CLI/release acceptance, real device-data adapters and noise/fidelity composition.
+- Web/core integration, real device-data adapters and noise/fidelity composition.
 - Semantics-preserving optimisation, expanded equivalence tooling and further external baselines.
 - Hardware adapters and a hybrid runtime.
 

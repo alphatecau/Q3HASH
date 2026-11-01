@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.0 — 1 November 2026
+
+- Complete the conditional hardware-assessment pipeline: explicit profiles, placements and context, fresh supplied-circuit verification, bounded native support/timing, interval fronts and strict recorded reports.
+- Add `q3hash-hardware` and `python -m q3hash.hardware_cli` with preflight before numerical work, 1 MiB transport bounds, buffered human/JSON output and exit precedence for numerical failure, invalid input, partial evidence and complete target infeasibility.
+- Include runnable synthetic profile/context examples and command documentation. Preserve unknown/stale timing and diagnostic gate-error definitions without claiming circuit fidelity or device performance.
+- Add 28 CLI tests to the preserved 260, plus 23 fixed process cases. Require both installed entry points in clean wheel/source checks across Python 3.10–3.13, original numerical audits and the pinned Cirq 1.7.0 baseline.
+
+This is a GitHub source release; it does not publish a PyPI package. Stable v0.3.0/v0.4.0 tags and source/verifier semantics are preserved. Browser/Python integration remains the v0.6 target; device adapters, synthesis, routing and noise composition require later work.
+
 ## 0.5.0.dev3 — 1 November 2026
 
 - Connect computed SearchReport evidence to complete HardwareReports with whole-input membership/identity/collision preflight and unchanged upstream verification budgets.

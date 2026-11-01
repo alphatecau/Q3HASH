@@ -176,9 +176,9 @@ zero versus missing duration, stale/unknown data and nonaggregated error records
 CI and both clean wheel/source installations run this audit. Its small reference
 models are outside the package. They establish executable design expectations;
 the input-model tests and Cirq baseline below check the delivered first packages.
-The cost-kernel audit below checks the next implemented package. Public verified
-report production, report codecs/fronts and hardware CLI remain pending. The [contract](contracts/hardware-profile-v1.md) and
-[implementation gates](plans/v0.5-implementation.md) specify the remaining work.
+The sections below record the subsequent production cost, report and CLI audits.
+The [contract](contracts/hardware-profile-v1.md) and
+[implementation gates](plans/v0.5-implementation.md) define the delivered scope.
 All target numbers are synthetic test values, including the fixtures exercising
 reported-device metadata. No measured device costs or circuit-fidelity result is
 claimed. The 186-test v0.4 regression suite is retained.
@@ -191,8 +191,8 @@ error definitions and nonfinite/overflowing numbers, strict canonical ordering,
 directed SUM bindings, calendar/provenance rules, matrix-free 64-site profiles,
 immutable snapshots, input schemas, semantic identifiers and symmetric wire limits.
 All eight frozen profiles and 17 placement vectors use the production input models.
-Source-membership, recorded-evidence rejection and collision handling still belong
-to the pending report producer.
+Source-membership, recorded-evidence rejection and collision handling belong
+to the report producer added in the dev3 stage below.
 
 `python -I tools/check_external_operators.py` uses pinned Cirq 1.7.0 on Python 3.12.
 It independently reads the fixed source subset and constructs local qudit matrices
@@ -240,8 +240,8 @@ new public verification evidence. Frozen target inputs retain actual passing
 source checks. The original fixture is unchanged. CI and clean wheel/source
 installations run this audit without optional numerical dependencies.
 The [kernel guide](hardware-costs.md) documents the private integration boundary;
-the complete fresh-source producer, report/interval fronts, recorded replay and
-hardware CLI remain pending.
+the dev3 and stable release sections below cover the subsequently implemented
+fresh-source producer, report/front replay and hardware CLI.
 
 ## Verified hardware reports — v0.5.0.dev3
 
@@ -259,6 +259,33 @@ It additionally checks 13 frozen abstract fronts and 900 interval pairs. Abstrac
 cases test private mathematics; they do not create public verified evidence.
 CI and both clean wheel/source installations run this audit. See the
 [report guide](hardware-reports.md) for API usage and evidence interpretation.
+
+## Hardware CLI and release acceptance — v0.5.0
+
+The 28 hardware command tests retain all 260 prior tests, for 288 total. They check
+fresh public-API parity, computed evidence handoff, required explicit context,
+all-file/binding/placement/fingerprint preflight, bounded UTF-8 and literal JSON,
+4096-input caps, immutable inputs, clean diagnostics, collision handling and
+buffered output failure in both human and JSON modes. Unexpected runtime defects
+remain visible. The [command contract](contracts/hardware-cli-v1.md) fixes exit
+precedence, including exit 4 for complete target infeasibility.
+
+`tools/check_hardware_cli.py` executes 23 fixed process cases: native/binary costs,
+known target rejection, complete target infeasibility, source and hardware budget
+skips (including later-small fits), missing/unplaced circuits, missing/zero timing,
+freshness at the exact age boundary, stale/unknown calibration, count-only fronts,
+source failures, truncation, an empty domain and stale identity zero work. Expected
+statuses, both work ledgers, counts, timing ranges, coverage and fronts are fixed
+in `benchmarks/hardware-cli-v1.json`. Existing frozen input fixtures remain intact.
+
+Both clean distributions exercise module and installed console commands: 48 JSON
+reports including repeated canonical bytes, 10 invalid-input checks, human output,
+help and version. Existing numerical, generation, resource, report/kernel and Cirq
+audits remain required. Python 3.10–3.13 distribution jobs plus numerical and Cirq
+jobs must all pass for the reviewed tree and merged commit before the stable tag
+is created. Consult the exact commit's Actions run for results; documentation is
+not itself proof of a passing run. See the [CLI guide](hardware-cli.md) and
+[release procedure](build-and-audit.md).
 
 ## Limits of the evidence
 

@@ -1,12 +1,16 @@
 # Build and audit procedure
 
-The audit requires generation, budgeted verification, resource/front/report, CLI, hardware-input and internal cost modules plus their documentation/fixtures. Both clean installations run all 260 tests, seven source examples, simulator/verifier/search module and console entry points, and every existing contract/generation/resource/aggregate/CLI/cost audit. CI retains the original statevector and complete-operator numerical audits. The 0.2.1 findings and recorded results below are historical.
+The audit requires generation, budgeted verification, resource/front/report, CLI, hardware-input and internal cost modules plus their documentation/fixtures. Both clean installations run all 288 tests, seven source examples, simulator/verifier/search/hardware module and console entry points, and every existing contract/generation/resource/aggregate/CLI/cost audit. CI retains the original statevector and complete-operator numerical audits. The 0.2.1 findings and recorded results below are historical.
 
-The v0.5.0.dev3 build requires hardware inputs/cost kernel, tests, guides, contract,
+The v0.5.0 build requires hardware inputs/cost kernel, tests, guides, contract,
 implementation plan, synthetic fixtures and audit tools in the source archive.
 Both clean installations and numerical CI run the design and production cost audits.
 A separate Python 3.12 CI job installs the pinned Cirq extra and actually runs the
-external composition baseline. Verified hardware reports/fronts/replay are implemented; the hardware CLI remains pending.
+external composition baseline. Verified hardware reports/fronts/replay and the
+hardware CLI are implemented. The source archive requires the command contract,
+28 CLI tests, two JSON examples, guide and 23 fixed acceptance vectors. Both clean
+installations audit the hardware module and console commands, including repeated
+canonical bytes, all exit classes and invalid-input diagnostics.
 
 The repository is an experimental Python interpreter and IR project. Compiling its Python files, building distributions and running numerical tests does not establish that a complete hardware compiler exists.
 
