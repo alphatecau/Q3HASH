@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080d0b">
+  <title>Q3# — Research Console</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <a href="/" class="brand" aria-label="Q3HASH research console home"><span class="brand-mark">Q3<span>#</span></span><span class="brand-sub">RESEARCH CONSOLE</span></a>
+      <span id="connection" class="chip">Local engine · connecting</span>
+    </header>
+    <main>
+      <section class="hero">
+        <div class="eyebrow"><span class="dot"></span> QUANTUM LANGUAGE RESEARCH PLATFORM</div>
+        <h1>Explore quantum<br><em>encodings.</em></h1>
+        <p>Run dimension-aware Q3# programs, verify explicit mappings and compare equivalent encodings against a reproducible benchmark.</p>
+      </section>
+      <nav class="tabs" role="tablist" aria-label="Research tools">
+        <button type="button" class="tab active" data-panel="simulate" role="tab" aria-selected="true">01 <strong>Simulate</strong></button>
+        <button type="button" class="tab" data-panel="verify" role="tab" aria-selected="false">02 <strong>Verify</strong></button>
+        <button type="button" class="tab" data-panel="compare" role="tab" aria-selected="false">03 <strong>Compare</strong></button>
+      </nav>
+      <section id="simulate" class="panel" role="tabpanel" aria-label="Simulate a Q3# program">
+        <div class="panel-head"><div><h2>Statevector simulator</h2><p>Enter an explicitly dimensioned Q3# circuit.</p></div><span class="tag">PURE PYTHON CORE</span></div>
+        <label for="source">Q3# SOURCE</label>
+        <textarea id="source" spellcheck="false" rows="7">qutrit q
+shift q</textarea>
+        <div class="actions"><button id="run-simulation" class="primary" type="button">Run simulation <span aria-hidden="true">→</span></button><span class="hint">Max 64 basis states · 64 operations</span></div>
+      </section>
+      <section id="verify" class="panel hidden" role="tabpanel" aria-label="Verify explicit encoding">
+        <div class="panel-head"><div><h2>Encoding verification</h2><p>Check the complete encoded subspace, leakage and full unitarity.</p></div><span class="tag">MAX 32 DIMENSION</span></div>
+        <div class="editor-grid"><div><label for="logical">LOGICAL Q3#</label><textarea id="logical" spellcheck="false" rows="6">qutrit q
+shift q</textarea></div><div><label for="physical">PHYSICAL Q3#</label><textarea id="physical" spellcheck="false" rows="6">qubit a
+qubit b
+sum a b
+sum b a
+shift b</textarea></div></div>
+        <label for="encoding">EXPLICIT BASIS ENCODING (JSON)</label>
+        <textarea id="encoding" spellcheck="false" rows="5">{"schema":"q3hash.basis-encoding","schema_version":1,"kind":"basis-injection","logical_dimensions":[3],"physical_dimensions":[2,2],"physical_basis_indices":[0,1,2]}</textarea>
+        <div class="actions"><button id="run-verification" class="primary" type="button">Verify mapping <span aria-hidden="true">→</span></button><span class="hint">No automatic synthesis or dimension inference</span></div>
+      </section>
+      <section id="compare" class="panel hidden" role="tabpanel" aria-label="Compare fixed three-way benchmark">
+        <div class="panel-head"><div><h2>Three-way encoding comparison</h2><p>One logical qutrit shift; three supplied physical implementations.</p></div><span class="tag">FIXED ACCEPTANCE FIXTURE</span></div>
+        <div class="notice"><strong>Scientific scope:</strong> These timing intervals come from a fictitious synthetic hardware profile. No physical device was measured. The (3,2) candidate has no implementation, so the Pareto front is partial.</div>
+        <div class="actions"><button id="run-comparison" class="primary" type="button">Run verified comparison <span aria-hidden="true">→</span></button><span class="hint">Native · binary · mixed-dimensional</span></div>
+      </section>
+      <section class="output" aria-label="Analysis results">
+        <div class="output-head"><div><span class="eyebrow">RESULTS / EVIDENCE</span><h2 id="results-heading">Ready for analysis</h2></div><span id="status" class="status neutral">Not run</span></div>
+        <div id="results" class="result-body" aria-live="polite"><p class="empty">Select a tool and run a computation. All results come from the local Q3HASH Python engine.</p></div>
+      </section>
+    </main>
+    <footer><span>Q3# · TERNARY FIRST. EVIDENCE ALWAYS.</span><span>LOCAL RESEARCH BUILD · NO CLOUD EXECUTION</span></footer>
+  </div>
+</body>
+</html>
