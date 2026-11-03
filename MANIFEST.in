@@ -10,3 +10,4 @@ recursive-include .github/workflows *.yml
 prune build
 prune dist
 prune sdist
+recursive-include web *.html *.css *.js
