@@ -1,0 +1,5 @@
+# Same logical qutrit cyclic shift with a passive leading qubit.
+# The rightmost register is fastest: |0,0>, |0,1>, |0,2> encode |0>, |1>, |2>.
+qubit a
+qutrit b
+shift b
