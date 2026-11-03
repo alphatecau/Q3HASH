@@ -59,6 +59,10 @@ jobs:
         run: python -I tools/check_hardware_reports.py
       - name: Audit v0.5 hardware CLI acceptance vectors
         run: python -I tools/check_hardware_cli.py --isolated
+      - name: Independently check three-way full operators and synthetic timing
+        run: python -I tools/check_three_way_oracle.py
+      - name: Verify three-way public API, negative controls and partial hardware front
+        run: python -I tools/check_three_way_benchmark.py
 
   external:
     runs-on: ubuntu-latest
