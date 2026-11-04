@@ -80,6 +80,8 @@ def extract_source(archive_path, destination):
     source = roots[0]
     required = [
         "LICENSE", "README.md", "CHANGELOG.md", "MANIFEST.in",
+        "deployment/__init__.py", "deployment/render_api.py",
+        "deployment/worker.py", "deployment/README.md",
         "docs/language-spec.md", "docs/semantics.md", "docs/validation.md",
         "docs/adr/0001-verified-encoding-first.md", "docs/contracts/logical-ir-and-encoding-v1.md",
         "docs/contracts/operator-verification-v1.md", "tests/test_contracts.py", "tests/test_equivalence.py",
