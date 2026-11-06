@@ -15,3 +15,5 @@ recursive-include deployment *.py *.md *.json
 include render.yaml
 recursive-include docs/contracts *.json
 recursive-include integration/sites *.ts *.mjs *.json *.md *.sh
+prune integration/sites/node_modules
+prune integration/sites/dist
