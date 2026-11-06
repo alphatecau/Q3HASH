@@ -1,0 +1,1018 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Q3HASH hosted research API v2",
+  "description": "Response shapes. Request shapes are in the three Request definitions. Cross-field numerical checks are documented separately.",
+  "$defs": {
+    "identity": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "const": "q3hash.web-response"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "engine_version": {
+          "const": "0.5.0"
+        },
+        "web_version": {
+          "const": "0.6.0-rc.1"
+        },
+        "source_commit": {
+          "const": "19e44ada3a5a31deec7875c403b2efc0ee4c8488"
+        },
+        "deployment_commit": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        }
+      },
+      "required": [
+        "schema",
+        "schema_version",
+        "engine_version",
+        "web_version",
+        "source_commit",
+        "deployment_commit"
+      ]
+    },
+    "health": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "const": "ok"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    "capabilities": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "capabilities"
+            },
+            "status": {
+              "const": "pass"
+            },
+            "endpoints": {
+              "const": [
+                "simulate",
+                "verify",
+                "compare"
+              ]
+            },
+            "local_only": {
+              "const": false
+            },
+            "public_browser_access": {
+              "const": false
+            },
+            "synthetic_hardware_only": {
+              "const": true
+            },
+            "automatic_synthesis": {
+              "const": false
+            },
+            "automatic_dimension_inference": {
+              "const": false
+            },
+            "max_request_bytes": {
+              "type": "integer",
+              "minimum": 1024,
+              "maximum": 16384
+            },
+            "max_program_characters": {
+              "const": 4096
+            },
+            "max_operations": {
+              "const": 64
+            },
+            "max_simulated_states": {
+              "const": 64
+            },
+            "max_verified_dimension": {
+              "const": 32
+            },
+            "max_register_dimension": {
+              "const": 32
+            },
+            "basis_order": {
+              "const": "last-register-fastest"
+            }
+          },
+          "required": [
+            "kind",
+            "status",
+            "endpoints",
+            "local_only",
+            "public_browser_access",
+            "synthetic_hardware_only",
+            "automatic_synthesis",
+            "automatic_dimension_inference",
+            "max_request_bytes",
+            "max_program_characters",
+            "max_operations",
+            "max_simulated_states",
+            "max_verified_dimension",
+            "max_register_dimension",
+            "basis_order"
+          ]
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "simulatePass": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "simulation"
+            },
+            "status": {
+              "const": "pass"
+            },
+            "dimensions": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 2,
+                "maximum": 32
+              },
+              "minItems": 1,
+              "maxItems": 4096
+            },
+            "basis_order": {
+              "const": "last-register-fastest"
+            },
+            "state_size": {
+              "type": "integer",
+              "minimum": 2,
+              "maximum": 64
+            },
+            "operations": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 64
+            },
+            "basis": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "index": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 63
+                  },
+                  "amplitude": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                  },
+                  "probability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1.00000001
+                  }
+                },
+                "required": [
+                  "index",
+                  "amplitude",
+                  "probability"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 2,
+              "maxItems": 64
+            }
+          },
+          "required": [
+            "kind",
+            "status",
+            "dimensions",
+            "basis_order",
+            "state_size",
+            "operations",
+            "basis"
+          ]
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "simulateUnsupported": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "simulation"
+            },
+            "status": {
+              "const": "unsupported"
+            },
+            "dimensions": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 2,
+                "maximum": 32
+              },
+              "minItems": 1,
+              "maxItems": 4096
+            },
+            "basis_order": {
+              "const": "last-register-fastest"
+            },
+            "state_size": {
+              "type": "string",
+              "pattern": "^[1-9][0-9]{0,1023}$"
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 384
+            }
+          },
+          "required": [
+            "kind",
+            "status",
+            "dimensions",
+            "basis_order",
+            "state_size",
+            "reason"
+          ]
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "verificationPass": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "const": "pass"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 384
+        },
+        "evidence": {
+          "const": "q3hash-circuit"
+        },
+        "logical_size": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 65536
+        },
+        "physical_size": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 32
+        },
+        "tolerance": {
+          "const": 1e-10
+        },
+        "global_phase": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "subspace_residual": {
+          "type": "number",
+          "minimum": 0
+        },
+        "leakage_norm": {
+          "type": "number",
+          "minimum": 0
+        },
+        "logical_unitarity_error": {
+          "type": "number",
+          "minimum": 0
+        },
+        "physical_unitarity_error": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "status",
+        "reason",
+        "evidence",
+        "logical_size",
+        "physical_size",
+        "tolerance",
+        "global_phase",
+        "subspace_residual",
+        "leakage_norm",
+        "logical_unitarity_error",
+        "physical_unitarity_error"
+      ],
+      "additionalProperties": false
+    },
+    "verificationFail": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "const": "fail"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 384
+        },
+        "evidence": {
+          "const": "q3hash-circuit"
+        },
+        "logical_size": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 65536
+        },
+        "physical_size": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 32
+        },
+        "tolerance": {
+          "const": 1e-10
+        },
+        "global_phase": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "subspace_residual": {
+          "type": "number",
+          "minimum": 0
+        },
+        "leakage_norm": {
+          "type": "number",
+          "minimum": 0
+        },
+        "logical_unitarity_error": {
+          "type": "number",
+          "minimum": 0
+        },
+        "physical_unitarity_error": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "status",
+        "reason",
+        "evidence",
+        "logical_size",
+        "physical_size",
+        "tolerance",
+        "global_phase",
+        "subspace_residual",
+        "leakage_norm",
+        "logical_unitarity_error",
+        "physical_unitarity_error"
+      ],
+      "additionalProperties": false
+    },
+    "verificationUnsupported": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "const": "unsupported"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 384
+        },
+        "evidence": {
+          "const": "q3hash-circuit"
+        },
+        "logical_size": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 65536
+        },
+        "physical_size": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]{0,1023}$"
+        },
+        "tolerance": {
+          "const": 1e-10
+        },
+        "global_phase": {
+          "const": null
+        },
+        "subspace_residual": {
+          "const": null
+        },
+        "leakage_norm": {
+          "const": null
+        },
+        "logical_unitarity_error": {
+          "const": null
+        },
+        "physical_unitarity_error": {
+          "const": null
+        }
+      },
+      "required": [
+        "status",
+        "reason",
+        "evidence",
+        "logical_size",
+        "physical_size",
+        "tolerance",
+        "global_phase",
+        "subspace_residual",
+        "leakage_norm",
+        "logical_unitarity_error",
+        "physical_unitarity_error"
+      ],
+      "additionalProperties": false
+    },
+    "verifyPass": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "verification"
+            },
+            "status": {
+              "const": "pass"
+            },
+            "verification": {
+              "$ref": "#/$defs/verificationPass"
+            }
+          },
+          "required": [
+            "kind",
+            "status",
+            "verification"
+          ]
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "verifyFail": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "verification"
+            },
+            "status": {
+              "const": "fail"
+            },
+            "verification": {
+              "$ref": "#/$defs/verificationFail"
+            }
+          },
+          "required": [
+            "kind",
+            "status",
+            "verification"
+          ]
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "verifyUnsupported": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "verification"
+            },
+            "status": {
+              "const": "unsupported"
+            },
+            "verification": {
+              "$ref": "#/$defs/verificationUnsupported"
+            }
+          },
+          "required": [
+            "kind",
+            "status",
+            "verification"
+          ]
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "compare": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "comparison"
+            },
+            "status": {
+              "const": "partial"
+            },
+            "workload": {
+              "const": "v0.6-three-way-logical-qutrit-shift"
+            },
+            "ranking_scope": {
+              "const": "verified-supplied-placements-under-one-profile"
+            },
+            "synthetic": {
+              "const": true
+            },
+            "measured_hardware": {
+              "const": false
+            },
+            "hardware_provenance": {
+              "const": "synthetic"
+            },
+            "front_partial": {
+              "const": true
+            },
+            "search_complete": {
+              "const": true
+            },
+            "verification_calls": {
+              "const": 3
+            },
+            "warning": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 384
+            },
+            "source_status_counts": {
+              "const": {
+                "unimplemented": 1,
+                "pass": 3,
+                "fail": 0,
+                "unsupported": 0,
+                "not-evaluated": 0
+              }
+            },
+            "hardware_status_counts": {
+              "const": {
+                "ineligible": 1,
+                "unplaced": 0,
+                "unsupported": 0,
+                "not-evaluated": 0,
+                "supported": 3
+              }
+            },
+            "objective_names": {
+              "const": [
+                "active_sites",
+                "native_operations",
+                "two_site_operations",
+                "critical_path_ps"
+              ]
+            },
+            "rows": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "enum": [
+                          "native",
+                          "binary",
+                          "mixed"
+                        ]
+                      },
+                      "dimensions": {
+                        "enum": [
+                          [
+                            3
+                          ],
+                          [
+                            2,
+                            2
+                          ],
+                          [
+                            2,
+                            3
+                          ]
+                        ]
+                      },
+                      "source_status": {
+                        "const": "pass"
+                      },
+                      "source_reason": {
+                        "const": "verified"
+                      },
+                      "verification": {
+                        "$ref": "#/$defs/verificationPass"
+                      },
+                      "resources": {
+                        "type": "object",
+                        "properties": {
+                          "physical_registers": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "max_register_dimension": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "unused_basis_states": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "gate_count": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "two_register_gate_count": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "dependency_depth": {
+                            "type": "integer",
+                            "minimum": 0
+                          }
+                        },
+                        "required": [
+                          "physical_registers",
+                          "max_register_dimension",
+                          "unused_basis_states",
+                          "gate_count",
+                          "two_register_gate_count",
+                          "dependency_depth"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "target_status": {
+                        "const": "supported"
+                      },
+                      "target_reason": {
+                        "const": "native-model-supported"
+                      },
+                      "active_sites": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 2
+                      },
+                      "operations": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 64
+                      },
+                      "two_site_operations": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 64
+                      },
+                      "critical_path_ps": {
+                        "type": "array",
+                        "items": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "minItems": 2,
+                        "maxItems": 2
+                      },
+                      "on_front": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "dimensions",
+                      "source_status",
+                      "source_reason",
+                      "verification",
+                      "resources",
+                      "target_status",
+                      "target_reason",
+                      "active_sites",
+                      "operations",
+                      "two_site_operations",
+                      "critical_path_ps",
+                      "on_front"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "const": "unimplemented"
+                      },
+                      "dimensions": {
+                        "const": [
+                          3,
+                          2
+                        ]
+                      },
+                      "source_status": {
+                        "const": "unimplemented"
+                      },
+                      "source_reason": {
+                        "const": "no-implementation"
+                      },
+                      "target_status": {
+                        "const": "ineligible"
+                      },
+                      "target_reason": {
+                        "const": "source-unimplemented"
+                      },
+                      "on_front": {
+                        "const": false
+                      },
+                      "verification": {
+                        "const": null
+                      },
+                      "resources": {
+                        "const": null
+                      },
+                      "active_sites": {
+                        "const": null
+                      },
+                      "operations": {
+                        "const": null
+                      },
+                      "two_site_operations": {
+                        "const": null
+                      },
+                      "critical_path_ps": {
+                        "const": null
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "dimensions",
+                      "source_status",
+                      "source_reason",
+                      "target_status",
+                      "target_reason",
+                      "on_front",
+                      "verification",
+                      "resources",
+                      "active_sites",
+                      "operations",
+                      "two_site_operations",
+                      "critical_path_ps"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              "minItems": 4,
+              "maxItems": 4
+            }
+          },
+          "required": [
+            "kind",
+            "status",
+            "workload",
+            "ranking_scope",
+            "synthetic",
+            "measured_hardware",
+            "hardware_provenance",
+            "front_partial",
+            "search_complete",
+            "verification_calls",
+            "warning",
+            "source_status_counts",
+            "hardware_status_counts",
+            "objective_names",
+            "rows"
+          ]
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "errorError": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "error"
+            },
+            "status": {
+              "const": "error"
+            },
+            "code": {
+              "pattern": "^Q3-HTTPS-[A-Z]+$",
+              "type": "string"
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 384
+            }
+          },
+          "required": [
+            "kind",
+            "status",
+            "code",
+            "message"
+          ]
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "errorInvalid": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "error"
+            },
+            "status": {
+              "const": "invalid"
+            },
+            "code": {
+              "pattern": "^Q3-HTTPS-[A-Z]+$",
+              "type": "string"
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 384
+            }
+          },
+          "required": [
+            "kind",
+            "status",
+            "code",
+            "message"
+          ]
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "simulateRequest": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        }
+      },
+      "required": [
+        "source"
+      ],
+      "additionalProperties": false
+    },
+    "verifyRequest": {
+      "type": "object",
+      "properties": {
+        "logical_source": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "physical_source": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "encoding": {
+          "type": "object",
+          "properties": {
+            "schema": {
+              "const": "q3hash.basis-encoding"
+            },
+            "schema_version": {
+              "const": 1
+            },
+            "kind": {
+              "const": "basis-injection"
+            },
+            "logical_dimensions": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 2,
+                "maximum": 32
+              },
+              "minItems": 1,
+              "maxItems": 4096
+            },
+            "physical_dimensions": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 2,
+                "maximum": 32
+              },
+              "minItems": 1,
+              "maxItems": 4096
+            },
+            "physical_basis_indices": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "uniqueItems": true,
+              "minItems": 2,
+              "maxItems": 65536
+            }
+          },
+          "required": [
+            "schema",
+            "schema_version",
+            "kind",
+            "logical_dimensions",
+            "physical_dimensions",
+            "physical_basis_indices"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "logical_source",
+        "physical_source",
+        "encoding"
+      ],
+      "additionalProperties": false
+    },
+    "compareRequest": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/health"
+    },
+    {
+      "$ref": "#/$defs/capabilities"
+    },
+    {
+      "$ref": "#/$defs/simulatePass"
+    },
+    {
+      "$ref": "#/$defs/simulateUnsupported"
+    },
+    {
+      "$ref": "#/$defs/verifyPass"
+    },
+    {
+      "$ref": "#/$defs/verifyFail"
+    },
+    {
+      "$ref": "#/$defs/verifyUnsupported"
+    },
+    {
+      "$ref": "#/$defs/compare"
+    },
+    {
+      "$ref": "#/$defs/errorError"
+    },
+    {
+      "$ref": "#/$defs/errorInvalid"
+    }
+  ]
+}
