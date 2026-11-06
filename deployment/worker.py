@@ -1,7 +1,4 @@
-"""Single-request isolated Q3HASH subprocess invoked by render_api.py.
-
-Only restricted Q3# source is parsed; no user code executes as Python or shell.
-"""
+"""Single-request isolated Q3HASH worker. Q3# input is data, never Python."""
 from __future__ import annotations
 
 import json
@@ -9,48 +6,53 @@ from pathlib import Path
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "tools"))
+sys.path[:0] = [str(ROOT), str(ROOT / "tools")]
+
+from deployment.contract import ENGINE_VERSION, OPERATIONS
 
 
-def bound_resources():
-    # Linux Render/Termux resource bounds; fail closed if unavailable.
+def bound_resources(memory_mib, cpu_seconds, output_bytes):
     import resource
-    memory_bytes = 384 * 1024 * 1024
-    if not sys.prefix.startswith(("/data/data/com.termux/files/usr", "/data/user/0/com.termux/files/usr")):
+
+    memory_bytes = memory_mib * 1024 * 1024
+    # Termux local developer compatibility. Hosted Linux always applies RLIMIT_AS.
+    if not sys.base_prefix.startswith(("/data/data/com.termux/files/usr", "/data/user/0/com.termux/files/usr")):
         resource.setrlimit(resource.RLIMIT_AS, (memory_bytes, memory_bytes))
-    resource.setrlimit(resource.RLIMIT_CPU, (8, 8))
+    resource.setrlimit(resource.RLIMIT_CPU, (cpu_seconds, cpu_seconds))
+    resource.setrlimit(resource.RLIMIT_FSIZE, (output_bytes, output_bytes))
+    resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
 
 
-def run():
-    bound_resources()
-    import web_app  # Authenticated adapter dispatches to the unchanged local engine.
+def run(operation, max_body, memory_mib, cpu_seconds, output_bytes):
+    bound_resources(memory_mib, cpu_seconds, output_bytes)
+    import web_app
 
-    request = json.loads(sys.stdin.read(20_000))
-    route = request["route"]
-    raw = request["body"].encode("utf-8")
-    routes = {
-        "/api/v1/simulate": (("source",), web_app.simulate_request),
-        "/api/v1/verify": (("logical_source", "physical_source", "encoding"), web_app.verify_request),
-        "/api/v1/compare": ((), web_app.compare_request),
-    }
-    if route not in routes:
-        return 404, {"schema": "q3hash.web-response", "schema_version": 1,
-                     "kind": "error", "status": "invalid", "code": "Q3-HTTPS-NOTFOUND"}
-    fields, callback = routes[route]
+    if web_app.__version__ != ENGINE_VERSION:
+        raise RuntimeError("Installed engine version mismatch")
+    fields = OPERATIONS[operation][1]
+    callbacks = {"simulate": web_app.simulate_request, "verify": web_app.verify_request,
+                 "compare": web_app.compare_request}
+    raw = sys.stdin.buffer.read(max_body + 1)
+    if not raw or len(raw) > max_body:
+        return 422, None
     try:
         body = web_app._request_object(raw, fields)
-        return 200, callback(body)
-    except (web_app.InputError, ValueError, TypeError) as exc:
-        return 422, web_app._base("error", "invalid", code="Q3-HTTPS-INPUT",
-                                  message=str(exc)[:384])
+        # Reject JSON escape sequences that create invalid Unicode source strings.
+        for name in fields:
+            if name.endswith("source") and type(body[name]) is str:
+                body[name].encode("utf-8", errors="strict")
+        return 200, callbacks[operation](body)
+    except (ValueError, TypeError, RecursionError):
+        # Engine input errors can include user-supplied source. Keep them private.
+        return 422, None
 
 
 if __name__ == "__main__":
     try:
-        status, payload = run()
+        operation, *limits = sys.argv[1:]
+        status, payload = run(operation, *map(int, limits))
+        result = json.dumps({"http_status": status, "payload": payload}, allow_nan=False)
     except Exception:
-        # Fail closed; never serialize traceback, filesystem paths or program details.
-        status, payload = 500, {"schema": "q3hash.web-response", "schema_version": 1,
-                                "kind": "error", "status": "error",
-                                "code": "Q3-HTTPS-INTERNAL", "message": "Research worker failed"}
-    sys.stdout.write(json.dumps({"http_status": status, "payload": payload}, allow_nan=False))
+        # No exception text, program contents or filesystem paths cross the boundary.
+        result = '{"http_status":500,"payload":null}'
+    sys.stdout.write(result)
