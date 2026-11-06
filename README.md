@@ -440,13 +440,13 @@ The [validation guide](docs/validation.md) explains the independent construction
 | v0.3 | Explicit encodings and complete small-operator checks | Implemented and merged into `main` |
 | v0.4 | Bounded candidate generation and Pareto comparisons | Implemented: bounded generation, budgeted supplied-circuit checks, structural fronts, strict reports and CLI |
 | v0.5 | Hardware-conditioned costs and equivalent benchmark workloads | Implemented: explicit inputs/placements, verified conditional costs/fronts, strict replay, hardware CLI and Cirq baseline |
-| v0.6 | Web/core integration and a reproducible research demonstration | Research target |
+| v0.6 | Web/core integration and a reproducible research demonstration | Integration candidate under review |
 
 The [six-month roadmap](docs/roadmap.md) describes the milestones and acceptance criteria.
 
 The [hardware input guide](docs/hardware-profiles.md), [cost kernel guide](docs/hardware-costs.md), [verified report guide](docs/hardware-reports.md) and [hardware CLI](docs/hardware-cli.md) document the delivered v0.5 pipeline. The Cirq baseline checks full operators and the [fixed workloads](benchmarks/hardware-cost-v1.json). Target numbers remain synthetic scenarios.
 
-**Next research step:** define v0.6 web/core integration against the tagged Python core, then deliver a reproducible demonstration. The [v0.5 work packages](docs/plans/v0.5-implementation.md) record the completed sequence. Generated maps still require supplied physical circuits; hardware synthesis and a universal best-encoding claim remain outside this milestone.
+**Next integration gate:** validate the hosted candidate in an approved staging environment against the pinned Python core. The [v0.5 work packages](docs/plans/v0.5-implementation.md) record the completed sequence. Generated maps still require supplied physical circuits; hardware synthesis and a universal best-encoding claim remain outside this milestone.
 
 **Current scope.** Q3# runs on a classical computer using floating-point amplitudes. Automatic logical-dimension inference, physical-circuit search/synthesis, hardware-aware optimisation, measurement, noise, hybrid control flow and hardware execution remain research targets. The gate set is not claimed to be universal. The numerical checks provide bounded evidence; formal proof, hardware performance and quantum advantage have not been demonstrated. Ternary encoding is not assumed to outperform binary encoding.
 
@@ -492,7 +492,7 @@ The [hardware input guide](docs/hardware-profiles.md), [cost kernel guide](docs/
 
 ## Web preview
 
-Visit the [Q3# research site](https://q3hash-lab.leafypony13.chatgpt.site).
+Visit the [Q3# research site](https://q3hash-lab.alpha-tec-au86.chatgpt.site).
 
 The site currently uses a separate **web v0.1 runtime**, with `q3 0.1; register ...; F ...;` syntax. This Python project uses the line-based **v0.2 grammar** shown above. The implementations are not yet source-compatible, and results from one runtime do not validate the other.
 
@@ -501,3 +501,7 @@ The site currently uses a separate **web v0.1 runtime**, with `q3 0.1; register 
 Contributions, reproducible tests and scientifically grounded criticism are welcome. Comparisons should disclose equivalent workloads, dimensions, hardware assumptions, compiler choices and uncertainty. The independent numerical implementations live within this project; they are not an external audit.
 
 [Contributing](CONTRIBUTING.md) · [Apache 2.0 license](LICENSE) · Q3# is independent of AiTec Australia.
+
+### Hosted integration release candidate
+
+See the [hosted v2 contract](docs/contracts/hosted-api-v2.md) and [deployment and acceptance guide](deployment/README.md) for the authenticated Python relay, exact source identity and preparation gates.

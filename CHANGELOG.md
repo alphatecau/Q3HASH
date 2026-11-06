@@ -1,5 +1,12 @@
 # Changelog
 
+## Integration 0.6.0-rc.1
+
+- Introduce the strict hosted v2 response schema and separate pinned engine and deployment identities.
+- Harden the authenticated Render API and isolate worker input, output and resources.
+- Pair the hosted contract with the independently checked Sites relay and numerical acceptance cases.
+- Preserve the stable Python package version at 0.5.0. Integration evidence covers software simulation and synthetic benchmark estimates.
+
 ## 0.5.0 — 1 November 2026
 
 - Complete the conditional hardware-assessment pipeline: explicit profiles, placements and context, fresh supplied-circuit verification, bounded native support/timing, interval fronts and strict recorded reports.
