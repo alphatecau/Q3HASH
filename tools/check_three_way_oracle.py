@@ -13,8 +13,12 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def parse_source(path):
+    return parse_program(path.read_text(encoding="utf-8"))
+
+
+def parse_program(source):
     registers, operations = [], []
-    for original in path.read_text(encoding="utf-8").splitlines():
+    for original in source.splitlines():
         words = original.split("#", 1)[0].split()
         if not words:
             continue

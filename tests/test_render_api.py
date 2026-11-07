@@ -195,6 +195,47 @@ class APIBoundaryTests(unittest.TestCase):
                 status, data = self.request("POST", "/api/v1/simulate", b'{"source":"qubit q"}')
                 self.assertEqual((status, data["kind"]), (500, "error"))
 
+    def test_worker_simulation_status_requires_normalised_basis_evidence(self):
+        raw = b'{"source":"qubit q"}'
+        _, result = render_api.run_worker("simulate", raw, self.server.limits)
+        result["basis"][0]["probability"] = 0
+        with patch.object(render_api, "run_worker", return_value=(200, result)):
+            status, data = self.request("POST", "/api/v1/simulate", raw)
+        self.assertEqual((status, data["code"]), (500, "Q3-HTTPS-WORKER"))
+        self.assertNotIn("basis", data)
+
+    def test_worker_verification_status_requires_matching_numerical_evidence(self):
+        raw = json.dumps(dict(logical_source="qubit q", physical_source="qubit q", encoding={
+            "schema": "q3hash.basis-encoding", "schema_version": 1, "kind": "basis-injection",
+            "logical_dimensions": [2], "physical_dimensions": [2], "physical_basis_indices": [0, 1],
+        })).encode()
+        for label, residual, nested_label in (("pass", 2, "pass"), ("fail", 0, "fail"),
+                                               ("unsupported", 0, "unsupported"), ("pass", 0, "fail")):
+            with self.subTest(label=label, residual=residual, nested_label=nested_label):
+                _, result = render_api.run_worker("verify", raw, self.server.limits)
+                result["status"] = label
+                result["verification"].update(status=nested_label, subspace_residual=residual)
+                with patch.object(render_api, "run_worker", return_value=(200, result)):
+                    status, data = self.request("POST", "/api/v1/verify", raw)
+                self.assertEqual((status, data["code"]), (500, "Q3-HTTPS-WORKER"))
+                self.assertNotIn("verification", data)
+
+    def test_partial_comparison_cannot_hide_bad_or_missing_candidate_evidence(self):
+        for fault in ("leakage", "missing-candidate", "coverage-count"):
+            with self.subTest(fault=fault):
+                _, result = render_api.run_worker("compare", b"{}", self.server.limits)
+                if fault == "leakage":
+                    row = next(row for row in result["rows"] if row["source_status"] == "pass")
+                    row["verification"]["leakage_norm"] = 1
+                elif fault == "missing-candidate":
+                    result["rows"] = [row for row in result["rows"] if row["source_status"] != "unimplemented"]
+                else:
+                    result["source_status_counts"]["unimplemented"] = 0
+                with patch.object(render_api, "run_worker", return_value=(200, result)):
+                    status, data = self.request("POST", "/api/v1/compare", b"{}")
+                self.assertEqual((status, data["code"]), (500, "Q3-HTTPS-WORKER"))
+                self.assertNotIn("rows", data)
+
     def test_invalid_payloads_do_not_echo_program_details(self):
         for body in (b'{"source":"private-test-source"}', b'{"source":"\\ud800"}',
                      b'{"source":"qubit q","source":"qubit r"}', b'{"source":NaN}',

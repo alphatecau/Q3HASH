@@ -19,6 +19,8 @@ Every research operation requires exactly one service `Authorization: Bearer …
 
 All research results and application-generated errors carry `engine_version`, `web_version`, `source_commit` and `deployment_commit`. The backend verifies SHA-256 digests of 42 files covering the installed modules, actual web adapter, benchmark inputs and licence before listening. The manifest digests are checked against the pinned Git source in CI. Render provides the deploy commit. The Site checks that the returned commit exactly matches its separately configured review pin and rejects legacy, missing, malformed, duplicated or conflicting fields. This is a deployment check over trusted TLS, a trusted build and the shared service credential. It carries no independent signature or runtime attestation.
 
+The hosted adapter checks the worker classification against the basis probabilities, verification metrics or fixed comparison coverage before adding the hosted envelope. Contradictory evidence produces `Q3-HTTPS-WORKER` without a research result. The independent [integration benchmarks](../v0.6-integration-rc.md) reproduce the coverage and negative controls offline.
+
 ## Numerical invariants
 
 - Simulation preserves declaration order with the **last register fastest**. Each basis row uses a zero-based flat index and amplitude `[real, imaginary]`. The squared magnitude agrees with the probability and all probabilities sum to one within the transport validator's numerical tolerance. The unsupported state count is a decimal string to preserve exact large integers.

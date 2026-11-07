@@ -5,6 +5,8 @@
 - Introduce the strict hosted v2 response schema and separate pinned engine and deployment identities.
 - Harden the authenticated Render API and isolate worker input, output and resources.
 - Pair the hosted contract with the independently checked Sites relay and numerical acceptance cases.
+- Check worker classifications against their numerical evidence at the hosted boundary. Expand mixed-radix and size-limit acceptance cases.
+- Add reproducible qubit, qutrit and active mixed encoding benchmarks with an independent full-matrix oracle.
 - Preserve the stable Python package version at 0.5.0. Integration evidence covers software simulation and synthetic benchmark estimates.
 
 ## 0.5.0 — 1 November 2026
