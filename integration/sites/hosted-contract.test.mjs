@@ -86,3 +86,21 @@ test('false partial front, unsupported evidence and altered probabilities fail c
   simulation.basis[0].probability = 0;
   assert.equal(compatibleResponse(simulation, 'simulate', commit), false);
 });
+
+test('verification labels must agree with evidence and supported dimensions', () => {
+  const passed = structuredClone(evidence.responses.active_mixed_reordered);
+  passed.verification.leakage_norm = 1;
+  assert.equal(compatibleResponse(passed, 'verify', commit), false);
+
+  const failed = structuredClone(evidence.responses.active_mixed_reordered);
+  failed.status = failed.verification.status = 'fail';
+  assert.equal(compatibleResponse(failed, 'verify', commit), false);
+
+  const unsupported = structuredClone(evidence.responses.verification_above_limit);
+  unsupported.verification.physical_size = '32';
+  assert.equal(compatibleResponse(unsupported, 'verify', commit), false);
+
+  const partial = structuredClone(evidence.responses.compare);
+  partial.rows = partial.rows.filter(row => row.source_status !== 'unimplemented');
+  assert.equal(compatibleResponse(partial, 'compare', commit), false);
+});

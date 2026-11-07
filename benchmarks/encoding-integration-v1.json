@@ -1,0 +1,33 @@
+{
+  "schema": "q3hash.encoding-integration-benchmarks",
+  "schema_version": 1,
+  "dense_limit": 32,
+  "tolerance": 1e-10,
+  "workloads": [
+    {
+      "id": "qubit-shift",
+      "logical_source": "qubit q\nshift q",
+      "expected_status": "pass",
+      "candidates": [
+        {"id": "native", "dimensions": [2], "source": "qubit q\nshift q", "basis_indices": [0, 1]},
+        {"id": "binary-spectator", "dimensions": [2, 2], "source": "qubit q\nqubit spectator\nshift q", "basis_indices": [1, 3]},
+        {"id": "mixed-spectator", "dimensions": [2, 3], "source": "qubit q\nqutrit spectator\nshift q", "basis_indices": [0, 3]}
+      ]
+    },
+    {
+      "id": "active-mixed-sum",
+      "logical_source": "qubit a\nqutrit b\nsum a b\nshift b\nsum b a",
+      "expected_status": "partial",
+      "candidates": [
+        {"id": "native", "dimensions": [2, 3], "source": "qubit a\nqutrit b\nsum a b\nshift b\nsum b a", "basis_indices": [0, 1, 2, 3, 4, 5]},
+        {"id": "reordered", "dimensions": [3, 2], "source": "qutrit b\nqubit a\nsum a b\nshift b\nsum b a", "basis_indices": [0, 2, 4, 1, 3, 5]},
+        {"id": "nonzero-spectator", "dimensions": [2, 2, 3], "source": "qubit spectator\nqubit a\nqutrit b\nsum a b\nshift b\nsum b a", "basis_indices": [6, 7, 8, 9, 10, 11]},
+        {"id": "all-binary", "dimensions": [2, 2, 2], "source": null, "basis_indices": null}
+      ]
+    }
+  ],
+  "negative_controls": [
+    {"id": "wrong-mixed-basis-order", "workload": "active-mixed-sum", "dimensions": [3, 2], "source": "qutrit b\nqubit a\nsum a b\nshift b\nsum b a", "basis_indices": [0, 1, 2, 3, 4, 5]},
+    {"id": "qutrit-leakage", "workload": "qutrit-shift", "dimensions": [4], "source": "qudit 4 q\nshift q", "basis_indices": [0, 1, 2]}
+  ]
+}

@@ -43,10 +43,10 @@ def local_server(key, commit):
             thread.join()
 
 
-def encoding(logical, physical):
+def encoding(logical, physical, indices=None):
     return dict(schema="q3hash.basis-encoding", schema_version=1, kind="basis-injection",
                 logical_dimensions=logical, physical_dimensions=physical,
-                physical_basis_indices=list(range(math.prod(logical))))
+                physical_basis_indices=list(range(math.prod(logical))) if indices is None else indices)
 
 
 def check_state(result, dims, amplitudes):
@@ -117,13 +117,22 @@ def acceptance(origin, key, commit, interval):
     check_state(check("qutrit_fourier", "simulate", body={"source": qutrit + "\nfourier q"}),
                 [3], [1 / math.sqrt(3), w / math.sqrt(3), w**2 / math.sqrt(3)])
     a = 1 / math.sqrt(2)
+    check_state(check("qubit_phase", "simulate", body={"source": "qubit q\nshift q\nfourier q"}),
+                [2], [a, -a])
     for name, dims, expected in (("bell", [2, 2], [a, 0, 0, a]),
                                   ("mixed", [2, 3], [a, 0, 0, 0, a, 0]),
                                   ("qutrit_entangled", [3, 3], [1 / math.sqrt(3) if i in (0, 4, 8) else 0 for i in range(9)])):
         target, control = ("qubit", "qubit") if name == "bell" else ("qutrit", "qubit" if name == "mixed" else "qutrit")
         source = f"{control} c\n{target} t\nfourier c\nsum c t"
         check_state(check(name, "simulate", body={"source": source}), dims, expected)
+    b = 1 / math.sqrt(3)
+    check_state(check("mixed_reverse_control", "simulate", body={"source": "qutrit c\nqubit t\nfourier c\nsum c t"}),
+                [3, 2], [b, 0, 0, b, b, 0])
     check_state(check("qudit", "simulate", body={"source": "qudit 4 q\nfourier q"}), [4], [0.5] * 4)
+    check_state(check("simulation_at_limit", "simulate", body={"source": "qudit 8 a\nqudit 8 b\nshift b"}),
+                [8, 8], [0, 1] + [0] * 62)
+    above = check("simulation_above_limit", "simulate", body={"source": "qudit 5 a\nqudit 13 b"}, status="unsupported")
+    assert above["state_size"] == "65" and "basis" not in above
 
     def verify(name, logical, physical, basis, status):
         return check(name, "verify", body=dict(logical_source=logical, physical_source=physical, encoding=basis),
@@ -134,6 +143,16 @@ def acceptance(origin, key, commit, interval):
     good = verify("verify", qutrit, source, binary, "pass")
     assert good["subspace_residual"] == good["leakage_norm"] == 0
     assert good["physical_size"] == 4
+    qubit_z = "qubit q\nfourier q\nshift q\nfourier q"
+    gapped = "qubit q\nqutrit spectator\nfourier q\nshift q\nfourier q"
+    assert verify("gapped_qubit", qubit_z, gapped, encoding([2], [2, 3], [0, 3]), "pass")["leakage_norm"] == 0
+    operations = "\nfourier a\nsum a b\nfourier b\nsum b a"
+    mixed = "qubit a\nqutrit b" + operations
+    reversed_mixed = "qutrit b\nqubit a" + operations
+    mapped = verify("active_mixed_reordered", mixed, reversed_mixed, encoding([2, 3], [3, 2], [0, 2, 4, 1, 3, 5]), "pass")
+    assert mapped["subspace_residual"] <= mapped["tolerance"] and mapped["leakage_norm"] == 0
+    wrong_order = verify("active_mixed_wrong_order", mixed, reversed_mixed, encoding([2, 3], [3, 2]), "fail")
+    assert wrong_order["subspace_residual"] > wrong_order["tolerance"] and wrong_order["leakage_norm"] == 0
     wrong = verify("negative", qutrit, "qutrit q", encoding([3], [3]), "fail")
     assert wrong["subspace_residual"] > wrong["tolerance"] and wrong["leakage_norm"] == 0
     leak = verify("leakage", qutrit, "qudit 4 q\nshift q", encoding([3], [4]), "fail")
@@ -149,8 +168,16 @@ def acceptance(origin, key, commit, interval):
     assert large["state_size"] == str(32 ** 14)
     dense = verify("unsupported_verification", "qubit q", "qudit 8 q\nqudit 8 r", encoding([2], [8, 8]), "unsupported")
     assert dense["physical_size"] == "64" and dense["subspace_residual"] is None
+    at_limit = verify("verification_at_limit", "qubit q", "qudit 32 q", encoding([2], [32], [0, 31]), "pass")
+    assert at_limit["physical_size"] == 32 and at_limit["subspace_residual"] == 0
+    above = verify("verification_above_limit", "qubit q", "qutrit q\nqudit 11 r",
+                   encoding([2], [3, 11], [0, 32]), "unsupported")
+    assert above["physical_size"] == "33" and above["global_phase"] is None
     broken = {**encoding([3], [3]), "physical_basis_indices": [0, 1, 1]}
     check("invalid_mapping", "verify", body=dict(logical_source=qutrit, physical_source=qutrit, encoding=broken), http=422, status="invalid")
+    check("invalid_mapping_above_limit", "verify",
+          body=dict(logical_source="qubit q", physical_source="qutrit q\nqudit 11 r",
+                    encoding=encoding([2], [3, 11], [0, 33])), http=422, status="invalid")
     check("invalid_dimension", "simulate", body={"source": "qudit 33 q"}, http=422, status="invalid")
     check("invalid_json", "simulate", raw=b"{", http=422, status="invalid")
     check("duplicate_json", "simulate", raw=b'{"source":"qubit q","source":"qutrit q"}', http=422, status="invalid")
