@@ -11,4 +11,9 @@ prune build
 prune dist
 prune sdist
 recursive-include web *.html *.css *.js
-recursive-include deployment *.py *.md
+recursive-include deployment *.py *.md *.json
+include render.yaml
+recursive-include docs/contracts *.json
+recursive-include integration/sites *.ts *.mjs *.json *.md *.sh
+prune integration/sites/node_modules
+prune integration/sites/dist

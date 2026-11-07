@@ -61,6 +61,8 @@ def inspect_wheel(path):
 def extract_source(archive_path, destination):
     with tarfile.open(archive_path) as archive:
         for member in archive.getmembers():
+            if {"node_modules", "dist", "build", ".venv"} & set(Path(member.name).parts):
+                raise RuntimeError(f"Unexpected build or dependency file in source distribution: {member.name}")
             target = (destination / member.name).resolve()
             if not target.is_relative_to(destination.resolve()):
                 raise RuntimeError(f"Invalid source archive path: {member.name}")
@@ -81,7 +83,13 @@ def extract_source(archive_path, destination):
     required = [
         "LICENSE", "README.md", "CHANGELOG.md", "MANIFEST.in",
         "deployment/__init__.py", "deployment/render_api.py",
-        "deployment/worker.py", "deployment/README.md",
+        "deployment/worker.py", "deployment/README.md", "deployment/contract.py",
+        "deployment/engine-source.json", "render.yaml", "tools/check_hosted_api.py",
+        "tools/check_encoding_integration.py", "tools/check_three_way_oracle.py",
+        "benchmarks/encoding-integration-v1.json", "tests/test_encoding_integration.py",
+        "docs/v0.6-integration-rc.md",
+        "docs/contracts/q3hash-hosted-v2.schema.json", "integration/sites/research-contract.ts",
+        "integration/sites/research-bridge.ts", "integration/sites/package-lock.json",
         "docs/language-spec.md", "docs/semantics.md", "docs/validation.md",
         "docs/adr/0001-verified-encoding-first.md", "docs/contracts/logical-ir-and-encoding-v1.md",
         "docs/contracts/operator-verification-v1.md", "tests/test_contracts.py", "tests/test_equivalence.py",

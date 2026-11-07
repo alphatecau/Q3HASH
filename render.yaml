@@ -1,16 +1,19 @@
-# PREPARATION ONLY. Creating this Render service triggers an initial deployment.
-# Do not connect this Blueprint in Render until local tests and CI are verified.
+# Preparation only. Creating or syncing a Render Blueprint can deploy services.
+previews:
+  generation: 'off'
 services:
   - type: web
-    name: q3hash-research-api
+    name: q3hash-research-api-rc
     runtime: python
     region: singapore
     plan: free
-    branch: deploy/render-https-preparation
-    autoDeployTrigger: off
-    buildCommand: python -m pip install .
-    startCommand: python deployment/render_api.py
+    branch: development/q3hash-v06-integration-release
+    autoDeployTrigger: 'off'
+    buildCommand: python -m pip install --upgrade pip==26.3 setuptools==84.2.1 wheel==0.48.0 && python -m pip install --no-build-isolation --no-deps .
+    startCommand: python -I deployment/render_api.py
     healthCheckPath: /healthz
     envVars:
+      - key: PYTHON_VERSION
+        value: '3.12.16'
       - key: Q3HASH_API_KEY
         sync: false

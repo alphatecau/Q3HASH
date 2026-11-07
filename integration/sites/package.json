@@ -1,0 +1,14 @@
+{
+  "name": "q3hash-sites-contract-checks",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "build": "esbuild research-bridge.ts research-contract.ts --bundle --platform=browser --target=es2020 --format=esm --outdir=dist",
+    "test": "node --experimental-strip-types --test hosted-contract.test.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.0",
+    "typescript": "5.9.3"
+  }
+}
